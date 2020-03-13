@@ -1,46 +1,15 @@
-// const HtmlWebPackPlugin = require('html-webpack-plugin');
-
-// module.exports = {
-// 	module: {
-// 		// //mode: process.env.NODE_ENV,
-// 		// entry: ['./client/index.js'],
-// 		// output: {
-// 		// 	//path: path.resolve(__dirname,''),
-// 		// 	//filename: ''
-// 		// },
-// 		rules: [
-// 			{
-// 				test: /\.(js|jsx)$/,
-// 				exclude: /node_modules/,
-// 				use: {
-// 					loader: 'babel-loader',
-// 				},
-// 			},
-// 			{
-// 				test: /\.html$/,
-// 				use: [
-// 					{
-// 						loader: 'html-loader',
-// 					},
-// 				],
-// 			},
-// 			{
-// 				test: /.(css|scss)$/,
-// 				use: ['css-loader', 'sass-loader'],
-// 			},
-// 		],
-// 	},
-// 	plugins: [
-// 		new HtmlWebPackPlugin({
-// 			template: './src/index.html',
-// 			filename: './index.html',
-// 		}),
-// 	],
-// };
-
+const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+	entry: [
+		'./client/index.js',
+	],
+	output: {
+		path: path.resolve(__dirname, 'dist'),
+		publicPath: '/',
+		filename: 'main.js',
+	},
 	module: {
 		rules: [
 			{
@@ -66,4 +35,7 @@ module.exports = {
 			filename: './index.html',
 		}),
 	],
+	resolve: {
+    extensions: ['.js', '.jsx'],
+  },
 };
