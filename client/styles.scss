@@ -1,0 +1,14 @@
+$dark: #6c757d;
+.appCont {
+  display: flex;
+  height: 100vh; //fills whole page
+}
+
+.dashCol {
+  width: 150px;
+}
+
+.mainCol {
+  width: 100%;
+  background-color: $dark;
+}
