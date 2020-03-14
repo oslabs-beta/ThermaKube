@@ -6,7 +6,6 @@ class App extends Component {
 	render() {
 		return (
 			<div id='app'>
-				this is app.jsx
 				<Dashboard />
 				{/* <Main_Container /> */}
 			</div>
