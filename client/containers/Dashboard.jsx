@@ -1,13 +1,19 @@
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 
-const Dashboard = () => {
+
+const Dashboard = props => {
+
   return (
-    <Nav defaultActiveKey='' className='flex-column' id='navbar'>
-      <Nav.Link href='/'>ThermaKube</Nav.Link>
-      <Nav.Link eventKey='/'>Pods</Nav.Link>
-      <Nav.Link eventKey='/'>Alerts</Nav.Link>
-    </Nav>
+	<div className="dashboard">
+	  <div className="logo">ThermaKube Logo</div>
+	  <Nav defaultActiveKey="" className="flex-column" id="navbar">
+	 	<Nav.Link href="/">Main</Nav.Link>
+		<Nav.Link href="/visualizer">Pods</Nav.Link>
+		<Nav.Link href="/alerts">Alerts</Nav.Link>
+	  </Nav>
+	</div>
+
   );
 };
 
