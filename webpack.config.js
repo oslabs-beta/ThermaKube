@@ -37,7 +37,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebPackgitPlugin({
+    new HtmlWebPackPlugin({
       template: "./index.html",
       filename: "./index.html"
     })

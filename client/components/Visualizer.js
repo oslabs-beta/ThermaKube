@@ -3,7 +3,7 @@ import React from 'react';
 
 const Visualizer = () => {
   return (
-    <div>
+    <div className="visContainer">
       <h1>Pod Visualizer</h1>
     </div>
   )

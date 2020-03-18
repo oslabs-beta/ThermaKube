@@ -3,7 +3,7 @@ import React from 'react';
 
 const Alerts = () => {
   return (
-    <div>
+    <div className="alertsContainer">
       <h1>Alerts</h1>
     </div>
   )

@@ -1,4 +1,4 @@
-$dark: #6c757d;
+$dark: #e0e6eb;
 .appCont {
   display: flex;
   height: 100vh; //fills whole page
@@ -11,17 +11,16 @@ $dark: #6c757d;
 
   .logo {
     border: solid black 1px;
-    margin: .2em;
+    margin: .5em;
   }
 
   .nav-link {
-    margin: 2em 0 0 0; //top right bottom left
+    margin: 1em 0 0 0; //top right bottom left
   }
 }
 
 
-.mainContainer {
+.mainContainer, .alertsContainer, .visContainer {
   width: 100%;
   background-color: $dark;
-  padding: .5em;
 }
