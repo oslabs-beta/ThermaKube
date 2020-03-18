@@ -1,13 +1,23 @@
 import React from 'react';
-import { Nav,Navbar } from 'react-bootstrap';
+import { Link, useHistory } from 'react-router-dom';
+import { Nav, NavItem, LinkContainer } from 'react-bootstrap';
 
-const Dashboard = () => {
+const Dashboard = props => {
+//   let history = useHistory();
+
   return (
-	<Nav defaultActiveKey="" className="flex-column" id="navbar">
-	  <Nav.Link href="/">ThermaKube</Nav.Link>
-	  <Nav.Link eventKey="/">Pod</Nav.Link>
-	  <Nav.Link eventKey="/">Alerts</Nav.Link>
-	</Nav>
+	<div className="dashboard">
+	  <div className="logo">ThermaKube Logo</div>
+	  <Nav defaultActiveKey="" className="flex-column" id="navbar">
+	  <Nav.Item as="li">
+		<Nav.Link href="/visualizer">Pods</Nav.Link>
+	  </Nav.Item>
+	  <Nav.Item as="li">
+		<Nav.Link href="/alerts">Alerts</Nav.Link>
+	  </Nav.Item>
+	  </Nav>
+	</div>
+
   );
 };
 

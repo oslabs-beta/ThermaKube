@@ -3,11 +3,11 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: ["./client/index.js"],
+  entry: "./client/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    publicPath: "/",
-    filename: "main.js"
+    filename: "main.js",
+    publicPath: "/"
   },
   module: {
     rules: [
@@ -37,12 +37,23 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebPackPlugin({
+    new HtmlWebPackgitPlugin({
       template: "./index.html",
       filename: "./index.html"
     })
   ],
   resolve: {
     extensions: [".js", ".jsx"]
+  },
+  devServer: {
+    // publicPath: "/",
+    // port: 8080,
+    // proxy: {
+    //   "/api/*": {
+    //     target: "http://localhost:3000",
+    //     secure: false
+    //   },
+    // },
+    historyApiFallback: true
   }
 };
