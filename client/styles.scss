@@ -4,11 +4,23 @@ $dark: #e0e6eb;
   height: 100vh; //fills whole page
 }
 
-.dashCol {
-  width: 150px;
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .logo {
+    border: solid black 1px;
+    margin: .5em;
+  }
+
+  .nav-link {
+    margin: 1em 0 0 0; //top right bottom left
+  }
 }
 
-.mainCol {
+
+.mainContainer, .alertsContainer, .visContainer {
   width: 100%;
   background-color: $dark;
 }
