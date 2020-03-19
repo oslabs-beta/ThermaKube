@@ -12,21 +12,21 @@ class App extends Component {
 	return (
 	  <Router>
 	    <div className="appCont" id='app'>
-		  <Dashboard /> 
-		  <Switch>
-			<Route	
-              exact path="/"
-              component={Main_Container}
-            />
-            <Route
-              exact path="/visualizer"
-              render={() => <Visualizer />} 
-            />
-        	<Route
-              exact path="/alerts"
-			  render={() => <Alerts />} 
-            />
-          </Switch>
+        <Dashboard /> 
+        <Switch>
+          <Route	
+            exact path="/"
+            component={Main_Container}
+          />
+          <Route
+            exact path="/visualizer"
+            component={Visualizer} 
+          />
+          <Route
+            exact path="/alerts"
+            component={Alerts} 
+          />
+        </Switch>
 	  	</div>
 	  </Router>
 	);
