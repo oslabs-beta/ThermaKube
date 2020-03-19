@@ -1,10 +1,13 @@
-import React from "react";
-import TestPod from "../components/TestPod";
+import React from 'react';
+import Visualizer from '../components/Visualizer';
+import Alerts from '../components/Alerts';
+import TestPod from '../components/TestPod';
 
 const Main_Container = () => {
   return (
-    <div id='mainContainer'>
-      <h1>Main container test</h1>
+    <div className='mainContainer'>
+      <h1>Main container</h1>
+      <div className='router'></div>
       <TestPod />
     </div>
   );
