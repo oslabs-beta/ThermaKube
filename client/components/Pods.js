@@ -42,7 +42,7 @@ const Pods = () => {
 
   return(
     <div className="podContainer">
-      <h3>Pods</h3>
+      <h4 className="podsTitle">Pods List</h4>
       <Table striped bordered hover>
         <thead>
           <tr>
