@@ -1,6 +1,4 @@
 import React from 'react';
-import Visualizer from '../components/Visualizer';
-import Alerts from '../components/Alerts';
 import TestPod from '../components/TestPod';
 import Pods from '../components/Pods';
 
