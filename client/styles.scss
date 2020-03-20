@@ -1,4 +1,11 @@
-$dark: #e0e6eb;
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,600&display=swap');
+
+$light: #c2dde6;
+$morningsky: #CAE4DB;
+$skyblue: #8cbcd0;
+$mist: #7A9D96;
+$quicksand: 'Quicksand', sans-serif;
+
 .appCont {
   display: flex;
   height: 100vh; //fills whole page
@@ -8,11 +15,13 @@ $dark: #e0e6eb;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #00303F;
+  font-family: $quicksand;
 
-  .logo {
-    border: solid black 1px;
-    margin: .5em;
-  }
+  // .logo {
+  //   border: solid black 1px;
+  //   margin: .5em;
+  // }
 
   .nav-link {
     margin: 1em 0 0 0; //top right bottom left
@@ -22,5 +31,26 @@ $dark: #e0e6eb;
 
 .mainContainer, .alertsContainer, .visContainer {
   width: 100%;
-  background-color: $dark;
+  background-color: $skyblue;
+}
+
+.mainContainer {
+  padding-top: 1.2em;
+  font-family: $quicksand;
+}
+
+.dashMain, .dashPods, .dashAlerts {
+  color: white;
+  font-size: large;
+  font-family: $quicksand;
+}
+
+.podsTitle {
+  padding-bottom: 0.5em;
+  text-align: left;
+}
+
+.podContainer {
+  padding-left: 4em;
+  padding-right: 4em;
 }
