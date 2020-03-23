@@ -31,12 +31,11 @@ const Pods = () => {
         );
       });
       setTable(podList);
-      console.log(podList);
     };
     //call initial fetchPods and then update every 5 seconds
     const fetchTimeOut = () => {
       if (!pod[0]) {
-        console.log('first fetch called');
+        console.log('First fetch called');
         fetchPods();
       }
       setInterval(() => {
