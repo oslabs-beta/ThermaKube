@@ -33,7 +33,7 @@ const Pods = () => {
       setTable(podList);
     };
     //call initial fetchPods and then update every 5 seconds
-    const fetchTimeOut = () => {
+    const fetchOnLoad = () => {
       if (!pod[0]) {
         console.log('First fetch called');
         fetchPods();
@@ -43,7 +43,7 @@ const Pods = () => {
         fetchPods();
       }, 5000);
     };
-    fetchTimeOut();
+    fetchOnLoad();
   }, []);
 
   return (
