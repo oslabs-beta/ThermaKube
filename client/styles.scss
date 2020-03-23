@@ -56,6 +56,27 @@ html, body {
   padding-right: 4em;
 }
 
+//nodes
+.nodeTitle {
+  padding-bottom: 0.5em;
+  text-align: left;
+}
+
+.nodeContainer {
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+.serviceTitle {
+  padding-bottom: 0.5em;
+  text-align: left;
+}
+
+.serviceContainer {
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
 //visualizer tree
 .svgWrapper {
   margin: 2rem;
