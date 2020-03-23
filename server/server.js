@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const PodController = require('./controllers/PodController');
 const NodeController = require('./controllers/NodeController');
+const ServiceController = require('./controllers/ServiceController');
 
 app.use(cors());
 app.use(express.json());
@@ -21,6 +22,10 @@ app.get('/getNodes', NodeController.getNodes, (req, res) => {
   res.status(200).json(res.locals.nodes);
 });
 
+// testing to get services from api
+app.get('/getServices', ServiceController.getServices, (req, res) => {
+  res.status(200).json(res.locals.service)
+});
 
 // serve html
 app.use('/', (req, res) => {
