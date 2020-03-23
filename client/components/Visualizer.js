@@ -1,22 +1,54 @@
 //traffic view of kubernetes clusters/individual pods
-import React, { useRef, useEffect } from 'react';
-import { select } from 'd3';
-
-const data = [10, 20, 30, 15, 25];
+import React, { useEffect, useState, useRef } from 'react';
+import TreeChart from './TreeChart';
+import RadialTree from './RadialTree';
 
 const Visualizer = () => {
-  const svgRef = useRef();
+  let [data, setData] = useState(initData);
 
-  useEffect(() => {
-    console.log(svgRef);
-    const svg = select(svgRef.current);
-    svg.selectAll('circle').data(data);
-  }, [])
+  //initial data
+  //HARD-CODED TO TEST
+  const initData = {
+      name: "service-name",
+      children: [
+        {
+          name: "node-1",
+          children: [
+            { name: "node1-pod1", },
+            { name: "node1-pod2", },
+            { name: "node1-pod3", },
+            { name: "node1-pod4", },
+            { name: "node1-pod5", },
+          ]
+        },
+        {
+          name: "node-2",
+          children: [
+            { name: "node2-pod1", },
+            { name: "node2-pod2", },
+            { name: "node2-pod3", },
+            { name: "node2-pod4", },
+            { name: "node2-pod5", },
+            { name: "node2-pod6", },
+            { name: "node2-pod7", },
+          ]
+        },
+        {
+          name: "node-3",
+          children: [
+            { name: "node3-pod1", },
+            { name: "node3-pod2", },
+            { name: "node3-pod3", },
+          ]
+        }
+      ]
+    };
 
   return (
     <div className='visContainer'>
       <h1>Pod Visualizer</h1>
-      <svg ref={svgRef}></svg>
+      <TreeChart data={initData} />
+      <RadialTree data={initData} />
     </div>
   )
 };
