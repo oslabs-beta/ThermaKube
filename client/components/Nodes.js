@@ -25,7 +25,17 @@ const Nodes = () => {
       });
       setTable(nodeList);
     }
-    setInterval(() => {fetchNodes();}, 5000);
+    const fetchOnLoad = () => {
+      if (!node[0]) {
+        console.log('First fetch called');
+        fetchNodes();
+      }
+      setInterval(() => {
+        console.log('setInterval called');
+        fetchNodes();
+      }, 5000);
+    };
+    fetchOnLoad();
   }, []);
 
 
