@@ -24,7 +24,7 @@ app.get('/getNodes', NodeController.getNodes, (req, res) => {
 
 // testing to get services from api
 app.get('/getServices', ServiceController.getServices, (req, res) => {
-  res.status(200).json(res.locals.service)
+  res.status(200).json(res.locals.service);
 });
 
 // serve html
