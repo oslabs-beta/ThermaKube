@@ -75,7 +75,7 @@ body {
 
   .radialTreeSvg {
     overflow: visible;
-    padding: 15rem 0 0 15rem;
+    padding: 12rem 0 0 10rem;
   }
 
   .link {
@@ -85,10 +85,9 @@ body {
   }
 
   .node {
-    font-family: verdana, sans-serif;
-    font-size: 11px;
+    font-family: $quicksand;
+    font-size: 12px;
     font-weight: bold;
-    fill: #6b4226;
 
     circle {
       stroke: #bfbfbf;

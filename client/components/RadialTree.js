@@ -1,3 +1,4 @@
+//renders radial tree visualization of cluster using d3 in Visualizer.js
 import React, { useRef, useEffect } from 'react';
 import { select, hierarchy, tree, linkRadial } from 'd3';
 import useResizeObserver from './useResizeObserver';
@@ -13,7 +14,8 @@ function usePrevious(value) {
 }
 
 const RadialTree = ({ data }) => {
-    const svgRef = useRef();
+  // console.log('data at RadialTree', data)
+  const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
   
@@ -27,17 +29,17 @@ const RadialTree = ({ data }) => {
     // use dimensions from useResizeObserver,
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
-    // const { width, height } =
-    //   dimensions * 4 || wrapperRef.current.getBoundingClientRect();
+    const { height } =
+      dimensions || wrapperRef.current.getBoundingClientRect();
     
     //HARDCODED WIDTH AND HEIGHT FOR NOW
-    const width = 500, height = 500;
+    //const width = 500, height = 500;
 
     // transform hierarchical data
+    //changing width dynamically distorts the graph
     const root = hierarchy(data);
     const treeLayout = tree()
-      .size([2 * Math.PI, height/2])
-    //   .separation(function(a,b) {return (a.parent == b.parent ? 1 : 2) / a.depth; });
+     .size([2 * Math.PI, height/1.5]);
 
     // radial tree link
     const radialLink = linkRadial()
@@ -47,10 +49,11 @@ const RadialTree = ({ data }) => {
     // enrich hierarchical data with coordinates
     treeLayout(root);
 
-    console.log('descendants', root.descendants());
-    console.log('links', root.links());
+    // console.log('descendants', root.descendants());
+    // console.log('links', root.links());
 
     // links
+    //color should change depending on traffic
     const enteringAndUpdatingLinks = svg
       .selectAll('.link')
       .data(root.links())
@@ -61,11 +64,11 @@ const RadialTree = ({ data }) => {
         const length = this.getTotalLength();
         return `${length} ${length}`;
       })
-      .attr('stroke', 'black')
-      .attr('fill', 'none')
+      .attr('stroke', '#bfbfbf')
+      .attr('fill', '#bfbfbf')
       .attr('opacity', 1);
 
-    if (data !== previouslyRenderedData) {
+    if (data !== previouslyRenderedData) { //do not re-render animation if data is not updated
       enteringAndUpdatingLinks
         .attr('stroke-dashoffset', function() {
           return this.getTotalLength();
@@ -82,11 +85,11 @@ const RadialTree = ({ data }) => {
       .data(root.descendants())
       .enter().append("g")
       .attr('class', 'node')
-      .attr( //angle to radian
+      .attr( //angle to radian; divide d.y by arbitrary number for now to match the position
         'transform',
         d => `
         rotate(${(d.x * 180) / Math.PI - 90}) 
-        translate(${d.y},0)
+        translate(${d.y/1.4},0)
       `);
 
     node //append circles to nodes

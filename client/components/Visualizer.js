@@ -1,10 +1,57 @@
 //traffic view of kubernetes clusters/individual pods
-import React, { useEffect, useState, useRef } from 'react';
-import TreeChart from './TreeChart';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+//import TreeChart from './TreeChart';
 import RadialTree from './RadialTree';
 
 const Visualizer = () => {
-  let [data, setData] = useState(initData);
+  let [data, setData] = useState([]);
+  let [pod, setPod] = useState([])
+  let [node, setNode] = useState([])
+  let [service, setService] = useState([])
+
+  useEffect(() => { 
+    // fetch service, node, pod info
+    const fetchInfo = async () => {
+      const serviceRes = await axios.get('/getServices');
+      //setService(service.push(serviceRes.data));
+      setService(service.push(serviceRes.data));
+      console.log('services useEffect1', service)
+
+      const nodeRes = await axios.get('/getNodes');
+      setNode(node.push(nodeRes.data));
+      console.log('nodes useEff1', node)
+
+      const podRes = await axios.get('/getPods');
+      setPod(pod.push(podRes.data));
+      console.log('pod useEff1', pod)
+    };
+    fetchInfo();
+
+    // render fetched info into appropriate format for d3 rendering
+    for (let i = 0; i < service.length; i++) {
+      const serviceObj = {};
+      serviceObj.name = service[i].name;
+      serviceObj.type = service[i].type;
+      data.push(serviceObj);
+      setData(data);
+    }
+    console.log('data at end of useEff1', data);
+  }, [])
+
+  useEffect(() => { 
+    // console.log('service in useEffec2', service);
+    // for (let i = 0; i < service.length; i++) {
+    //   // console.log('service[i]', service[i]);
+    //   const serviceObj = {};
+    //   serviceObj.name = service[i].name;
+    //   serviceObj.type = service[i].type;
+    //   data.push(serviceObj);
+    //   setData(data);
+    // }
+    // console.log('data in useEf2', data);
+  })
+
 
   //initial data
   //HARD-CODED TO TEST
@@ -33,21 +80,13 @@ const Visualizer = () => {
           { name: 'node2-pod7' },
         ],
       },
-      {
-        name: 'node-3',
-        children: [
-          { name: 'node3-pod1' },
-          { name: 'node3-pod2' },
-          { name: 'node3-pod3' },
-        ],
-      },
     ],
   };
 
   return (
     <div className='visContainer'>
       <h4>Pod Visualizer</h4>
-      <TreeChart data={initData} />
+      {/* <TreeChart data={initData} /> */}
       <RadialTree data={initData} />
     </div>
   );
