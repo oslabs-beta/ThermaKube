@@ -1,4 +1,16 @@
-$dark: #e0e6eb;
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,600&display=swap');
+
+$light: #c2dde6;
+$morningsky: #CAE4DB;
+$skyblue: #8cbcd0;
+$mist: #7A9D96;
+$quicksand: 'Quicksand', sans-serif;
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 .appCont {
   display: flex;
   height: 100vh; //fills whole page
@@ -8,11 +20,8 @@ $dark: #e0e6eb;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  .logo {
-    border: solid black 1px;
-    margin: .5em;
-  }
+  background-color: #00303F;
+  font-family: $quicksand;
 
   .nav-link {
     margin: 1em 0 0 0; //top right bottom left
@@ -22,5 +31,81 @@ $dark: #e0e6eb;
 
 .mainContainer, .alertsContainer, .visContainer {
   width: 100%;
-  background-color: $dark;
+  background-color: $skyblue;
+}
+
+.mainContainer {
+  padding-top: 1.2em;
+  font-family: $quicksand;
+}
+
+.dashMain, .dashPods, .dashAlerts {
+  color: white;
+  font-size: large;
+  font-family: $quicksand;
+}
+
+//pods
+.podsTitle {
+  padding-bottom: 0.5em;
+  text-align: left;
+}
+
+.podContainer {
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+//nodes
+.nodeTitle {
+  padding-bottom: 0.5em;
+  text-align: left;
+}
+
+.nodeContainer {
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+.serviceTitle {
+  padding-bottom: 0.5em;
+  text-align: left;
+}
+
+.serviceContainer {
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+//visualizer tree
+.svgWrapper {
+  margin: 2rem;
+  padding: 4em;
+  
+  .treeSvg {
+    overflow: visible; //shows all svg elements
+  }
+
+  .radialTreeSvg {
+    overflow: visible;
+    padding: 15rem 0 0 15rem;
+  }
+
+  .link {
+    fill: none;
+    stroke: #BFBFBF;
+    stroke-width: 2px;
+  }
+
+  .node {
+    font-family: verdana, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    fill: #6B4226;
+
+    circle {
+      stroke: #BFBFBF;;
+      stroke-width: 2.5px;
+    }
+  }
 }

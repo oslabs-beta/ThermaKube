@@ -1,15 +1,20 @@
 import React from 'react';
 import Visualizer from '../components/Visualizer';
-import Alerts from '../components/Alerts'
-
+import Alerts from '../components/Alerts';
+import TestPod from '../components/TestPod';
+import Pods from '../components/Pods';
+import Nodes from '../components/Nodes';
+import Services from '../components/Services';
 
 const Main_Container = () => {
   return (
-    <div className="mainContainer">
-      <h1>Main container</h1>
-        <div className="router">
-        </div>
-     </div>
+    <div className='mainContainer'>
+      <div className='router'></div>
+      {/* <TestPod /> */}
+      <Pods />
+      <Nodes />
+      <Services />
+    </div>
   );
 };
 

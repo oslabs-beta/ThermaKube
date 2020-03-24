@@ -1,13 +1,13 @@
-const path = require("path");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: "./client/index.js",
+  entry: './client/index.js',
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "main.js",
-    publicPath: "/"
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.js',
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -15,45 +15,50 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.html$/,
         use: [
           {
-            loader: "html-loader"
-          }
-        ]
+            loader: 'html-loader',
+          },
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          'style-loader', 
-          'css-loader',
-          'sass-loader',
-        ]
-      }
-    ]
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: 'url-loader',
+        },
+      },
+    ],
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: "./index.html",
-      filename: "./index.html"
-    })
+      template: './index.html',
+      filename: './index.html',
+    }),
   ],
   resolve: {
-    extensions: [".js", ".jsx"]
+    extensions: ['.js', '.jsx'],
   },
   devServer: {
     // publicPath: "/",
     // port: 8080,
+    proxy: {
+      '/': 'http://localhost:3000',
+    },
     // proxy: {
     //   "/api/*": {
     //     target: "http://localhost:3000",
     //     secure: false
     //   },
     // },
-    historyApiFallback: true
-  }
+    historyApiFallback: true,
+  },
 };
