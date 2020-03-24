@@ -27,6 +27,7 @@
     "nodemon": "^2.0.2",
     "react-hot-loader": "^4.12.19",
     "redux-devtools-extension": "^2.13.8",
+    "resize-observer-polyfill": "^1.5.1",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.3",
     "url-loader": "^4.0.0",

@@ -1,76 +1,98 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand:400,600&display=swap');
 
 $light: #c2dde6;
-$morningsky: #CAE4DB;
-$skyblue: #8cbcd0;
-$mist: #7A9D96;
+$morningsky: #cae4db;
+$skyblue: #f2f7f9;
+$mist: #7a9d96;
 $quicksand: 'Quicksand', sans-serif;
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
 
 .appCont {
   display: flex;
-  height: 100vh; //fills whole page
+  align-items: stretch; //fills whole page of visualizer only..
+  // height: 100vh; //fills whole page of main page only..
 }
 
 .dashboard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #00303F;
+  background-color: #001e3f;
   font-family: $quicksand;
-
-  // .logo {
-  //   border: solid black 1px;
-  //   margin: .5em;
-  // }
 
   .nav-link {
     margin: 1em 0 0 0; //top right bottom left
   }
 }
 
-
-.mainContainer, .alertsContainer, .visContainer {
+.mainContainer,
+.alertsContainer,
+.visContainer {
   width: 100%;
   background-color: $skyblue;
-}
-
-.mainContainer {
   padding-top: 1.2em;
   font-family: $quicksand;
 }
 
-.dashMain, .dashPods, .dashAlerts {
+.dashMain,
+.dashPods,
+.dashAlerts {
   color: white;
   font-size: large;
   font-family: $quicksand;
 }
 
-.podsTitle {
-  padding-bottom: 0.5em;
-  text-align: left;
-}
-
-.podContainer {
-  padding-left: 4em;
-  padding-right: 4em;
-}
-
-.nodeTitle {
-  padding-bottom: 0.5em;
-  text-align: left;
-}
-
-.nodeContainer {
-  padding-left: 4em;
-  padding-right: 4em;
-}
-
+.podsTitle,
+.alertsTitle,
+.nodeTitle,
 .serviceTitle {
   padding-bottom: 0.5em;
   text-align: left;
 }
 
-.serviceContainer {
+.podContainer,
+.nodeContainer,
+.serviceContainer,
+.alertsContainer,
+.visContainer {
   padding-left: 4em;
   padding-right: 4em;
+}
+
+//visualizer tree
+.svgWrapper {
+  margin: 2rem;
+  padding: 4em;
+
+  .treeSvg {
+    overflow: visible; //shows all svg elements
+  }
+
+  .radialTreeSvg {
+    overflow: visible;
+    padding: 15rem 0 0 15rem;
+  }
+
+  .link {
+    fill: none;
+    stroke: #bfbfbf;
+    stroke-width: 2px;
+  }
+
+  .node {
+    font-family: verdana, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    fill: #6b4226;
+
+    circle {
+      stroke: #bfbfbf;
+      stroke-width: 2.5px;
+    }
+  }
 }

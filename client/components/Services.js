@@ -3,7 +3,6 @@ import { Table } from 'react-bootstrap';
 import axios from 'axios';
 
 const Services = () => {
-
   let [service, setService] = useState([]);
   const [table, setTable] = useState([]);
 
@@ -13,21 +12,21 @@ const Services = () => {
       service = [];
       setService(service.push(result.data));
 
-      const serviceList = service.map((data, index) => {
+      const serviceList = service[0].map((data, index) => {
         return (
           <tbody key={`tbody${index}`}>
-          <tr>
-            <td>{data.name}</td>
-            <td>{data.type}</td>
-            <td>{data.namespace}</td>
-            <td>{data.port}</td>
-            <td>{data.clusterIP}</td>
-          </tr>
-        </tbody>
-        )
+            <tr>
+              <td>{data.name}</td>
+              <td>{data.type}</td>
+              <td>{data.namespace}</td>
+              <td>{data.port}</td>
+              <td>{data.clusterIP}</td>
+            </tr>
+          </tbody>
+        );
       });
       setTable(serviceList);
-    }
+    };
     const fetchOnLoad = () => {
       if (!service[0]) {
         console.log('First fetch called');
@@ -41,10 +40,9 @@ const Services = () => {
     fetchOnLoad();
   }, []);
 
-
-  return(
-    <div className="serviceContainer">
-      <h4 className="serviceTitle">Services List</h4>
+  return (
+    <div className='serviceContainer'>
+      <h4 className='serviceTitle'>Services List</h4>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -56,9 +54,9 @@ const Services = () => {
           </tr>
         </thead>
         {table}
-        </Table>
+      </Table>
     </div>
-  )
-}
+  );
+};
 
 export default Services;
