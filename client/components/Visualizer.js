@@ -47,7 +47,7 @@ const Visualizer = () => {
   return (
     <div className='visContainer'>
       <h4>Pod Visualizer</h4>
-      <TreeChart data={initData} />
+      {/* <TreeChart data={initData} /> */}
       <RadialTree data={initData} />
     </div>
   );
