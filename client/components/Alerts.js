@@ -48,7 +48,7 @@ const Alerts = () => {
 
   return (
     <div className='alertsContainer'>
-      <h4 className='alerts'>Alerts</h4>
+      <h4 className='alertsTitle'>Alerts</h4>
       <Table striped bordered hover>
         <thead>
           <tr>
