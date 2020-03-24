@@ -46,12 +46,16 @@ $quicksand: 'Quicksand', sans-serif;
 }
 
 .podsTitle,
-.alertsTitle {
+.alertsTitle,
+.nodeTitle,
+.serviceTitle {
   padding-bottom: 0.5em;
   text-align: left;
 }
 
 .podContainer,
+.nodeContainer,
+.serviceContainer,
 .alertsContainer,
 .visContainer {
   padding-left: 4em;
