@@ -6,9 +6,16 @@ $skyblue: #f2f7f9;
 $mist: #7a9d96;
 $quicksand: 'Quicksand', sans-serif;
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
 .appCont {
   display: flex;
-  height: 100vh; //fills whole page
+  align-items: stretch; //fills whole page of visualizer only..
+  // height: 100vh; //fills whole page of main page only..
 }
 
 .dashboard {
@@ -17,11 +24,6 @@ $quicksand: 'Quicksand', sans-serif;
   align-items: center;
   background-color: #001e3f;
   font-family: $quicksand;
-
-  // .logo {
-  //   border: solid black 1px;
-  //   margin: .5em;
-  // }
 
   .nav-link {
     margin: 1em 0 0 0; //top right bottom left
@@ -60,4 +62,37 @@ $quicksand: 'Quicksand', sans-serif;
 .visContainer {
   padding-left: 4em;
   padding-right: 4em;
+}
+
+//visualizer tree
+.svgWrapper {
+  margin: 2rem;
+  padding: 4em;
+
+  .treeSvg {
+    overflow: visible; //shows all svg elements
+  }
+
+  .radialTreeSvg {
+    overflow: visible;
+    padding: 15rem 0 0 15rem;
+  }
+
+  .link {
+    fill: none;
+    stroke: #bfbfbf;
+    stroke-width: 2px;
+  }
+
+  .node {
+    font-family: verdana, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    fill: #6b4226;
+
+    circle {
+      stroke: #bfbfbf;
+      stroke-width: 2.5px;
+    }
+  }
 }
