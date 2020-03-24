@@ -24,6 +24,7 @@ const Alerts = () => {
       const alertList = alerts.map((p, i) => {
         //iterate through each pod and check status ** Date feature is coming out weird
         if (p.status !== 'Running') {
+          console.log('status', p);
           return (
             <tbody key={`tbody${i}`}>
               <tr>
