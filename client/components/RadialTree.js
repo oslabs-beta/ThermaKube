@@ -1,6 +1,6 @@
 //renders radial tree visualization of cluster using d3 in Visualizer.js
 import React, { useRef, useEffect } from 'react';
-import { select, hierarchy, tree, linkRadial } from 'd3';
+import { select, hierarchy, tree, linkRadial, event } from 'd3';
 import useResizeObserver from './useResizeObserver';
 
 //rendering logic from:
@@ -94,6 +94,11 @@ const RadialTree = ({ data }) => {
         translate(${d.y},0)
       `);
 
+    //div to show values on node hover/mouseover
+    const div = select('body').append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
+
     node //append circles to nodes
       .append('circle')
       .attr('opacity', 0)
@@ -103,13 +108,60 @@ const RadialTree = ({ data }) => {
         if (node.depth === 1) return '#0788ff'; //nodes - blue
         if (node.depth === 2) return '#ccccff'; //pods - grey
       })
+      //add mouseover event
+      .on('mouseover', function(d) {	
+        select(this).transition()
+          .duration('50')
+          .attr('opacity', '.65');
+
+        //div appear on hover
+        div.transition()
+          .duration(50)
+          .style('opacity', 1);
+
+        let toolInfo = ''; //info to appear on hover
+        if (d.depth === 0) {
+          toolInfo = 
+          'name: ' + d.data.name + '<br/>' +
+          'type: ' + d.data.type + '<br/>' +
+          'namespace: ' + d.data.namespace + '<br/>' +
+          'port: ' + d.data.port + '<br/>' +
+          'clusterIP: ' + d.data.clusterIP;
+        }
+        else if (d.depth === 1) {
+          toolInfo = 
+          'name: ' + d.data.name;
+        }
+        else if (d.depth === 2) {
+          toolInfo = 
+          'name: ' + d.data.name + '<br/>' +
+          'namespace: ' + d.data.namespace + '<br/>' +
+          'status: ' + d.data.status + '<br/>' +
+          'podIP: ' + d.data.podIP + '<br/>' +
+          'created: ' + d.data.createdAt
+        }
+
+        div.html(toolInfo) //append info to div next to mouse
+          .style("left", (event.pageX + 15) + "px")
+          .style("top", (event.pageY - 20) + "px");
+        })					
+      .on('mouseout', function(d) {		
+        select(this).transition()
+          .duration('50') 
+          .attr('opacity', '1');
+
+        //div disappears with mouseout
+        div.transition()
+          .duration(50)
+          .style('opacity', 0);
+        })
       //node animation
       .transition()
       .duration(500)
       .delay(node => node.depth * 300)
       .attr('opacity', 1);
 
-	node //append texts to nodes  
+	  node //append texts to nodes  
      .append("text")
      .text(function(node) { 
        if (node.depth === 0) return node.data.type + '\n' + node.data.name;
