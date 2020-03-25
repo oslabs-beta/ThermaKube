@@ -3,17 +3,13 @@ const Schema = mongoose.Schema;
 const URI = require('../../secret.js');
 
 mongoose
-  .connect(
-    URI,
-    // 'mongodb+srv://thermakube:axolotl@thermakube-lqvda.mongodb.net/test?retryWrites=true&w=majority',
-    {
-      // options for the connect method to parse the URI
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      // sets the name of the DB that our collections are part of
-      dbName: 'alerts',
-    }
-  )
+  .connect(URI, {
+    // options for the connect method to parse the URI
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    // sets the name of the DB that our collections are part of
+    dbName: 'alerts',
+  })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch(err => console.log(err));
 
