@@ -2,7 +2,7 @@
 
 $light: #c2dde6;
 $morningsky: #cae4db;
-$skyblue: #f2f7f9;
+$skyblue: #f9ffff;
 $mist: #7a9d96;
 $quicksand: 'Quicksand', sans-serif;
 
@@ -51,8 +51,8 @@ body {
   overflow: auto;
 }
 
-.dashMain,
 .dashPods,
+.dashView,
 .dashAlerts {
   color: white;
   font-size: large;

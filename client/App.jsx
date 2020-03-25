@@ -5,7 +5,7 @@ import Main_Container from './containers/Main_Container';
 import Visualizer from './components/Visualizer';
 import Alerts from './components/Alerts';
 
-import * as actions from './actions/actions';
+// import * as actions from './actions/actions';
 
 class App extends Component {
   render() {
