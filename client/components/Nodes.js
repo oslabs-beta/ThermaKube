@@ -3,7 +3,6 @@ import { Table } from 'react-bootstrap';
 import axios from 'axios';
 
 const Nodes = () => {
-
   let [node, setNode] = useState([]);
   const [table, setTable] = useState([]);
 
@@ -11,20 +10,21 @@ const Nodes = () => {
     const fetchNodes = async () => {
       const result = await axios.get('/getNodes');
       node = [];
+      // console.log('node', result.data);
       setNode(node.push(result.data));
-
-      const nodeList = node.map((data, index) => {
+      // console.log('newNode', node);
+      const nodeList = node[0].map((data, index) => {
         return (
           <tbody key={`tbody${index}`}>
-          <tr>
-            <td>{data.name}</td>
-            <td>{data.cpu}</td>
-          </tr>
-        </tbody>
-        )
+            <tr>
+              <td>{data.name}</td>
+              <td>{data.cpu}</td>
+            </tr>
+          </tbody>
+        );
       });
       setTable(nodeList);
-    }
+    };
     const fetchOnLoad = () => {
       if (!node[0]) {
         console.log('First fetch called');
@@ -38,10 +38,9 @@ const Nodes = () => {
     fetchOnLoad();
   }, []);
 
-
-  return(
-    <div className="nodeContainer">
-      <h4 className="nodeTitle">Nodes List</h4>
+  return (
+    <div className='nodeContainer'>
+      <h4 className='nodeTitle'>Nodes List</h4>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -50,9 +49,9 @@ const Nodes = () => {
           </tr>
         </thead>
         {table}
-        </Table>
+      </Table>
     </div>
-  )
-}
+  );
+};
 
 export default Nodes;

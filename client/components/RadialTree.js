@@ -1,5 +1,6 @@
+//renders radial tree visualization of cluster using d3 in Visualizer.js
 import React, { useRef, useEffect } from 'react';
-import { select, hierarchy, tree, linkRadial } from 'd3';
+import { select, hierarchy, tree, linkRadial, event } from 'd3';
 import useResizeObserver from './useResizeObserver';
 
 //rendering logic from:
@@ -13,7 +14,8 @@ function usePrevious(value) {
 }
 
 const RadialTree = ({ data }) => {
-    const svgRef = useRef();
+  console.log('data at RadialTree', data)
+  const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
   
@@ -22,22 +24,24 @@ const RadialTree = ({ data }) => {
 
   // will be called initially and on every data change
   useEffect(() => {
+    if (data.length !== 0) { // IF VALID DATA WAS PASSED
     const svg = select(svgRef.current);
 
     // use dimensions from useResizeObserver,
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
-    // const { width, height } =
-    //   dimensions * 4 || wrapperRef.current.getBoundingClientRect();
+    const { height } =
+      dimensions || wrapperRef.current.getBoundingClientRect();
     
     //HARDCODED WIDTH AND HEIGHT FOR NOW
-    const width = 500, height = 500;
+    //const width = 500, height = 500;
 
     // transform hierarchical data
-    const root = hierarchy(data);
+    //changing width dynamically distorts the graph
+    const root = hierarchy(data[0]);
+    console.log('root', root);
     const treeLayout = tree()
-      .size([2 * Math.PI, height/2])
-    //   .separation(function(a,b) {return (a.parent == b.parent ? 1 : 2) / a.depth; });
+     .size([2 * Math.PI, height/1.2]);
 
     // radial tree link
     const radialLink = linkRadial()
@@ -47,10 +51,11 @@ const RadialTree = ({ data }) => {
     // enrich hierarchical data with coordinates
     treeLayout(root);
 
-    console.log('descendants', root.descendants());
-    console.log('links', root.links());
+    // console.log('descendants', root.descendants());
+    // console.log('links', root.links());
 
     // links
+    //color should change depending on traffic
     const enteringAndUpdatingLinks = svg
       .selectAll('.link')
       .data(root.links())
@@ -61,11 +66,11 @@ const RadialTree = ({ data }) => {
         const length = this.getTotalLength();
         return `${length} ${length}`;
       })
-      .attr('stroke', 'black')
-      .attr('fill', 'none')
+      .attr('stroke', '#bfbfbf')
+      .attr('fill', '#bfbfbf')
       .attr('opacity', 1);
 
-    if (data !== previouslyRenderedData) {
+    if (data !== previouslyRenderedData) { //do not re-render animation if data is not updated
       enteringAndUpdatingLinks
         .attr('stroke-dashoffset', function() {
           return this.getTotalLength();
@@ -89,24 +94,79 @@ const RadialTree = ({ data }) => {
         translate(${d.y},0)
       `);
 
+    //div to show values on node hover/mouseover
+    const div = select('body').append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
+
     node //append circles to nodes
       .append('circle')
       .attr('opacity', 0)
       .attr('r', 10)
       .attr('fill', function(node) { //color based on depth
-        if (node.depth == 0) return '#f8b58c'; //services - salmon
-        if (node.depth == 1) return '#0788ff'; //nodes - blue
-        if (node.depth == 2) return '#ccccff'; //pods - grey
+        if (node.depth === 0) return '#f8b58c'; //services - salmon
+        if (node.depth === 1) return '#0788ff'; //nodes - blue
+        if (node.depth === 2) return '#ccccff'; //pods - grey
       })
+      //add mouseover event
+      .on('mouseover', function(d) {	
+        select(this).transition()
+          .duration('50')
+          .attr('opacity', '.65');
+
+        //div appear on hover
+        div.transition()
+          .duration(50)
+          .style('opacity', 1);
+
+        let toolInfo = ''; //info to appear on hover
+        if (d.depth === 0) {
+          toolInfo = 
+          'name: ' + d.data.name + '<br/>' +
+          'type: ' + d.data.type + '<br/>' +
+          'namespace: ' + d.data.namespace + '<br/>' +
+          'port: ' + d.data.port + '<br/>' +
+          'clusterIP: ' + d.data.clusterIP;
+        }
+        else if (d.depth === 1) {
+          toolInfo = 
+          'name: ' + d.data.name;
+        }
+        else if (d.depth === 2) {
+          toolInfo = 
+          'name: ' + d.data.name + '<br/>' +
+          'namespace: ' + d.data.namespace + '<br/>' +
+          'status: ' + d.data.status + '<br/>' +
+          'podIP: ' + d.data.podIP + '<br/>' +
+          'created: ' + d.data.createdAt
+        }
+
+        div.html(toolInfo) //append info to div next to mouse
+          .style("left", (event.pageX + 15) + "px")
+          .style("top", (event.pageY - 20) + "px");
+        })					
+      .on('mouseout', function(d) {		
+        select(this).transition()
+          .duration('50') 
+          .attr('opacity', '1');
+
+        //div disappears with mouseout
+        div.transition()
+          .duration(50)
+          .style('opacity', 0);
+        })
       //node animation
       .transition()
       .duration(500)
       .delay(node => node.depth * 300)
       .attr('opacity', 1);
 
-	node //append texts to nodes  
+	  node //append texts to nodes  
      .append("text")
-     .text(function(d) { return d.data.name; })
+     .text(function(node) { 
+       if (node.depth === 0) return node.data.type + '\n' + node.data.name;
+       return node.data.name;
+     })
      .attr('opacity', 0)
 	 .attr('y', -15)
      .attr('x', -5)
@@ -121,7 +181,7 @@ const RadialTree = ({ data }) => {
       .duration(500)
       .delay(node => node.depth * 300)
       .attr('opacity', 1);
-
+    }
   }, [data, dimensions, previouslyRenderedData]);
 
   return (
