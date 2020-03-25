@@ -103,3 +103,15 @@ body {
     }
   }
 }
+
+.tooltip {
+  position: absolute;			
+  padding: .5em;
+  width: 10em;				
+  font: 12px sans-serif;		
+  background-color: rgba(204, 204, 255, 0.8);
+  border: 0px;		
+  border-radius: 8px;			
+  pointer-events: none;			
+
+}
