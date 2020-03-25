@@ -14,7 +14,6 @@ function usePrevious(value) {
 }
 
 const RadialTree = ({ data }) => {
-  console.log('data at RadialTree', data)
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
@@ -32,16 +31,13 @@ const RadialTree = ({ data }) => {
     // (dimensions are null for the first render)
     const { height } =
       dimensions || wrapperRef.current.getBoundingClientRect();
-    
-    //HARDCODED WIDTH AND HEIGHT FOR NOW
-    //const width = 500, height = 500;
-
+  
     // transform hierarchical data
     //changing width dynamically distorts the graph
     const root = hierarchy(data[0]);
-    console.log('root', root);
+    // console.log('root', root);
     const treeLayout = tree()
-     .size([2 * Math.PI, height/1.2]);
+     .size([2 * Math.PI, height/1.4]);
 
     // radial tree link
     const radialLink = linkRadial()
@@ -122,27 +118,27 @@ const RadialTree = ({ data }) => {
         let toolInfo = ''; //info to appear on hover
         if (d.depth === 0) {
           toolInfo = 
-          'name: ' + d.data.name + '<br/>' +
-          'type: ' + d.data.type + '<br/>' +
-          'namespace: ' + d.data.namespace + '<br/>' +
-          'port: ' + d.data.port + '<br/>' +
-          'clusterIP: ' + d.data.clusterIP;
+          '<b>name: </b>' + d.data.name + '<br/>' +
+          '<b>type: </b>' + d.data.type + '<br/>' +
+          '<b>namespace: </b>' + d.data.namespace + '<br/>' +
+          '<b>port: </b>' + d.data.port + '<br/>' +
+          '<b>clusterIP: </b>' + d.data.clusterIP;
         }
         else if (d.depth === 1) {
           toolInfo = 
-          'name: ' + d.data.name;
+          '<b>name: </b>' + d.data.name;
         }
         else if (d.depth === 2) {
           toolInfo = 
-          'name: ' + d.data.name + '<br/>' +
-          'namespace: ' + d.data.namespace + '<br/>' +
-          'status: ' + d.data.status + '<br/>' +
-          'podIP: ' + d.data.podIP + '<br/>' +
-          'created: ' + d.data.createdAt
+          '<b>name: </b>' + d.data.name + '<br/>' +
+          '<b>namespace: </b>' + d.data.namespace + '<br/>' +
+          '<b>status: </b>' + d.data.status + '<br/>' +
+          '<b>podIP: </b>' + d.data.podIP + '<br/>' +
+          '<b>created: </b>' + d.data.createdAt
         }
 
-        div.html(toolInfo) //append info to div next to mouse
-          .style("left", (event.pageX + 15) + "px")
+        div.html(toolInfo) //append info to div
+          .style("left", (event.pageX + 15) + "px") //mouse position
           .style("top", (event.pageY - 20) + "px");
         })					
       .on('mouseout', function(d) {		
@@ -162,20 +158,21 @@ const RadialTree = ({ data }) => {
       .attr('opacity', 1);
 
 	  node //append texts to nodes  
-     .append("text")
-     .text(function(node) { 
-       if (node.depth === 0) return node.data.type + '\n' + node.data.name;
-       return node.data.name;
-     })
-     .attr('opacity', 0)
-	 .attr('y', -15)
-     .attr('x', -5)
-     .attr( //make texts appear horizontal
+      .append("text")
+      .text(function(node) { 
+        if (node.depth === 0) return 'service: ' + node.data.name;
+        if (node.depth === 1) return 'node';
+        if (node.depth === 2) return 'pod';
+      })
+      .attr('opacity', 0)
+      .attr('y', -15)
+      .attr('x', -5)
+      .attr( //make texts appear horizontal
         'transform',
         d => {
           return `rotate(${(( Math.PI/2 - d.x ) * ( 180/Math.PI ))})`;
         })
-     .attr('text-anchor','middle')
+      .attr('text-anchor','middle')
       //node animation
       .transition()
       .duration(500)

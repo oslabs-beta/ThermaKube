@@ -86,30 +86,6 @@ const Visualizer = () => {
     fetchInfo();
   }, [])
 
-  //initial data
-  //HARD-CODED TO TEST
-  // const initData = {
-  //   name: 'service-name', namespace: 'default' ,
-  //   children: [
-  //     {
-  //       name: 'node-1', otherinfo: 'other info',
-  //       children: [
-  //         {name: 'node1-pod1', info: 'something'},
-  //         {name: 'node1-pod2', info: 'what' },
-  //       ],
-  //     },
-  //     {
-  //       data: { name: 'node-2'},
-  //       children: [
-  //         { data: {name: 'node2-pod1', info: 'hi'  }},
-  //         { data: {name: 'node2-pod2', info: 'hello'  }},
-  //         { data: {name: 'node2-pod3', info: 'test'  }},
-  //         { data: {name: 'node2-pod4', info: 'test2'  }},
-  //       ],
-  //     },
-  //   ],
-  // };
-
   return (
     <div className='visContainer'>
       <h4>Pod Visualizer</h4>

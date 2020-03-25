@@ -94,7 +94,7 @@ body {
 
   .node {
     font-family: $quicksand;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
 
     circle {
@@ -107,8 +107,9 @@ body {
 .tooltip {
   position: absolute;
   padding: 0.5em;
-  width: 10em;
-  font: 12px sans-serif;
+  width: 12em;
+  font-family: $quicksand;  
+  font-size: 12px;
   background-color: rgba(204, 204, 255, 0.8);
   border: 0px;
   border-radius: 8px;
