@@ -4,7 +4,8 @@ const URI = require('../../secret.js');
 
 mongoose
   .connect(
-    'mongodb+srv://thermakube:axolotl@thermakube-lqvda.mongodb.net/test?retryWrites=true&w=majority',
+    URI,
+    // 'mongodb+srv://thermakube:axolotl@thermakube-lqvda.mongodb.net/test?retryWrites=true&w=majority',
     {
       // options for the connect method to parse the URI
       useNewUrlParser: true,

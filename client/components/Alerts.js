@@ -22,23 +22,20 @@ const Alerts = () => {
       setAlerts(alerts.push(result.data));
       console.log('alerts', alerts);
       const alertList = alerts[0].map((p, i) => {
-        //iterate through each pod and check status ** Date feature is coming out weird
-        if (p.status !== 'Running') {
-          return (
-            <tbody key={`tbody${i}`}>
-              <tr>
-                <td>{p.name}</td>
-                <td>{p.namespace}</td>
-                <td>
-                  <FontAwesomeIcon icon={faMinusCircle} color='red' />
-                  &nbsp;&nbsp;{p.status}
-                </td>
-                <td>{p.podIP}</td>
-                <td>{Date(Date.now()).toString()}</td>
-              </tr>
-            </tbody>
-          );
-        }
+        return (
+          <tbody key={`tbody${i}`}>
+            <tr>
+              <td>{p.name}</td>
+              <td>{p.namespace}</td>
+              <td>
+                <FontAwesomeIcon icon={faMinusCircle} color='red' />
+                &nbsp;&nbsp;{p.status}
+              </td>
+              <td>{p.podIP}</td>
+              <td>{p.time}</td>
+            </tr>
+          </tbody>
+        );
       });
       setTable(alertList);
     };

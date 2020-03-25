@@ -4,7 +4,7 @@ const { ServiceQuery } = require('../query/ServiceQuery');
 const ServiceController = {};
 
 ServiceController.getServices = (req, res, next) => {
-  console.log('test from inside ServiceController');
+  // console.log('test from inside ServiceController');
   //get data from kube api
   kube.listNamespacedService('default').then(data => {
     const result = new ServiceQuery(data);

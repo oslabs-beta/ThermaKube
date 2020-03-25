@@ -2,7 +2,7 @@ const { Alert } = require('../models/alertModel');
 const AlertController = {};
 
 AlertController.getAlerts = (req, res, next) => {
-  console.log('in get Alerts');
+  // console.log('in get Alerts');
   Alert.find({})
     .exec()
     .then(results => {
@@ -29,12 +29,24 @@ AlertController.addAlerts = (req, res, next) => {
     time: req.body.time,
   };
   console.log('alertInfo', alertInfo);
-  Alert.create(alertInfo, (err, result) => {
-    if (err) return err;
-    res.locals.newAlert = result;
-    console.log('alert success');
-    return next();
-  });
+  //check for duplicates - still getting some duplicates since the time is logging by second.
+  Alert.findOneAndUpdate(
+    alertInfo,
+    alertInfo,
+    { upsert: true },
+    (err, result) => {
+      if (err) return err;
+      res.locals.newAlert = result;
+      console.log('alert success');
+      return next();
+    }
+  );
+  // Alert.create(alertInfo, (err, result) => {
+  //   if (err) return err;
+  //   res.locals.newAlert = result;
+  //   console.log('alert success');
+  //   return next();
+  // });
 };
 
 module.exports = AlertController;

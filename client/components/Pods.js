@@ -42,8 +42,8 @@ const Pods = () => {
             </tbody>
           );
         } else {
+          // if not "Running", invoke the addAlert func to add to database and render red circle
           addAlert(p);
-          // if not "Running", render red circle
           return (
             <tbody key={`tbody${i}`}>
               <tr>
@@ -77,6 +77,7 @@ const Pods = () => {
     fetchOnLoad();
   }, []);
 
+  // function that adds a new Alert - gets called in ^useEffect when pod status is not "Running"
   const addAlert = async p => {
     const postAlert = await axios.post('/podAlerts', {
       name: p.name,
