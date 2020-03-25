@@ -13,9 +13,8 @@ function usePrevious(value) {
   return ref.current;
 }
 
-const RadialTree = ({ data, data2 }) => {
+const RadialTree = ({ data }) => {
   console.log('data at RadialTree', data)
-  //console.log('data2[0] at RadialTree', data2[0])
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
@@ -39,11 +38,10 @@ const RadialTree = ({ data, data2 }) => {
 
     // transform hierarchical data
     //changing width dynamically distorts the graph
-    
     const root = hierarchy(data[0]);
     console.log('root', root);
     const treeLayout = tree()
-     .size([2 * Math.PI, height/2]);
+     .size([2 * Math.PI, height/1.2]);
 
     // radial tree link
     const radialLink = linkRadial()
@@ -89,7 +87,7 @@ const RadialTree = ({ data, data2 }) => {
       .data(root.descendants())
       .enter().append("g")
       .attr('class', 'node')
-      .attr( //angle to radian; divide d.y by arbitrary number for now to match the position
+      .attr( //angle to radian
         'transform',
         d => `
         rotate(${(d.x * 180) / Math.PI - 90}) 
@@ -101,9 +99,9 @@ const RadialTree = ({ data, data2 }) => {
       .attr('opacity', 0)
       .attr('r', 10)
       .attr('fill', function(node) { //color based on depth
-        if (node.depth == 0) return '#f8b58c'; //services - salmon
-        if (node.depth == 1) return '#0788ff'; //nodes - blue
-        if (node.depth == 2) return '#ccccff'; //pods - grey
+        if (node.depth === 0) return '#f8b58c'; //services - salmon
+        if (node.depth === 1) return '#0788ff'; //nodes - blue
+        if (node.depth === 2) return '#ccccff'; //pods - grey
       })
       //node animation
       .transition()
@@ -113,7 +111,10 @@ const RadialTree = ({ data, data2 }) => {
 
 	node //append texts to nodes  
      .append("text")
-     .text(function(d) { return d.data.name; })
+     .text(function(node) { 
+       if (node.depth === 0) return node.data.type + '\n' + node.data.name;
+       return node.data.name;
+     })
      .attr('opacity', 0)
 	 .attr('y', -15)
      .attr('x', -5)
