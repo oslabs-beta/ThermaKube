@@ -6,6 +6,8 @@ The Status field should be "Running" - any other status will indicate issues wit
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
 const Alerts = () => {
   let [alerts, setAlerts] = useState([]);
@@ -16,12 +18,10 @@ const Alerts = () => {
     const fetchPods = async () => {
       // axios request to server side
       const result = await axios.get('/getPods');
-
       alerts = []; //empty the alerts before updating with fetched data
       setAlerts(alerts.push(result.data));
-      console.log('alerts', alerts);
-
-      const alertList = alerts.map((p, i) => {
+      // console.log('alerts', alerts);
+      const alertList = alerts[0].map((p, i) => {
         //iterate through each pod and check status ** Date feature is coming out weird
         if (p.status !== 'Running') {
           return (
@@ -29,9 +29,12 @@ const Alerts = () => {
               <tr>
                 <td>{p.name}</td>
                 <td>{p.namespace}</td>
-                <td>{p.status}</td>
+                <td>
+                  <FontAwesomeIcon icon={faMinusCircle} color='red' />
+                  &nbsp;&nbsp;{p.status}
+                </td>
                 <td>{p.podIP}</td>
-                <td>{Date.now()}</td>
+                <td>{Date(Date.now()).toString()}</td>
               </tr>
             </tbody>
           );
@@ -41,9 +44,17 @@ const Alerts = () => {
     };
 
     //update every 5 seconds
-    setInterval(() => {
-      fetchPods();
-    }, 5000);
+    const fetchOnLoad = () => {
+      if (!alerts[0]) {
+        console.log('First fetch called');
+        fetchPods();
+      }
+      setInterval(() => {
+        console.log('setInterval called');
+        fetchPods();
+      }, 5000);
+    };
+    fetchOnLoad();
   }, []);
 
   return (

@@ -2,7 +2,7 @@
 
 $light: #c2dde6;
 $morningsky: #cae4db;
-$skyblue: #f2f7f9;
+$skyblue: #f9ffff;
 $mist: #7a9d96;
 $quicksand: 'Quicksand', sans-serif;
 
@@ -11,11 +11,17 @@ body {
   width: 100%;
   height: 100%;
 }
-
+#container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
 .appCont {
   display: flex;
-  align-items: stretch; //fills whole page of visualizer only..
-  // height: 100vh; //fills whole page of main page only..
+  width: 200vh;
 }
 
 .dashboard {
@@ -23,8 +29,13 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: #001e3f;
+  width: 200px;
   font-family: $quicksand;
-
+  .logo {
+    width: 100px;
+    height: 100px;
+    margin: 30px;
+  }
   .nav-link {
     margin: 1em 0 0 0; //top right bottom left
   }
@@ -37,10 +48,11 @@ body {
   background-color: $skyblue;
   padding-top: 1.2em;
   font-family: $quicksand;
+  overflow: auto;
 }
 
-.dashMain,
 .dashPods,
+.dashView,
 .dashAlerts {
   color: white;
   font-size: large;
