@@ -2,6 +2,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Table } from 'react-bootstrap';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCheckCircle,
+  faMinusCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
 const Pods = () => {
   // using hooks to set state
@@ -19,17 +24,41 @@ const Pods = () => {
       console.log('pods', pod);
 
       const podList = pod[0].map((p, i) => {
-        return (
-          <tbody key={`tbody${i}`}>
-            <tr>
-              <td>{p.name}</td>
-              <td>{p.namespace}</td>
-              <td>{p.status}</td>
-              <td>{p.podIP}</td>
-              <td>{p.createdAt}</td>
-            </tr>
-          </tbody>
-        );
+        // check status - if "Running" then render green check circle
+        if (p.status === 'Running') {
+          return (
+            <tbody key={`tbody${i}`}>
+              <tr>
+                <td>{p.name}</td>
+                <td>{p.namespace}</td>
+                <td>
+                  <FontAwesomeIcon icon={faCheckCircle} color='#00df00' />
+                  &nbsp;&nbsp;
+                  {p.status}
+                </td>
+                <td>{p.podIP}</td>
+                <td>{p.createdAt}</td>
+              </tr>
+            </tbody>
+          );
+        } else {
+          // if not "Running", render red circle
+          return (
+            <tbody key={`tbody${i}`}>
+              <tr>
+                <td>{p.name}</td>
+                <td>{p.namespace}</td>
+                <td>
+                  <FontAwesomeIcon icon={faMinusCircle} color='red' />
+                  &nbsp;&nbsp;
+                  {p.status}
+                </td>
+                <td>{p.podIP}</td>
+                <td>{p.createdAt}</td>
+              </tr>
+            </tbody>
+          );
+        }
       });
       setTable(podList);
     };
@@ -42,7 +71,7 @@ const Pods = () => {
       setInterval(() => {
         console.log('setInterval called');
         fetchPods();
-      }, 5000);
+      }, 2000);
     };
     fetchOnLoad();
   }, []);

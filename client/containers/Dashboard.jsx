@@ -10,10 +10,10 @@ const Dashboard = props => {
       {/* <img src={logo} alt='Logo' /> */}
       <img src={icon} alt='Logo' className='logo' />
       <Nav defaultActiveKey='' className='flex-column' id='navbar'>
-        <Nav.Link href='/' className='dashMain'>
+        <Nav.Link href='/' className='dashPods'>
           Pods
         </Nav.Link>
-        <Nav.Link href='/visualizer' className='dashPods'>
+        <Nav.Link href='/visualizer' className='dashView'>
           View
         </Nav.Link>
         <Nav.Link href='/alerts' className='dashAlerts'>
