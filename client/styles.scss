@@ -81,13 +81,9 @@ body {
   margin: 2rem;
   padding: 4em;
 
-  .treeSvg {
-    overflow: visible; //shows all svg elements
-  }
-
   .radialTreeSvg {
     overflow: visible;
-    padding: 15rem 0 0 15rem;
+    padding: 12rem 0 0 15rem;
   }
 
   .link {
@@ -97,14 +93,25 @@ body {
   }
 
   .node {
-    font-family: verdana, sans-serif;
-    font-size: 11px;
+    font-family: $quicksand;
+    font-size: 12px;
     font-weight: bold;
-    fill: #6b4226;
 
     circle {
       stroke: #bfbfbf;
       stroke-width: 2.5px;
     }
   }
+}
+
+.tooltip {
+  position: absolute;			
+  padding: .5em;
+  width: 10em;				
+  font: 12px sans-serif;		
+  background-color: rgba(204, 204, 255, 0.8);
+  border: 0px;		
+  border-radius: 8px;			
+  pointer-events: none;			
+
 }
