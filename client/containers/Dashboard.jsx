@@ -7,7 +7,10 @@ const Dashboard = props => {
     <div className='dashboard'>
       <img src={icon} alt='Logo' className='logo' />
       <Nav defaultActiveKey='' className='flex-column' id='navbar'>
-        <Nav.Link href='/' className='dashCluster'>
+        <Nav.Link href='/' className='dashHome'>
+          Home
+        </Nav.Link>
+        <Nav.Link href='/cluster' className='dashCluster'>
           Cluster
         </Nav.Link>
         <Nav.Link href='/visualizer' className='dashTraffic'>

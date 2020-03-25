@@ -41,6 +41,7 @@ body {
   }
 }
 
+.homeContainer,
 .mainContainer,
 .alertsContainer,
 .visContainer {
@@ -51,6 +52,7 @@ body {
   overflow: auto;
 }
 
+.dashHome,
 .dashCluster,
 .dashTraffic,
 .dashAlerts {
@@ -59,6 +61,7 @@ body {
   font-family: $quicksand;
 }
 
+.homeTitle,
 .podsTitle,
 .alertsTitle,
 .nodeTitle,
@@ -67,6 +70,7 @@ body {
   text-align: left;
 }
 
+.homeContainer,
 .podContainer,
 .nodeContainer,
 .serviceContainer,

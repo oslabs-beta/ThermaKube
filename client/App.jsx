@@ -4,6 +4,7 @@ import Dashboard from './containers/Dashboard';
 import Main_Container from './containers/Main_Container';
 import Visualizer from './components/Visualizer';
 import Alerts from './components/Alerts';
+import Home from './components/Home';
 
 // import * as actions from './actions/actions';
 
@@ -14,7 +15,8 @@ class App extends Component {
         <div className='appCont' id='app'>
           <Dashboard />
           <Switch>
-            <Route exact path='/' component={Main_Container} />
+            <Route exact path='/' component={Home} />
+            <Route exact path='/cluster' component={Main_Container} />
             <Route exact path='/visualizer' component={Visualizer} />
             <Route exact path='/alerts' component={Alerts} />
           </Switch>
