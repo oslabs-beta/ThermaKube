@@ -17,10 +17,10 @@ const Alerts = () => {
   useEffect(() => {
     const fetchPods = async () => {
       // axios request to server side
-      const result = await axios.get('/getPods');
+      const result = await axios.get('/podAlerts');
       alerts = []; //empty the alerts before updating with fetched data
       setAlerts(alerts.push(result.data));
-      // console.log('alerts', alerts);
+      console.log('alerts', alerts);
       const alertList = alerts[0].map((p, i) => {
         //iterate through each pod and check status ** Date feature is coming out weird
         if (p.status !== 'Running') {

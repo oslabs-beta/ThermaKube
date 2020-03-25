@@ -42,6 +42,7 @@ const Pods = () => {
             </tbody>
           );
         } else {
+          addAlert(p);
           // if not "Running", render red circle
           return (
             <tbody key={`tbody${i}`}>
@@ -71,10 +72,20 @@ const Pods = () => {
       setInterval(() => {
         console.log('setInterval called');
         fetchPods();
-      }, 2000);
+      }, 5000);
     };
     fetchOnLoad();
   }, []);
+
+  const addAlert = async p => {
+    const postAlert = await axios.post('/podAlerts', {
+      name: p.name,
+      namespace: p.namespace,
+      status: p.status,
+      podIP: p.podIP,
+      time: Date(Date.now()).toString(),
+    });
+  };
 
   return (
     <div className='podContainer'>
