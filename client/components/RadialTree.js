@@ -13,8 +13,9 @@ function usePrevious(value) {
   return ref.current;
 }
 
-const RadialTree = ({ data }) => {
-  // console.log('data at RadialTree', data)
+const RadialTree = ({ data, data2 }) => {
+  console.log('data at RadialTree', data)
+  //console.log('data2[0] at RadialTree', data2[0])
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
@@ -24,6 +25,7 @@ const RadialTree = ({ data }) => {
 
   // will be called initially and on every data change
   useEffect(() => {
+    if (data.length !== 0) { // IF VALID DATA WAS PASSED
     const svg = select(svgRef.current);
 
     // use dimensions from useResizeObserver,
@@ -37,9 +39,11 @@ const RadialTree = ({ data }) => {
 
     // transform hierarchical data
     //changing width dynamically distorts the graph
-    const root = hierarchy(data);
+    
+    const root = hierarchy(data[0]);
+    console.log('root', root);
     const treeLayout = tree()
-     .size([2 * Math.PI, height/1.5]);
+     .size([2 * Math.PI, height/2]);
 
     // radial tree link
     const radialLink = linkRadial()
@@ -89,7 +93,7 @@ const RadialTree = ({ data }) => {
         'transform',
         d => `
         rotate(${(d.x * 180) / Math.PI - 90}) 
-        translate(${d.y/1.4},0)
+        translate(${d.y},0)
       `);
 
     node //append circles to nodes
@@ -124,7 +128,7 @@ const RadialTree = ({ data }) => {
       .duration(500)
       .delay(node => node.depth * 300)
       .attr('opacity', 1);
-
+    }
   }, [data, dimensions, previouslyRenderedData]);
 
   return (
