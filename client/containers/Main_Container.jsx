@@ -1,5 +1,4 @@
 import React from 'react';
-import TestPod from '../components/TestPod';
 import Pods from '../components/Pods';
 import Nodes from '../components/Nodes';
 import Services from '../components/Services';
