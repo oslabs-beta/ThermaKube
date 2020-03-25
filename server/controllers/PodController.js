@@ -16,13 +16,13 @@ PodController.getPods = (req, res, next) => {
         namespace: result.namespace[i],
         status: result.status[i],
         podIP: result.podIP[i],
-        createdAt: result.createdAt[i],
+        createdAt: result.createdAt[i].toString(),
         nodeName: result.nodeName[i],
         labels: result.labels[i],
       };
       podArray.push(obj);
     }
-    console.log('podArr', podArray);
+    // console.log('podArr', podArray);
     // store in res.locals
     res.locals.pod = podArray;
     return next();

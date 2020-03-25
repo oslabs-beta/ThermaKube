@@ -6,6 +6,8 @@ The Status field should be "Running" - any other status will indicate issues wit
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
 const Alerts = () => {
   let [alerts, setAlerts] = useState([]);
@@ -16,22 +18,22 @@ const Alerts = () => {
     const fetchPods = async () => {
       // axios request to server side
       const result = await axios.get('/getPods');
-
       alerts = []; //empty the alerts before updating with fetched data
       setAlerts(alerts.push(result.data));
-      console.log('alerts', alerts);
-
-      const alertList = alerts.map((p, i) => {
+      // console.log('alerts', alerts);
+      const alertList = alerts[0].map((p, i) => {
         //iterate through each pod and check status ** Date feature is coming out weird
-        if (p[i].status !== 'Running') {
-          console.log('status', p[i].status);
+        if (p.status !== 'Running') {
           return (
             <tbody key={`tbody${i}`}>
               <tr>
-                <td>{p[i].name}</td>
-                <td>{p[i].namespace}</td>
-                <td>{p[i].status}</td>
-                <td>{p[i].podIP}</td>
+                <td>{p.name}</td>
+                <td>{p.namespace}</td>
+                <td>
+                  <FontAwesomeIcon icon={faMinusCircle} color='red' />
+                  &nbsp;&nbsp;{p.status}
+                </td>
+                <td>{p.podIP}</td>
                 <td>{Date(Date.now()).toString()}</td>
               </tr>
             </tbody>
