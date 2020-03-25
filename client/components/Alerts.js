@@ -23,15 +23,16 @@ const Alerts = () => {
 
       const alertList = alerts.map((p, i) => {
         //iterate through each pod and check status ** Date feature is coming out weird
-        if (p.status !== 'Running') {
+        if (p[i].status !== 'Running') {
+          console.log('status', p[i].status);
           return (
             <tbody key={`tbody${i}`}>
               <tr>
-                <td>{p.name}</td>
-                <td>{p.namespace}</td>
-                <td>{p.status}</td>
-                <td>{p.podIP}</td>
-                <td>{Date.now()}</td>
+                <td>{p[i].name}</td>
+                <td>{p[i].namespace}</td>
+                <td>{p[i].status}</td>
+                <td>{p[i].podIP}</td>
+                <td>{Date(Date.now()).toString()}</td>
               </tr>
             </tbody>
           );
@@ -41,9 +42,17 @@ const Alerts = () => {
     };
 
     //update every 5 seconds
-    setInterval(() => {
-      fetchPods();
-    }, 5000);
+    const fetchOnLoad = () => {
+      if (!alerts[0]) {
+        console.log('First fetch called');
+        fetchPods();
+      }
+      setInterval(() => {
+        console.log('setInterval called');
+        fetchPods();
+      }, 5000);
+    };
+    fetchOnLoad();
   }, []);
 
   return (

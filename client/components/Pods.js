@@ -16,8 +16,9 @@ const Pods = () => {
 
       pod = []; //empty the pod before updating with fetched data
       setPod(pod.push(result.data));
+      console.log('pods', pod);
 
-      const podList = pod.map((p, i) => {
+      const podList = pod[0].map((p, i) => {
         return (
           <tbody key={`tbody${i}`}>
             <tr>
