@@ -51,8 +51,8 @@ body {
   overflow: auto;
 }
 
-.dashPods,
-.dashView,
+.dashCluster,
+.dashTraffic,
 .dashAlerts {
   color: white;
   font-size: large;
@@ -105,13 +105,12 @@ body {
 }
 
 .tooltip {
-  position: absolute;			
-  padding: .5em;
-  width: 10em;				
-  font: 12px sans-serif;		
+  position: absolute;
+  padding: 0.5em;
+  width: 10em;
+  font: 12px sans-serif;
   background-color: rgba(204, 204, 255, 0.8);
-  border: 0px;		
-  border-radius: 8px;			
-  pointer-events: none;			
-
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
 }
