@@ -4,7 +4,7 @@ const { NodeQuery } = require('../query/NodeQuery');
 const NodeController = {};
 
 NodeController.getNodes = (req, res, next) => {
-  console.log('test from inside NodeController');
+  // console.log('test from inside NodeController');
   //get data from kube api
   kube.listNode('default').then(data => {
     const result = new NodeQuery(data);
