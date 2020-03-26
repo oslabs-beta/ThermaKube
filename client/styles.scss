@@ -81,6 +81,10 @@ body {
   margin: 2rem;
   padding: 4em;
 
+  .treeSvg {
+    overflow:visible;
+  }
+
   .radialTreeSvg {
     overflow: visible;
     padding: 12rem 0 0 15rem;
@@ -95,11 +99,11 @@ body {
     font-family: $quicksand;
     font-size: 14px;
     font-weight: bold;
+  }
 
-    circle {
-      stroke: #bfbfbf;
-      stroke-width: 2.5px;
-    }
+  circle {
+    stroke: #bfbfbf;
+    stroke-width: 2.5px;
   }
 }
 
