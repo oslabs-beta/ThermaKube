@@ -6,6 +6,7 @@ The Status field should be "Running" - any other status will indicate issues wit
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
+import Dashboard from '../containers/Dashboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
@@ -55,20 +56,23 @@ const Alerts = () => {
   }, []);
 
   return (
-    <div className='alertsContainer'>
-      <h4 className='alertsTitle'>Alerts</h4>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Pod Name</th>
-            <th>Namespace</th>
-            <th>Status</th>
-            <th>Pod IP</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        {table}
-      </Table>
+    <div className='appCont'>
+      <Dashboard />
+      <div className='alertsContainer'>
+        <h4 className='alertsTitle'>Alerts</h4>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Pod Name</th>
+              <th>Namespace</th>
+              <th>Status</th>
+              <th>Pod IP</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          {table}
+        </Table>
+      </div>
     </div>
   );
 };

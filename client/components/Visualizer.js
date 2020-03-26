@@ -2,22 +2,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RadialTree from './RadialTree';
+import DashBoard from '../containers/Dashboard';
 // import TestTree from './TestTree';
 
 const Visualizer = () => {
   let [data, setData] = useState([]);
-  let [pod, setPod] = useState([])
-  let [node, setNode] = useState([])
-  let [service, setService] = useState([])
+  let [pod, setPod] = useState([]);
+  let [node, setNode] = useState([]);
+  let [service, setService] = useState([]);
 
   // getPods, getNodes, getServices:
   // helper functions for formating fetched info for d3 visualization
   function getPods(parent) {
     const podArr = [];
     for (let i = 0; i < pod.length; i++) {
-      //check node name passed thru parameter against pod's nodeName 
-      if (parent == pod[i].nodeName) { 
-        const podObj = {}
+      //check node name passed thru parameter against pod's nodeName
+      if (parent == pod[i].nodeName) {
+        const podObj = {};
         podObj.name = pod[i].name;
         podObj.namespace = pod[i].namespace;
         podObj.status = pod[i].status;
@@ -47,7 +48,7 @@ const Visualizer = () => {
     const serviceArr = [];
     for (let i = 0; i < service.length; i++) {
       //skip the clusterIP service for now
-      if(service[i].type === 'ClusterIP') continue;
+      if (service[i].type === 'ClusterIP') continue;
 
       const serviceObj = {};
       //copy all info from services into serviceObj
@@ -63,7 +64,7 @@ const Visualizer = () => {
     return serviceArr;
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     // fetch service, node, pod info
     const fetchInfo = async () => {
       // service = []; node = []; pod = [];
@@ -98,13 +99,15 @@ const Visualizer = () => {
     //   }, 5000);
     // };
     // fetchOnLoad();
-  }, [])
+  }, []);
 
   return (
-    <div className='visContainer'>
-      <h4>Cluster Visualizer</h4>
-      {/* <TestTree data={data}/> */}
-      <RadialTree data={data}/>
+    <div className='appCont'>
+      <DashBoard />
+      <div className='visContainer'>
+        <h4>Traffic Visualizer</h4>
+        <RadialTree data={data} />
+      </div>
     </div>
   );
 };
