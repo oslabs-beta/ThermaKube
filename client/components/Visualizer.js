@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RadialTree from './RadialTree';
-import TestTree from './TestTree';
 import DashBoard from '../containers/Dashboard';
 
 const Visualizer = () => {

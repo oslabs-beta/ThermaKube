@@ -5,12 +5,24 @@ import useResizeObserver from './useResizeObserver';
 
 //rendering logic from:
 //https://github.com/muratkemaldar/using-react-hooks-with-d3/blob/10-hierarchy/src/TreeChart.js
-function usePrevious(value) {
+function compareData(data) {
+
   const ref = useRef();
+  const prev = ref.current;
+
   useEffect(() => {
-    ref.current = value;
+    ref.current = data;
   });
-  return ref.current;
+  console.log('ref.current', ref.current)
+  console.log('PREV', prev)
+
+  //render animation first time
+  if (data.length === 0) return true;
+  else {
+   //if data lengths are same, do not re-render animation
+    if (ref.current.length === prev.length) return false;  
+  }
+  return true;
 }
 
 //div to show values on node hover/mouseover
@@ -18,13 +30,14 @@ const div = select('body').append('div')
   .attr('class', 'tooltip')
   .style('opacity', 0);
 
+
 const RadialTree = ({ data }) => {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
   
   // we save data to see if it changed
-  const previouslyRenderedData = usePrevious(data);
+  // const reanimate = compareData(data);
 
   // will be called initially and on every data change
   useEffect(() => {
@@ -75,33 +88,15 @@ const RadialTree = ({ data }) => {
         if (d.depth == 1) return '#0788ff'; //nodes - blue
         if (d.depth == 2) return '#ccccff';
       })
-      .attr('opacity', 1);
-
-      /*
-      if (data !== previouslyRenderedData) { //do not re-render animation if data is not updated
-      enteringAndUpdatingLinks
-        .attr('stroke-dashoffset', function() {
-          return this.getTotalLength();
-        })
-        .transition()
-        .duration(500)
-        .delay(link => link.source.depth * 500)
-        .attr('stroke-dashoffset', 0);
-      }
-      */
-
-      ///////////
-      // NEW CODE W/O USING G
-      ////////////
+      // .attr('opacity', 1);
 
       // nodes
       const node = svg
         .selectAll('.node')
         .data(root.descendants())
-        // .join(enter => enter.append('circle').attr('opacity', 0)) //append circles to nodes
-        .join('circle') ////JOIN DIVIDED // append circles to nodes
+        .join('circle') //append circles to nodes
         .attr('class', 'node')
-        .attr('opacity', 0) ////JOIN DIVIDED
+        // .attr('opacity', 0)
         .attr( //angle to radian
           'transform',
           d => `
@@ -162,64 +157,24 @@ const RadialTree = ({ data }) => {
           div.transition()
             .duration(50)
             .style('opacity', 0);
-          })
-        //node animation
-        // .transition()
-        // .duration(500)
-        // .delay(node => node.depth * 300)
-        .attr('opacity', 1);
-    
-      /*
-      /////TEXT METHOD1
-      /////TEXT APPEND TO NODE NOT WORKING
-      node //append texts to nodes  
-        .append('text')
-        .text(function(node) { 
-          if (node.depth === 0) return 'service: ' + node.data.name;
-          if (node.depth === 1) return 'node';
-          if (node.depth === 2) return 'pod';
-        })
-        .attr('opacity', 0)
-        .attr('y', -15)
-        .attr('x', -5)
-        .attr( //make texts appear horizontal
-          'transform',
-          d => {
-            return `rotate(${(( Math.PI/2 - d.x ) * ( 180/Math.PI ))})`;
-          })
-        .attr('text-anchor','middle')
-        //node animation
-        .transition()
-        .duration(500)
-        .delay(node => node.depth * 300)
-        .attr('opacity', 1);
-      */
-
+        });
       
-      /////TEXT METHOD2
-      /////CAN't MAKE ROTATION WORK
-      svg
+      //labels
+      const label = svg
         .selectAll('.label')
         .data(root.descendants())
-        // .join(enter => enter.append('text').attr('opacity', 0))
         .join('text')
         .attr('class', 'label')
-        .attr('opacity', 0)
+        // .attr('opacity', 0)
         .attr('y', -15)
         .attr('x', -5)
-        .attr( //angle to radian
+        .attr( //angle to radian, find position THEN rotate texts to be horizontal
           'transform',
-          d => `
-          rotate(${(d.x * 180) / Math.PI - 90}) 
-          translate(${d.y},0)
-        `)
-
-        // .attr( //make texts appear horizontal
-        //   'transform',
-        //   d => {
-        //     return `rotate(${(( Math.PI/2 - d.x ) * ( 180/Math.PI ))})`;
-        // })
-
+          d => 
+          `rotate(${(d.x * 180) / Math.PI - 90}) 
+          translate(${d.y},0)`
+          + `rotate(${(( Math.PI/2 - d.x ) * ( 180/Math.PI ))})`
+        )
         .attr('text-anchor', 'middle')
         .attr('font-size', 12)
         .text(function(node) { 
@@ -227,122 +182,40 @@ const RadialTree = ({ data }) => {
           if (node.depth === 1) return 'node';
           if (node.depth === 2) return 'pod';
         })
-        // .transition()
-        // .duration(500)
-        // .delay(node => node.depth * 300)
-        .attr('opacity', 1);
-  
-        
+    
+
       /*
-      ////////////////
-      //OLD CODE using g
-      /////////////////
-        // nodes
-        const node = svg
-          .selectAll('.node')
-          .data(root.descendants())
-          .enter() ////////
-          .append("g")
-          .attr('class', 'node')
-          .attr( //angle to radian
-            'transform',
-            d => `
-            rotate(${(d.x * 180) / Math.PI - 90}) 
-            translate(${d.y},0)
-          `);
-  
-        //div to show values on node hover/mouseover
-        const div = select('body').append('div')
-          .attr('class', 'tooltip')
-          .style('opacity', 0);
-  
-        node //append circles to nodes
-          .append('circle')
-          .attr('opacity', 0)
-          .attr('r', 10)
-          .attr('fill', function(node) { //color based on depth
-            if (node.depth === 0) return '#f8b58c'; //services - salmon
-            if (node.depth === 1) return '#0788ff'; //nodes - blue
-            if (node.depth === 2) return '#ccccff'; //pods - grey
+      console.log('reanimate', reanimate)
+      // animation
+      if (reanimate) { //do not re-render animation if data is not updated
+        // link animation
+        enteringAndUpdatingLinks
+          .attr('stroke-dashoffset', function() {
+            return this.getTotalLength();
           })
-          //add mouseover event
-          .on('mouseover', function(d) {	
-            select(this).transition()
-              .duration('50')
-              .attr('opacity', '.65');
-  
-            //div appear on hover
-            div.transition()
-              .duration(50)
-              .style('opacity', 1);
-  
-            let toolInfo = ''; //info to appear on hover
-            if (d.depth === 0) {
-              toolInfo = 
-              '<b>name: </b>' + d.data.name + '<br/>' +
-              '<b>type: </b>' + d.data.type + '<br/>' +
-              '<b>namespace: </b>' + d.data.namespace + '<br/>' +
-              '<b>port: </b>' + d.data.port + '<br/>' +
-              '<b>clusterIP: </b>' + d.data.clusterIP;
-            }
-            else if (d.depth === 1) {
-              toolInfo = 
-              '<b>name: </b>' + d.data.name;
-            }
-            else if (d.depth === 2) {
-              toolInfo = 
-              '<b>name: </b>' + d.data.name + '<br/>' +
-              '<b>namespace: </b>' + d.data.namespace + '<br/>' +
-              '<b>status: </b>' + d.data.status + '<br/>' +
-              '<b>podIP: </b>' + d.data.podIP + '<br/>' +
-              '<b>created: </b>' + d.data.createdAt
-            }
-  
-            div.html(toolInfo) //append info to div
-              .style("left", (event.pageX + 15) + "px") //mouse position
-              .style("top", (event.pageY - 20) + "px");
-            })					
-          .on('mouseout', function(d) {		
-            select(this).transition()
-              .duration('50') 
-              .attr('opacity', '1');
-  
-            //div disappears with mouseout
-            div.transition()
-              .duration(50)
-              .style('opacity', 0);
-            })
-          //node animation
+          .transition()
+          .duration(500)
+          .delay(link => link.source.depth * 500)
+          .attr('stroke-dashoffset', 0);
+
+        //node animation
+        node
           .transition()
           .duration(500)
           .delay(node => node.depth * 300)
           .attr('opacity', 1);
-  
-        node //append texts to nodes  
-          .append("text")
-          .text(function(node) { 
-            if (node.depth === 0) return 'service: ' + node.data.name;
-            if (node.depth === 1) return 'node';
-            if (node.depth === 2) return 'pod';
-          })
-          .attr('opacity', 0)
-          .attr('y', -15)
-          .attr('x', -5)
-          .attr( //make texts appear horizontal
-            'transform',
-            d => {
-              return `rotate(${(( Math.PI/2 - d.x ) * ( 180/Math.PI ))})`;
-            })
-          .attr('text-anchor','middle')
-          //node animation
+        
+        //label animation
+        label
           .transition()
           .duration(500)
           .delay(node => node.depth * 300)
           .attr('opacity', 1);
+      }
       */
 
     }
-  }, [data, dimensions, previouslyRenderedData]);
+  }, [data, dimensions/*, reanimate*/]);
 
   return (
     <div ref={wrapperRef} className='svgWrapper'>
