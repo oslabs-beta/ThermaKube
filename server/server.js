@@ -7,6 +7,7 @@ const cors = require('cors');
 const PodController = require('./controllers/PodController');
 const NodeController = require('./controllers/NodeController');
 const ServiceController = require('./controllers/ServiceController');
+const AlertController = require('./controllers/AlertController');
 
 app.use(cors());
 app.use(express.json());
@@ -27,6 +28,13 @@ app.get('/getServices', ServiceController.getServices, (req, res) => {
   res.status(200).json(res.locals.service);
 });
 
+app.get('/podAlerts', AlertController.getAlerts, (req, res) => {
+  res.status(200).json(res.locals.alerts);
+});
+
+app.post('/podAlerts', AlertController.addAlerts, (req, res) => {
+  res.status(200).json(res.locals.alerts);
+});
 // serve html
 app.use('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../dist/index.html'));
