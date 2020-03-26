@@ -23,19 +23,23 @@ const Home = () => {
           My Cluster
         </Nav.Link>
       </Nav>
+      {/* STARS animation below, probably not going to use it but will keep in case for now*/}
       {/* <div className='heroContainer'>
         <div id='stars'></div>
         <div className='voidContainer'></div>
+        <div className='col1'>
+          <img src={icon} alt='Logo' className='logoMain' />
+          <h1 className='logoName'>ThermaKube</h1>
+        </div>
+        <div className='col2'></div>
         <div id='stars2'></div>
         <div className='voidContainer'></div>
         <div id='stars3'></div>
       </div> */}
       <div className='heroContainer'>
         <div className='col1'>
-          {/* <div className='logoMain'> */}
           <img src={icon} alt='Logo' className='logoMain' />
           <h1 className='logoName'>ThermaKube</h1>
-          {/* </div> */}
         </div>
         <div className='col2'></div>
       </div>

@@ -108,6 +108,7 @@ body {
   width: 100%;
   .col1 {
     background-color: $skyblue;
+    // opacity: 0.9;
     height: 70%;
     width: 100%;
     display: flex;
@@ -143,7 +144,7 @@ body {
   padding: 4em;
 
   .treeSvg {
-    overflow:visible;
+    overflow: visible;
   }
 
   .radialTreeSvg {
@@ -172,7 +173,7 @@ body {
   position: absolute;
   padding: 0.5em;
   width: 12em;
-  font-family: $quicksand;  
+  font-family: $quicksand;
   font-size: 12px;
   background-color: rgba(204, 204, 255, 0.8);
   border: 0px;
