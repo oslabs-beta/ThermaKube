@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Quicksand:400,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand|Teko&display=swap');
 
 $light: #c2dde6;
 $morningsky: #cae4db;
 $skyblue: #f9ffff;
 $mist: #7a9d96;
+$navy: #001e3f;
 $quicksand: 'Quicksand', sans-serif;
 
 html,
@@ -11,6 +12,7 @@ body {
   width: 100%;
   height: 100%;
 }
+
 #container {
   position: absolute;
   top: 0;
@@ -41,6 +43,7 @@ body {
   }
 }
 
+.loginContainer,
 .mainContainer,
 .alertsContainer,
 .visContainer {
@@ -51,6 +54,7 @@ body {
   overflow: auto;
 }
 
+.dashHome,
 .dashCluster,
 .dashTraffic,
 .dashAlerts {
@@ -59,6 +63,7 @@ body {
   font-family: $quicksand;
 }
 
+.homeTitle,
 .podsTitle,
 .alertsTitle,
 .nodeTitle,
@@ -76,13 +81,70 @@ body {
   padding-right: 4em;
 }
 
+// home page css
+.homeContainer {
+  margin: 0;
+  width: 100%;
+  // background-color: $skyblue;
+  font-family: $quicksand;
+  overflow: auto;
+}
+.logoHome {
+  width: 40px;
+  height: 30px;
+}
+#navbarHome {
+  background-color: $navy;
+  padding: 0.5em;
+  .ml-auto,
+  .dashStarted {
+    color: $skyblue;
+  }
+}
+.heroContainer {
+  display: flex;
+  flex-direction: column;
+  height: 800px;
+  width: 100%;
+  .col1 {
+    background-color: $skyblue;
+    // opacity: 0.9;
+    height: 70%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .logoMain {
+      height: 400px;
+      width: 400px;
+    }
+    .logoName {
+      font-size: 150px;
+      letter-spacing: 3px;
+      font-family: 'Teko', sans-serif;
+    }
+  }
+  .col2 {
+    background-color: $navy;
+    height: 30%;
+    width: 100%;
+  }
+}
+// .voidContainer {
+//   background-color: $skyblue !important;
+//   opacity: 0.8;
+//   width: 100%;
+//   height: 500px;
+//   margin-bottom: 80px;
+// }
+
 //visualizer tree
 .svgWrapper {
   margin: 2rem;
   padding: 4em;
 
   .treeSvg {
-    overflow:visible;
+    overflow: visible;
   }
 
   .radialTreeSvg {
@@ -111,7 +173,7 @@ body {
   position: absolute;
   padding: 0.5em;
   width: 12em;
-  font-family: $quicksand;  
+  font-family: $quicksand;
   font-size: 12px;
   background-color: rgba(204, 204, 255, 0.8);
   border: 0px;
