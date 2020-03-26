@@ -65,6 +65,8 @@ const Visualizer = () => {
   useEffect(() => { 
     // fetch service, node, pod info
     const fetchInfo = async () => {
+      // service = []; node = []; pod = [];
+
       const serviceReq = axios.get('/getServices');
       const nodeReq = axios.get('/getNodes');
       const podReq = axios.get('/getPods');
@@ -83,12 +85,23 @@ const Visualizer = () => {
       //setData(data.push(...dataRes)); //doesn't work????
       setData(getServices()); //set data
     };
-    fetchInfo();
+    // fetchInfo();
+    const fetchOnLoad = () => {
+      if (!data[0]) {
+        console.log('First fetch called');
+        fetchInfo();
+      }
+      setInterval(() => {
+        console.log('setInterval called');
+        fetchInfo();
+      }, 5000);
+    };
+    fetchOnLoad();
   }, [])
 
   return (
     <div className='visContainer'>
-      <h4>Pod Visualizer</h4>
+      <h4>Cluster Visualizer</h4>
       <RadialTree data={data}/>
     </div>
   );
