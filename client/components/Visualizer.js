@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RadialTree from './RadialTree';
+// import TestTree from './TestTree';
 
 const Visualizer = () => {
   let [data, setData] = useState([]);
@@ -65,6 +66,8 @@ const Visualizer = () => {
   useEffect(() => { 
     // fetch service, node, pod info
     const fetchInfo = async () => {
+      // service = []; node = []; pod = [];
+
       const serviceReq = axios.get('/getServices');
       const nodeReq = axios.get('/getNodes');
       const podReq = axios.get('/getPods');
@@ -84,35 +87,23 @@ const Visualizer = () => {
       setData(getServices()); //set data
     };
     fetchInfo();
+    // const fetchOnLoad = () => {
+    //   if (!data[0]) {
+    //     console.log('First fetch called');
+    //     fetchInfo();
+    //   }
+    //   setInterval(() => {
+    //     console.log('setInterval called');
+    //     fetchInfo();
+    //   }, 5000);
+    // };
+    // fetchOnLoad();
   }, [])
-
-  //initial data
-  //HARD-CODED TO TEST
-  // const initData = {
-  //   name: 'service-name', namespace: 'default' ,
-  //   children: [
-  //     {
-  //       name: 'node-1', otherinfo: 'other info',
-  //       children: [
-  //         {name: 'node1-pod1', info: 'something'},
-  //         {name: 'node1-pod2', info: 'what' },
-  //       ],
-  //     },
-  //     {
-  //       data: { name: 'node-2'},
-  //       children: [
-  //         { data: {name: 'node2-pod1', info: 'hi'  }},
-  //         { data: {name: 'node2-pod2', info: 'hello'  }},
-  //         { data: {name: 'node2-pod3', info: 'test'  }},
-  //         { data: {name: 'node2-pod4', info: 'test2'  }},
-  //       ],
-  //     },
-  //   ],
-  // };
 
   return (
     <div className='visContainer'>
-      <h4>Pod Visualizer</h4>
+      <h4>Cluster Visualizer</h4>
+      {/* <TestTree data={data}/> */}
       <RadialTree data={data}/>
     </div>
   );
