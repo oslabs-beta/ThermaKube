@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RadialTree from './RadialTree';
+import DashBoard from '../containers/Dashboard';
 
 const Visualizer = () => {
   let [data, setData] = useState([]);
@@ -111,9 +112,12 @@ const Visualizer = () => {
   // };
 
   return (
-    <div className='visContainer'>
-      <h4>Traffic Visualizer</h4>
-      <RadialTree data={data} />
+    <div className='appCont'>
+      <DashBoard />
+      <div className='visContainer'>
+        <h4>Traffic Visualizer</h4>
+        <RadialTree data={data} />
+      </div>
     </div>
   );
 };

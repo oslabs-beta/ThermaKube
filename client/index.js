@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import App from './App.jsx';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles.scss';
+import '../stylesheets/styles.scss';
+// import '../stylesheets/stars.scss';
 
 render(<App />, document.getElementById('container'));
