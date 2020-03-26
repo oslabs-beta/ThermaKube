@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RadialTree from './RadialTree';
 import DashBoard from '../containers/Dashboard';
-// import TestTree from './TestTree';
 
 const Visualizer = () => {
   let [data, setData] = useState([]);
@@ -67,7 +66,7 @@ const Visualizer = () => {
   useEffect(() => {
     // fetch service, node, pod info
     const fetchInfo = async () => {
-      // service = []; node = []; pod = [];
+      service = []; node = []; pod = [];
 
       const serviceReq = axios.get('/getServices');
       const nodeReq = axios.get('/getNodes');
@@ -87,19 +86,20 @@ const Visualizer = () => {
       //setData(data.push(...dataRes)); //doesn't work????
       setData(getServices()); //set data
     };
-    fetchInfo();
-    // const fetchOnLoad = () => {
-    //   if (!data[0]) {
-    //     console.log('First fetch called');
-    //     fetchInfo();
-    //   }
-    //   setInterval(() => {
-    //     console.log('setInterval called');
-    //     fetchInfo();
-    //   }, 5000);
-    // };
-    // fetchOnLoad();
-  }, []);
+    // fetchInfo();
+    const fetchOnLoad = () => {
+      if (!data[0]) {
+        // console.log('First fetch called');
+        fetchInfo();
+      }
+      setInterval(() => {
+        // console.log('setInterval called');
+        fetchInfo();
+      }, 5000);
+    }
+
+    fetchOnLoad();
+  }, [])
 
   return (
     <div className='appCont'>

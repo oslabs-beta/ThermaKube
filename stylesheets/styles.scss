@@ -157,7 +157,7 @@ body {
     stroke-width: 2px;
   }
 
-  .node {
+  .node, .label {
     font-family: $quicksand;
     font-size: 14px;
     font-weight: bold;
