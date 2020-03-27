@@ -6,21 +6,18 @@ import useResizeObserver from './useResizeObserver';
 //rendering logic from:
 //https://github.com/muratkemaldar/using-react-hooks-with-d3/blob/10-hierarchy/src/TreeChart.js
 function compareData(data) {
-
   const ref = useRef();
-  const prev = ref.current;
 
   useEffect(() => {
     ref.current = data;
   });
-  console.log('ref.current', ref.current)
-  console.log('PREV', prev)
 
   //render animation first time
   if (data.length === 0) return true;
   else {
+    if(ref.current.length === 0) return true;
    //if data lengths are same, do not re-render animation
-    if (ref.current.length === prev.length) return false;  
+    if (ref.current.length === data.length) return false;  
   }
   return true;
 }
@@ -37,12 +34,12 @@ const RadialTree = ({ data }) => {
   const dimensions = useResizeObserver(wrapperRef);
   
   // we save data to see if it changed
-  // const reanimate = compareData(data);
+  const reanimate = compareData(data);
 
   // will be called initially and on every data change
   useEffect(() => {
     if (data.length !== 0) { // IF VALID DATA WAS PASSED
-      console.log('data in radialTree', data)
+      // console.log('data in radialTree', data)
       const svg = select(svgRef.current);
 
       // use dimensions from useResizeObserver,
@@ -88,7 +85,7 @@ const RadialTree = ({ data }) => {
         if (d.depth == 1) return '#0788ff'; //nodes - blue
         if (d.depth == 2) return '#ccccff';
       })
-      // .attr('opacity', 1);
+      .attr('opacity', 1);
 
       // nodes
       const node = svg
@@ -96,7 +93,7 @@ const RadialTree = ({ data }) => {
         .data(root.descendants())
         .join('circle') //append circles to nodes
         .attr('class', 'node')
-        // .attr('opacity', 0)
+        .attr('opacity', 0)
         .attr( //angle to radian
           'transform',
           d => `
@@ -165,7 +162,7 @@ const RadialTree = ({ data }) => {
         .data(root.descendants())
         .join('text')
         .attr('class', 'label')
-        // .attr('opacity', 0)
+        .attr('opacity', 0)
         .attr('y', -15)
         .attr('x', -5)
         .attr( //angle to radian, find position THEN rotate texts to be horizontal
@@ -182,9 +179,7 @@ const RadialTree = ({ data }) => {
           if (node.depth === 1) return 'node';
           if (node.depth === 2) return 'pod';
         })
-    
 
-      /*
       console.log('reanimate', reanimate)
       // animation
       if (reanimate) { //do not re-render animation if data is not updated
@@ -212,10 +207,14 @@ const RadialTree = ({ data }) => {
           .delay(node => node.depth * 300)
           .attr('opacity', 1);
       }
-      */
+      else { //else just change visibility to 1
+        enteringAndUpdatingLinks.attr('opacity', 1);
+        node.attr('opacity', 1);
+        label.attr('opacity', 1);
+      }
 
     }
-  }, [data, dimensions/*, reanimate*/]);
+  }, [data, dimensions, reanimate]);
 
   return (
     <div ref={wrapperRef} className='svgWrapper'>
