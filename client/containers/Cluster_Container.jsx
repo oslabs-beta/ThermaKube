@@ -1,8 +1,8 @@
 import React from 'react';
-import Pods from '../components/Pods';
-import Nodes from '../components/Nodes';
-import Services from '../components/Services';
-import DashBoard from './Dashboard';
+import Pods from '../components/cluster/Pods.jsx';
+import Nodes from '../components/cluster/Nodes.jsx';
+import Services from '../components/cluster/Services.jsx';
+import DashBoard from '../components/Dashboard.jsx';
 
 const Main_Container = () => {
   return (

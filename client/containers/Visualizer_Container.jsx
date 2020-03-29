@@ -1,8 +1,8 @@
 //traffic view of kubernetes clusters/individual pods
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import RadialTree from './RadialTree';
-import DashBoard from '../containers/Dashboard';
+import RadialTree from '../components/visualizer/RadialTree.jsx';
+import DashBoard from '../components/Dashboard.jsx';
 
 const Visualizer = () => {
   let [data, setData] = useState([]);
@@ -66,7 +66,9 @@ const Visualizer = () => {
   useEffect(() => {
     // fetch service, node, pod info
     const fetchInfo = async () => {
-      service = []; node = []; pod = [];
+      service = [];
+      node = [];
+      pod = [];
 
       const serviceReq = axios.get('/getServices');
       const nodeReq = axios.get('/getNodes');
@@ -96,10 +98,10 @@ const Visualizer = () => {
         // console.log('setInterval called');
         fetchInfo();
       }, 5000);
-    }
+    };
 
     fetchOnLoad();
-  }, [])
+  }, []);
 
   return (
     <div className='appCont'>
