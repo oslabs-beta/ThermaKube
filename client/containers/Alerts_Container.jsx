@@ -6,7 +6,7 @@ The Status field should be "Running" - any other status will indicate issues wit
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
-import Dashboard from '../containers/Dashboard';
+import Dashboard from '../components/Dashboard.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
