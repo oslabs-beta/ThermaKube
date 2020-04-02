@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Lottie from 'react-lottie';
 import * as animationData from '../assets/cloud-loader.json';
 import * as animationDataDone from '../assets/doneLoading.json';
 
-const Loader = () => {
-  const [done, setDone] = useState(false);
-
-  setTimeout(() => {
-    setDone(true);
-  }, 2900);
-
+const Loader = ({ stillLoading }) => {
+  console.log(stillLoading, 'from loader');
   const defaultOptionsLoading = {
     loop: true,
     autoplay: true,
@@ -39,13 +34,13 @@ const Loader = () => {
   return (
     <div style={container}>
       <h1>Loading cluster data...</h1>
-      {done ? (
+      {stillLoading ? (
         <div>
-          <Lottie options={defaultOptionsDone} height={400} width={400} />
+          <Lottie options={defaultOptionsLoading} height={400} width={400} />
         </div>
       ) : (
         <div>
-          <Lottie options={defaultOptionsLoading} height={400} width={400} />
+          <Lottie options={defaultOptionsDone} height={400} width={400} />
         </div>
       )}
     </div>

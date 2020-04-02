@@ -13,6 +13,7 @@ const Main_Container = () => {
   let [node, setNode] = useState([]);
   let [service, setService] = useState([]);
   let [stillLoading, setStillLoading] = useState(true);
+  let [doneLoading, setDoneLoading] = useState(true);
 
   // getPods, getNodes, getServices:
   // helper functions for formating fetched info for d3 visualization
@@ -89,25 +90,33 @@ const Main_Container = () => {
       //const dataRes = getServices();
       //setData(data.push(...dataRes)); //doesn't work????
       setData(getServices()); //set data
+      stillLoadingTimer = () =>
+        setTimeout(() => {
+          console.log('stillLoadingTimer');
+          setStillLoading(false);
+          doneLoadingTimer();
+        }, 3300);
+      doneLoadingTimer = () => console.log('doneLoadingTimer');
       setTimeout(() => {
-        // console.log('set time out');
-        setStillLoading(false);
-      }, 3400);
+        setDoneLoading(false);
+      }, 800);
+      stillLoadingTimer();
     };
     // fetchInfo();
     const fetchOnLoad = () => {
       if (!data[0]) {
-        // console.log('First fetch called');
+        console.log('First fetch called');
         fetchInfo();
       }
-      setInterval(() => {
-        // console.log('setInterval called');
+      setInt = setInterval(() => {
+        console.log('setInterval called');
         fetchInfo();
       }, 5000);
     };
 
     fetchOnLoad();
-  }, []);
+    return () => clearTimeout(stillLoadingTimer, doneLoadingTimer, setInt);
+  }, [data]);
 
   return (
     <div className='appCont'>
@@ -115,7 +124,7 @@ const Main_Container = () => {
       <div className='mainContainer'>
         {/* <div className='router'></div> */}
         {/* <TestPod /> */}
-        {stillLoading ? (
+        {doneLoading ? (
           <Loader stillLoading={stillLoading} />
         ) : (
           <div>
