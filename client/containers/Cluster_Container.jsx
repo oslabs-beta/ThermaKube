@@ -13,10 +13,9 @@ const Main_Container = () => {
   let [node, setNode] = useState([]);
   let [service, setService] = useState([]);
   let [stillLoading, setStillLoading] = useState(true);
-  let [doneLoading, setDoneLoading] = useState(true);
+  let [doneFetching, setdoneFetching] = useState(false);
 
-  // getPods, getNodes, getServices:
-  // helper functions for formating fetched info for d3 visualization
+  //function to parse info back from /getPods
   function getPods(parent) {
     const podArr = [];
     for (let i = 0; i < pod.length; i++) {
@@ -35,7 +34,7 @@ const Main_Container = () => {
     }
     return podArr;
   }
-
+  //function to parse info back from /getNods and push pods from getPods function
   function getNodes() {
     const nodeArr = [];
     for (let i = 0; i < node.length; i++) {
@@ -48,7 +47,7 @@ const Main_Container = () => {
     }
     return nodeArr;
   }
-
+  //function to parse info back from /getServices and place child nodes on relavant obj
   function getServices() {
     const serviceArr = [];
     for (let i = 0; i < service.length; i++) {
@@ -59,13 +58,15 @@ const Main_Container = () => {
       serviceObj.namespace = service[i].namespace;
       serviceObj.port = service[i].port;
       serviceObj.clusterIP = service[i].clusterIP;
-      //nodes/children related to the service
-      serviceObj.children = getNodes();
+      //only placing children nodes onto kubernetes obj and not load balancer
+      if (serviceObj.type !== 'LoadBalancer') {
+        serviceObj.children = getNodes();
+      }
       serviceArr.push(serviceObj);
     }
     return serviceArr;
   }
-
+  let setInt;
   useEffect(() => {
     // fetch service, node, pod info
     const fetchInfo = async () => {
@@ -87,45 +88,37 @@ const Main_Container = () => {
       setNode(node.push(...nodeRes));
       setPod(pod.push(...podRes));
 
-      //const dataRes = getServices();
-      //setData(data.push(...dataRes)); //doesn't work????
       setData(getServices()); //set data
-      stillLoadingTimer = () =>
-        setTimeout(() => {
-          console.log('stillLoadingTimer');
-          setStillLoading(false);
-          doneLoadingTimer();
-        }, 3300);
-      doneLoadingTimer = () => console.log('doneLoadingTimer');
-      setTimeout(() => {
-        setDoneLoading(false);
-      }, 800);
-      stillLoadingTimer();
+      //data has been fetched and Loader component will through new animation
+      setdoneFetching(true);
     };
-    // fetchInfo();
-    const fetchOnLoad = () => {
+    // fetching data call for initial load and every 3 seconds
+
+    (function fetchOnLoad() {
       if (!data[0]) {
         console.log('First fetch called');
         fetchInfo();
+        console.log('made it through');
       }
+
       setInt = setInterval(() => {
         console.log('setInterval called');
         fetchInfo();
-      }, 5000);
-    };
-
-    fetchOnLoad();
-    return () => clearTimeout(stillLoadingTimer, doneLoadingTimer, setInt);
-  }, [data]);
+      }, 3000);
+    })();
+    //clear settimeout when component is removed from dom
+    return () => clearTimeout(setInt);
+  }, []);
 
   return (
     <div className='appCont'>
       <DashBoard />
       <div className='mainContainer'>
-        {/* <div className='router'></div> */}
-        {/* <TestPod /> */}
-        {doneLoading ? (
-          <Loader stillLoading={stillLoading} />
+        {stillLoading ? (
+          <Loader
+            setStillLoading={setStillLoading}
+            doneFetching={doneFetching}
+          />
         ) : (
           <div>
             <Pods data={data} />
