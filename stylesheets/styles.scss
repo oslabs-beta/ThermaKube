@@ -138,6 +138,40 @@ body {
 //   margin-bottom: 80px;
 // }
 
+//LOGIN PAGE
+.appCont {
+  display: flex;
+  justify-content: center;
+  .loginPage {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    .loginContainer {
+      align-self: center;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      width: 500px;
+      height: 500px;
+      border: 1px solid black;
+      border-radius: 4px;
+      .loginForm {
+        margin: 20px;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        // justify-content: flex-start;
+        .inputName {
+          align-self: flex-start;
+          padding-left: 10px;
+        }
+      }
+    }
+  }
+}
+
 //visualizer tree
 .svgWrapper {
   margin: 2rem;
@@ -157,7 +191,8 @@ body {
     stroke-width: 2px;
   }
 
-  .node, .label {
+  .node,
+  .label {
     font-family: $quicksand;
     font-size: 14px;
     font-weight: bold;
