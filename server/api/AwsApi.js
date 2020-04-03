@@ -8,10 +8,10 @@ let opts = {
 /* input credentials
  */
 
-// let access = {
-//   secretAccessKey: <ACCESS_KEY>
-//   accessKeyId: <KEY_ID>
-// };
+let access = {
+  // secretAccessKey:
+  // accessKeyId:
+};
 const query = aws4.sign(opts, access);
 console.log('opt', query);
 const fetchCluster = async () => {
