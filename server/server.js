@@ -4,6 +4,8 @@ const app = express();
 const PORT = 3000;
 const cors = require('cors');
 
+const { AwsApi } = require('./api/AwsApi');
+
 const PodController = require('./controllers/PodController');
 const NodeController = require('./controllers/NodeController');
 const ServiceController = require('./controllers/ServiceController');
