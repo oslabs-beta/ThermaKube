@@ -154,11 +154,12 @@ body {
       justify-content: center;
       align-items: center;
       width: 500px;
-      height: 500px;
-      border: 1px solid black;
+      height: 600px;
+      border: 1px solid #a4bfce;
       border-radius: 4px;
       .loginForm {
         margin: 20px;
+        margin-top: 0;
         padding: 50px;
         display: flex;
         flex-direction: column;
@@ -167,6 +168,11 @@ body {
           align-self: flex-start;
           padding-left: 10px;
         }
+      }
+      .awsLogo {
+        width: 250px;
+        height: 100px;
+        margin-top: 20px;
       }
     }
   }
