@@ -13,15 +13,15 @@ const Login = () => {
           <label className='inputName'>
             Access Key ID
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='text' />
+            <input type='text' className='awsInput' />
           </label>
           <br />
           <label className='inputName'>
             Secret Access Key &nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='text' />
+            <input type='password' className='awsInput' />
           </label>
           <br />
-          <button>Sign In with AWS</button>
+          <button className='awsInput'>Sign In with AWS</button>
         </form>
         <h6>OR</h6>
         <br />

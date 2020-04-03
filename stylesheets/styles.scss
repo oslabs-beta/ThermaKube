@@ -163,16 +163,18 @@ body {
         padding: 50px;
         display: flex;
         flex-direction: column;
-        // justify-content: flex-start;
         .inputName {
           align-self: flex-start;
           padding-left: 10px;
         }
       }
+      .awsInput:focus {
+        outline: none;
+      }
       .awsLogo {
         width: 250px;
-        height: 100px;
-        margin-top: 20px;
+        height: 80px;
+        margin-top: 50px;
       }
     }
   }
