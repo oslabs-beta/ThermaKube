@@ -5,11 +5,13 @@ let opts = {
   host: 'eks.us-east-1.amazonaws.com',
   path: '/clusters',
 };
+/* input credentials
+ */
 
-let access = {
-  secretAccessKey: '4tMcXNH2S6kFxn7CHOPgEEuHUrUgvB1Iwtuj9wvP',
-  accessKeyId: 'AKIARMJWSBR6H3HAIKW2',
-};
+// let access = {
+//   secretAccessKey: <ACCESS_KEY>
+//   accessKeyId: <KEY_ID>
+// };
 const query = aws4.sign(opts, access);
 console.log('opt', query);
 const fetchCluster = async () => {
