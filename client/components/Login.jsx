@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
 import awsLogo from '../assets/awsLogo.png';
 
 // login page gives the option to authenticate AWS credentials or use current-context
 const Login = () => {
   //hooks for AWS sign in
-  // const [accessID, setAccessID] = useState('');
-  // const [accessKey, setAccessKey] = useState('');
   const [access, setAccess] = useState({
     accessKeyId: '',
     secretAccessKey: '',
@@ -27,39 +26,43 @@ const Login = () => {
       <div className='loginPage'>
         <div className='loginContainer'>
           <img src={awsLogo} className='awsLogo' />
-          <form className='loginForm' onSubmit={handleSubmit}>
-            <label className='inputName'>
-              Access Key ID
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input
+          <Form className='loginForm' onSubmit={handleSubmit}>
+            <Form.Group controlId='formAccessId' className='inputAccess'>
+              <Form.Label>Access Key ID</Form.Label>
+              <Form.Control
                 type='text'
-                className='awsInput'
+                placeholder='Enter Access Key Id'
                 value={accessKeyId}
                 onChange={(e) =>
                   setAccess({ ...access, accessKeyId: e.target.value })
                 }
               />
-            </label>
-            <br />
-            <label className='inputName'>
-              Secret Access Key &nbsp;&nbsp;&nbsp;&nbsp;
-              <input
+              <Form.Text className='text-muted'>
+                {/* We'll never share your email with anyone else. */}
+              </Form.Text>
+            </Form.Group>
+            <Form.Group controlId='formAccessKey' className='inputAccess'>
+              <Form.Label>Secret Access Key</Form.Label>
+              <Form.Control
                 type='password'
-                className='awsInput'
+                placeholder='Access Key'
                 value={secretAccessKey}
                 onChange={(e) =>
                   setAccess({ ...access, secretAccessKey: e.target.value })
                 }
               />
-            </label>
+            </Form.Group>
             <br />
-            <button className='awsInput'>Sign In with AWS</button>
-          </form>
-          <h6>OR</h6>
-          <br />
-          <Link to='/cluster' className='contextLink'>
-            Use Configured Current Context
-          </Link>
+            <Button variant='primary' type='submit'>
+              Sign In with AWS
+            </Button>
+            <br />
+            <h6>OR</h6>
+            <br />
+            <Link to='/cluster' className='contextLink'>
+              Use Configured Current Context
+            </Link>
+          </Form>
         </div>
       </div>
     </>
