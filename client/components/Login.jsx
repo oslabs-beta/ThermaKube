@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import awsLogo from '../assets/awsLogo.png';
+import axios from 'axios';
+import aws4 from 'aws4';
 
 // login page gives the option to authenticate AWS credentials or use current-context
 const Login = () => {
@@ -9,15 +11,50 @@ const Login = () => {
   const [access, setAccess] = useState({
     accessKeyId: '',
     secretAccessKey: '',
+    region: '',
   });
   const [auth, setAuth] = useState(false);
 
   //function to authenticate credentials
-  const handleSubmit = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     console.log('accessInfo', access);
-    setAuth(true);
+    // make a request to the aws api with credentials. if data is returned then redirect.
+    const accessData = await axios.post('/aws/clusters', {
+      access,
+    });
+    console.log('aD', accessData);
+    if (accessData) {
+      setAuth(true);
+    } else {
+      console.log('none');
+    }
   };
-  const { accessKeyId, secretAccessKey } = access;
+  const handleCreds = async (event) => {
+    event.preventDefault();
+    console.log('in handle creds');
+    const creds = {
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey,
+    };
+    const options = {
+      host: `eks.${region}.amazonaws.com`,
+      path: '/clusters',
+    };
+    console.log('opt', options);
+    const query = aws4.sign(options, creds);
+    try {
+      console.log('q', query);
+      await axios(
+        `https://${options.host}/${options.path}`,
+        query
+      ).then((res) => console.log('success'));
+      // console.log('clusterData', fetchCluster);
+    } catch (err) {
+      return 'error in aws middleware';
+    }
+  };
+  const { accessKeyId, secretAccessKey, region } = access;
 
   return (
     <>
@@ -26,7 +63,7 @@ const Login = () => {
       <div className='loginPage'>
         <div className='loginContainer'>
           <img src={awsLogo} className='awsLogo' />
-          <Form className='loginForm' onSubmit={handleSubmit}>
+          <Form className='loginForm'>
             <Form.Group controlId='formAccessId' className='inputAccess'>
               <Form.Label>Access Key ID</Form.Label>
               <Form.Control
@@ -52,8 +89,39 @@ const Login = () => {
                 }
               />
             </Form.Group>
+            <Form.Group controlId='formRegion' className='inputAccess'>
+              <Form.Label>Region Code</Form.Label>
+              <Form.Control
+                as='select'
+                value={region}
+                onChange={(e) =>
+                  setAccess({ ...access, region: e.target.value })
+                }
+              >
+                <option>Choose...</option>
+                <option>us-east-1</option>
+                <option>us-east-2</option>
+                <option>us-west-2</option>
+                <option>ca-central-1</option>
+                <option>ap-east-1</option>
+                <option>ap-south-1</option>
+                <option>ap-northeast-1</option>
+                <option>ap-northeast-2</option>
+                <option>ap-southeast-1</option>
+                <option>ap-southeast-2</option>
+                <option>cn-north-1</option>
+                <option>cn-northwest-1</option>
+                <option>eu-central-1</option>
+                <option>eu-west-1</option>
+                <option>eu-west-2</option>
+                <option>eu-west-3</option>
+                <option>eu-north-1</option>
+                <option>me-south-1</option>
+                <option>sa-east-1</option>
+              </Form.Control>
+            </Form.Group>
             <br />
-            <Button variant='primary' type='submit'>
+            <Button variant='primary' type='submit' onClick={handleSubmit}>
               Sign In with AWS
             </Button>
             <br />
