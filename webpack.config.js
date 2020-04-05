@@ -9,6 +9,17 @@ module.exports = {
     filename: 'main.js',
     publicPath: '/',
   },
+  devServer: {
+    proxy: [
+      {
+        context: ['/aws', '/api'],
+        target: 'http://localhost:3000',
+        secure: false,
+      },
+    ],
+    hot: true,
+    historyApiFallback: true,
+  },
   module: {
     rules: [
       {
@@ -46,19 +57,5 @@ module.exports = {
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
-  },
-  devServer: {
-    // publicPath: "/",
-    // port: 8080,
-    proxy: {
-      '/': 'http://localhost:3000',
-    },
-    // proxy: {
-    //   "/api/*": {
-    //     target: "http://localhost:3000",
-    //     secure: false
-    //   },
-    // },
-    historyApiFallback: true,
   },
 };

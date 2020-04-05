@@ -18,7 +18,7 @@ const Alerts = () => {
   useEffect(() => {
     const fetchPods = async () => {
       // axios request to server side
-      const result = await axios.get('/podAlerts');
+      const result = await axios.get('/api/podAlerts');
       alerts = []; //empty the alerts before updating with fetched data
       setAlerts(alerts.push(result.data));
       console.log('alerts', alerts);
