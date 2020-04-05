@@ -74,9 +74,9 @@ const Main_Container = () => {
       node = [];
       pod = [];
 
-      const serviceReq = axios.get('/getServices');
-      const nodeReq = axios.get('/getNodes');
-      const podReq = axios.get('/getPods');
+      const serviceReq = axios.get('/api/services');
+      const nodeReq = axios.get('/api/nodes');
+      const podReq = axios.get('/api/pods');
 
       const res = await axios.all([serviceReq, nodeReq, podReq]);
 

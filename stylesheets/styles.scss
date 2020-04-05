@@ -154,7 +154,7 @@ body {
       justify-content: center;
       align-items: center;
       width: 500px;
-      height: 600px;
+      height: 700px;
       border: 1px solid #a4bfce;
       border-radius: 4px;
       .loginForm {
@@ -174,7 +174,10 @@ body {
       .awsLogo {
         width: 250px;
         height: 80px;
-        margin-top: 50px;
+        margin-top: 40px;
+      }
+      .inputAccess {
+        text-align: left;
       }
     }
   }
