@@ -6,16 +6,18 @@ import Visualizer from './containers/Visualizer_Container.jsx';
 import Alerts from './containers/Alerts_Container.jsx';
 import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
+import Eks from './components/Eks.jsx';
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <div className='appCont' id='app'>
+        <div className='appContainer' id='app'>
           {/* <Dashboard /> */}
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/login' component={Login} />
+            <Route exact path='/eks' component={Eks} />
             <Route exact path='/cluster' component={Cluster_Container} />
             <Route exact path='/visualizer' component={Visualizer} />
             <Route exact path='/alerts' component={Alerts} />
