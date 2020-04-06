@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Linkedin, ReactJs } from '@icons-pack/react-simple-icons';
+import { Github, Linkedin } from '@icons-pack/react-simple-icons';
 
 const Team = () => {
   const members = [
