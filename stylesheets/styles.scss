@@ -74,7 +74,6 @@ body {
 //////////////
 .homeContainer {
   width: 100%;
-  // font-family: $quicksand;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -129,22 +128,18 @@ body {
   }
 }
 
-.featuresContainer {
+.featuresContainer, .contributeContainer, .teamContainer {
   padding: 2em 0 5em 0;
-}
-
-.contributeContainer {
-  padding: 2em 0 5em 0;
-}
-
-.teamContainer {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.teamContainer {
   justify-content: space-evenly;
   background-color: $navy;
   width: 100%;
-  padding: 2em 0 5em 0;
   color: white;
 
   .profileGrp {
@@ -164,7 +159,6 @@ body {
       a { //github and linkedin icons
         padding: .4em;
       }
-
     }
   }
 }
