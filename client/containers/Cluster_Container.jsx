@@ -58,10 +58,16 @@ const Main_Container = () => {
       serviceObj.namespace = service[i].namespace;
       serviceObj.port = service[i].port;
       serviceObj.clusterIP = service[i].clusterIP;
+
       //only placing children nodes onto kubernetes obj and not load balancer
-      if (serviceObj.type !== 'LoadBalancer') {
-        serviceObj.children = getNodes();
-      }
+      // if (serviceObj.type !== 'LoadBalancer') {
+      //   serviceObj.children = getNodes();
+      // }
+
+      /**
+       * above code wouldn't work with AWS current-context
+       */
+      serviceObj.children = getNodes();
       serviceArr.push(serviceObj);
     }
     return serviceArr;

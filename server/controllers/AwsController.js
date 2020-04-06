@@ -25,7 +25,7 @@ AwsController.cluster = async (req, res, next) => {
       query
     );
     console.log('data', fetchCluster.data);
-    res.locals.clusters = fetchCluster.data;
+    res.locals.clusters = fetchCluster.data.clusters;
     return next();
   } catch (err) {
     return 'error in aws middleware';
