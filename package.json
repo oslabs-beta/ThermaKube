@@ -17,6 +17,7 @@
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-react": "^7.8.3",
+    "@icons-pack/react-simple-icons": "^2.6.0",
     "axios": "^0.19.2",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.2",
@@ -52,6 +53,7 @@
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0-beta.17",
     "react-dom": "^16.13.0",
+    "react-github-btn": "^1.1.1",
     "react-lottie": "^1.2.3",
     "react-router-dom": "^5.1.2",
     "reactstrap": "^8.4.1"
