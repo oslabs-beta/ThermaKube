@@ -7,7 +7,7 @@ import Services from '../components/cluster/Services.jsx';
 import DashBoard from '../components/Dashboard.jsx';
 import Loader from '../components/Loader.jsx';
 
-const Main_Container = () => {
+const Cluster_Container = () => {
   let [data, setData] = useState([]);
   let [pod, setPod] = useState([]);
   let [node, setNode] = useState([]);
@@ -58,10 +58,16 @@ const Main_Container = () => {
       serviceObj.namespace = service[i].namespace;
       serviceObj.port = service[i].port;
       serviceObj.clusterIP = service[i].clusterIP;
+
       //only placing children nodes onto kubernetes obj and not load balancer
-      if (serviceObj.type !== 'LoadBalancer') {
-        serviceObj.children = getNodes();
-      }
+      // if (serviceObj.type !== 'LoadBalancer') {
+      //   serviceObj.children = getNodes();
+      // }
+
+      /**
+       * above code wouldn't work with AWS current-context
+       */
+      serviceObj.children = getNodes();
       serviceArr.push(serviceObj);
     }
     return serviceArr;
@@ -131,4 +137,4 @@ const Main_Container = () => {
   );
 };
 
-export default Main_Container;
+export default Cluster_Container;

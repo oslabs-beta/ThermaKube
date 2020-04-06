@@ -14,6 +14,7 @@ const Login = () => {
     region: '',
   });
   const [auth, setAuth] = useState(false);
+  const [clusters, setClusters] = useState([]);
 
   //function to authenticate credentials
   const handleSubmit = async (event) => {
@@ -25,41 +26,26 @@ const Login = () => {
     });
     console.log('aD', accessData);
     if (accessData) {
+      setClusters(accessData.data);
       setAuth(true);
     } else {
       console.log('none');
     }
   };
-  const handleCreds = async (event) => {
-    event.preventDefault();
-    console.log('in handle creds');
-    const creds = {
-      accessKeyId: accessKeyId,
-      secretAccessKey: secretAccessKey,
-    };
-    const options = {
-      host: `eks.${region}.amazonaws.com`,
-      path: '/clusters',
-    };
-    console.log('opt', options);
-    const query = aws4.sign(options, creds);
-    try {
-      console.log('q', query);
-      await axios(
-        `https://${options.host}/${options.path}`,
-        query
-      ).then((res) => console.log('success'));
-      // console.log('clusterData', fetchCluster);
-    } catch (err) {
-      return 'error in aws middleware';
-    }
-  };
+
   const { accessKeyId, secretAccessKey, region } = access;
 
   return (
     <>
       {/* if authenticated, direct user to cluster page */}
-      {auth ? <Redirect to='/cluster' /> : null}
+      {auth ? (
+        <Redirect
+          to={{
+            pathname: '/eks',
+            state: { data: clusters, credentials: access },
+          }}
+        />
+      ) : null}
       <div className='loginPage'>
         <div className='loginContainer'>
           <img src={awsLogo} className='awsLogo' />

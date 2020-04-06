@@ -6,10 +6,12 @@ const PodController = {};
 // middleware to get pods upon loading the home page
 PodController.getPods = (req, res, next) => {
   // grabbing data from kube api
-  kube.listNamespacedPod('default').then(data => {
+  kube.listNamespacedPod('default').then((data) => {
     // create new object with retrieved data - result will now containe pod name, namespace, status, ip address, and createdAt
+    // console.log('data', data);
     const result = new PodQuery(data);
     const podArray = [];
+    // console.log('result', result);
     for (let i = 0; i < result.name.length; i++) {
       let obj = {
         name: result.name[i],
@@ -21,6 +23,7 @@ PodController.getPods = (req, res, next) => {
         labels: result.labels[i],
       };
       podArray.push(obj);
+      // console.log('array', podArray);
     }
     // console.log('podArr', podArray);
     // store in res.locals
