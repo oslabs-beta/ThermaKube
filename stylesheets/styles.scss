@@ -1,11 +1,16 @@
-@import url('https://fonts.googleapis.com/css?family=Quicksand|Teko&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans&family=Quicksand&family=Teko&display=swap');
 
+//colors
 $light: #c2dde6;
 $morningsky: #cae4db;
 $skyblue: #f9ffff;
 $mist: #7a9d96;
 $navy: #001e3f;
+//fonts
 $quicksand: 'Quicksand', sans-serif;
+$teko: 'Teko', sans-serif;
+$openSans: 'Open Sans', sans-serif;
+$lato: 'Lato', sans-serif;
 
 html,
 body {
@@ -13,19 +18,35 @@ body {
   height: 100%;
 }
 
+//Container for whole page
 #container {
+  display: flex;
   position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;
+  // width: 200vh;
   height: 100%;
-  display: flex;
-}
-.appCont {
-  display: flex;
-  width: 200vh;
+  font-family: $quicksand;
 }
 
+//for Landing page
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+//for My Cluster page
+.appCont {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+//Dashboard/left navbar
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -43,6 +64,116 @@ body {
   }
 }
 
+//Top navbar
+.topNavbar {
+  //width: 100%;
+}
+
+//////////////
+//Home page
+//////////////
+.homeContainer {
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 { //headers for each containers in home
+    font-family: $teko;
+    font-size: 50px;
+  }
+}
+
+#navbarHome {
+  background-color: $navy;
+  padding: 0.5em;
+  .ml-auto,
+  .dashStarted {
+    color: $skyblue;
+  }
+  .logoHome {
+    width: 40px;
+    height: 30px;
+  }
+}
+
+// .heroContainer, .featuresContainer,
+
+.heroContainer {
+  padding: 5em 0 5em 0;
+
+  .col1 {
+    background-color: $skyblue;
+    // opacity: 0.9;
+    height: 70%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logoMain { //logo img
+      height: 400px;
+    }
+  }
+  .logoName {
+    font-size: 100px;
+    font-family: $teko;
+    letter-spacing: 2px;
+  }
+  .col2 {
+    background-color: $navy;
+    height: 30%;
+    width: 100%;
+  }
+}
+
+
+
+.featuresContainer, .contributeContainer, .teamContainer {
+  padding: 8em 0 8em 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  a { //github and linkedin icons
+    padding: .4em;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
+}
+
+.teamContainer {
+  justify-content: space-evenly;
+  background-color: $navy;
+  width: 100%;
+  color: white;
+
+  .profileGrp {
+    display: flex;
+    margin-top: 2em;
+
+    .member {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 2em 0 2em;
+
+      .teamImg {
+        width: 150px;
+      }
+    }
+  }
+}
+
+
+//////////////
+//Cluster page
+//////////////
+//Containers for different pages - Login, Cluster, Alerts, Traffic
 .loginContainer,
 .mainContainer,
 .alertsContainer,
@@ -50,17 +181,18 @@ body {
   width: 100%;
   background-color: $skyblue;
   padding-top: 1.2em;
-  font-family: $quicksand;
+  // font-family: $quicksand;
   overflow: auto;
 }
 
+//Cluster + Alerts table properties
 .dashHome,
 .dashCluster,
 .dashTraffic,
 .dashAlerts {
   color: white;
   font-size: large;
-  font-family: $quicksand;
+  // font-family: $quicksand;
 }
 
 .homeTitle,
@@ -81,55 +213,6 @@ body {
   padding-right: 4em;
 }
 
-// home page css
-.homeContainer {
-  margin: 0;
-  width: 100%;
-  // background-color: $skyblue;
-  font-family: $quicksand;
-  overflow: auto;
-}
-.logoHome {
-  width: 40px;
-  height: 30px;
-}
-#navbarHome {
-  background-color: $navy;
-  padding: 0.5em;
-  .ml-auto,
-  .dashStarted {
-    color: $skyblue;
-  }
-}
-.heroContainer {
-  display: flex;
-  flex-direction: column;
-  height: 800px;
-  width: 100%;
-  .col1 {
-    background-color: $skyblue;
-    // opacity: 0.9;
-    height: 70%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .logoMain {
-      height: 400px;
-      width: 400px;
-    }
-    .logoName {
-      font-size: 150px;
-      letter-spacing: 3px;
-      font-family: 'Teko', sans-serif;
-    }
-  }
-  .col2 {
-    background-color: $navy;
-    height: 30%;
-    width: 100%;
-  }
-}
 // .voidContainer {
 //   background-color: $skyblue !important;
 //   opacity: 0.8;
@@ -139,58 +222,51 @@ body {
 // }
 
 //LOGIN PAGE
-.appCont {
+.loginPage {
   display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: center;
   justify-content: center;
-  .loginPage {
-    display: flex;
-    flex-direction: column;
+  .loginContainer {
     align-self: center;
-    align-items: center;
+    text-align: center;
     justify-content: center;
-    .loginContainer {
-      align-self: center;
-      text-align: center;
-      justify-content: center;
-      align-items: center;
-      width: 500px;
-      height: 700px;
-      border: 1px solid #a4bfce;
-      border-radius: 4px;
-      .loginForm {
-        margin: 20px;
-        margin-top: 0;
-        padding: 50px;
-        display: flex;
-        flex-direction: column;
-        .inputName {
-          align-self: flex-start;
-          padding-left: 10px;
-        }
+    align-items: center;
+    width: 500px;
+    height: 700px;
+    border: 1px solid #a4bfce;
+    border-radius: 4px;
+    .loginForm {
+      margin: 20px;
+      margin-top: 0;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      .inputName {
+        align-self: flex-start;
+        padding-left: 10px;
       }
-      .awsInput:focus {
-        outline: none;
-      }
-      .awsLogo {
-        width: 250px;
-        height: 80px;
-        margin-top: 40px;
-      }
-      .inputAccess {
-        text-align: left;
-      }
+    }
+    .awsInput:focus {
+      outline: none;
+    }
+    .awsLogo {
+      width: 250px;
+      height: 80px;
+      margin-top: 40px;
+    }
+    .inputAccess {
+      text-align: left;
     }
   }
 }
+
 
 //visualizer tree
 .svgWrapper {
   margin: 2rem;
   padding: 4em;
-
-  .treeSvg {
-    overflow: visible;
-  }
 
   .radialTreeSvg {
     overflow: visible;
