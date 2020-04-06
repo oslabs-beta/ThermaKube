@@ -46,7 +46,7 @@ body {
   height: 100%;
 }
 
-//Dashboard
+//Dashboard/left navbar
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -128,6 +128,8 @@ body {
   }
 }
 
+
+
 .featuresContainer, .contributeContainer, .teamContainer {
   padding: 8em 0 8em 0;
   width: 100%;
@@ -168,6 +170,9 @@ body {
 }
 
 
+//////////////
+//Cluster page
+//////////////
 //Containers for different pages - Login, Cluster, Alerts, Traffic
 .loginContainer,
 .mainContainer,
