@@ -7,7 +7,7 @@ import Services from '../components/cluster/Services.jsx';
 import DashBoard from '../components/Dashboard.jsx';
 import Loader from '../components/Loader.jsx';
 
-const Main_Container = () => {
+const Cluster_Container = () => {
   let [data, setData] = useState([]);
   let [pod, setPod] = useState([]);
   let [node, setNode] = useState([]);
@@ -137,4 +137,4 @@ const Main_Container = () => {
   );
 };
 
-export default Main_Container;
+export default Cluster_Container;

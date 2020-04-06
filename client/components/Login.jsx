@@ -39,7 +39,12 @@ const Login = () => {
     <>
       {/* if authenticated, direct user to cluster page */}
       {auth ? (
-        <Redirect to={{ pathname: '/eks', state: { data: clusters } }} />
+        <Redirect
+          to={{
+            pathname: '/eks',
+            state: { data: clusters, credentials: access },
+          }}
+        />
       ) : null}
       <div className='loginPage'>
         <div className='loginContainer'>
