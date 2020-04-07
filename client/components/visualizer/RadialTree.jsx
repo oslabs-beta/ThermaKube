@@ -9,7 +9,7 @@ function compareData(data) {
   const ref = useRef();
 
   useEffect(() => {
-    ref.current = data;
+    ref.current = data[0];
   });
 
   //render animation first time

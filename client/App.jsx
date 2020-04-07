@@ -1,31 +1,33 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useLocation,
+} from 'react-router-dom';
 import Dashboard from './components/Dashboard.jsx';
-import Cluster_Container from './containers/Cluster_Container';
-import Visualizer from './containers/Visualizer_Container.jsx';
-import Alerts from './containers/Alerts_Container.jsx';
+import Main_Container from './containers/Main_Container';
+
 import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
 import Eks from './components/Eks.jsx';
 
-class App extends Component {
-  render() {
-    return (
-      <Router>
-        <div className='appContainer' id='app'>
-          {/* <Dashboard /> */}
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/eks' component={Eks} />
-            <Route exact path='/cluster' component={Cluster_Container} />
-            <Route exact path='/visualizer' component={Visualizer} />
-            <Route exact path='/alerts' component={Alerts} />
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
-}
+const App = () => {
+  const path = window.location.pathname;
+  return (
+    <Router>
+      <div className='appContainer' id='app'>
+        {path === '/login' || path === '/eks' ? <div></div> : <Dashboard />}
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/eks' component={Eks} />
+          <Route path='/:id' children={<Main_Container path={path} />} />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
 
 export default App;

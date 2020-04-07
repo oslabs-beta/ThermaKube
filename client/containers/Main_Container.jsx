@@ -1,18 +1,24 @@
-//traffic view of kubernetes clusters/individual pods
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as useParams } from 'react-router-dom';
 import axios from 'axios';
-import RadialTree from '../components/visualizer/RadialTree.jsx';
-import DashBoard from '../components/Dashboard.jsx';
 
-const Visualizer = props => {
-  console.log(props, 'dataFrom');
+import Loader from '../components/Loader.jsx';
+import RadialTree from './Visualizer_Container.jsx';
+import Alerts from './Alerts_Container.jsx';
+import Cluster from './Cluster_Container.jsx';
+
+const Main_Container = ({ path }) => {
   let [data, setData] = useState([]);
   let [pod, setPod] = useState([]);
   let [node, setNode] = useState([]);
   let [service, setService] = useState([]);
+  let [stillLoading, setStillLoading] = useState(true);
+  let [doneFetching, setdoneFetching] = useState(false);
 
-  // getPods, getNodes, getServices:
-  // helper functions for formating fetched info for d3 visualization
+  // let { id } = useParams();
+  // console.log(id);
+  console.log(path);
+  //function to parse info back from /getPods
   function getPods(parent) {
     const podArr = [];
     for (let i = 0; i < pod.length; i++) {
@@ -31,25 +37,23 @@ const Visualizer = props => {
     }
     return podArr;
   }
-
+  //function to parse info back from /getNods and push pods from getPods function
   function getNodes() {
     const nodeArr = [];
     for (let i = 0; i < node.length; i++) {
       const nodeObj = {};
       nodeObj.name = node[i].name;
+      nodeObj.cpu = node[i].cpu;
       //pods/children related to the node
       nodeObj.children = getPods(node[i].name);
       nodeArr.push(nodeObj);
     }
     return nodeArr;
   }
-
+  //function to parse info back from /getServices and place child nodes on relavant obj
   function getServices() {
     const serviceArr = [];
     for (let i = 0; i < service.length; i++) {
-      //skip the clusterIP service for now
-      if (service[i].type === 'ClusterIP') continue;
-
       const serviceObj = {};
       //copy all info from services into serviceObj
       serviceObj.name = service[i].name;
@@ -57,13 +61,23 @@ const Visualizer = props => {
       serviceObj.namespace = service[i].namespace;
       serviceObj.port = service[i].port;
       serviceObj.clusterIP = service[i].clusterIP;
-      //nodes/children related to the service
+
+      //only placing children nodes onto kubernetes obj and not load balancer
+      // if (serviceObj.type !== 'LoadBalancer') {
+      //   serviceObj.children = getNodes();
+      // }
+
+      /**
+       * above code wouldn't work with AWS current-context
+       */
       serviceObj.children = getNodes();
+
       serviceArr.push(serviceObj);
     }
     return serviceArr;
   }
 
+  let setInt;
   useEffect(() => {
     // fetch service, node, pod info
     const fetchInfo = async () => {
@@ -85,35 +99,46 @@ const Visualizer = props => {
       setNode(node.push(...nodeRes));
       setPod(pod.push(...podRes));
 
-      //const dataRes = getServices();
-      //setData(data.push(...dataRes)); //doesn't work????
       setData(getServices()); //set data
-      console.log(data, 'data source');
+      //data has been fetched and Loader component will through new animation
+      setdoneFetching(true);
     };
-    // fetchInfo();
-    const fetchOnLoad = () => {
-      if (!data[0]) {
-        // console.log('First fetch called');
-        fetchInfo();
-      }
-      setInterval(() => {
-        // console.log('setInterval called');
-        fetchInfo();
-      }, 5000);
-    };
+    // fetching data call for initial load and every 3 seconds
 
-    fetchOnLoad();
-  }, []);
+    (function fetchOnLoad() {
+      if (!data[0]) {
+        console.log('First fetch called');
+        fetchInfo();
+        console.log('made it through');
+      }
+
+      setInt = setInterval(() => {
+        console.log('setInterval called');
+        fetchInfo();
+      }, 3000);
+    })();
+    //clear settimeout when component is removed from dom
+    return () => clearTimeout(setInt);
+  }, [data, path]);
 
   return (
     <div className='appCont'>
-      <DashBoard />
-      <div className='visContainer'>
-        <h4>Traffic Visualizer</h4>
-        <RadialTree data={data} />
+      <div className='mainContainer'>
+        {stillLoading ? (
+          <Loader
+            setStillLoading={setStillLoading}
+            doneFetching={doneFetching}
+          />
+        ) : path === '/visualizer' ? (
+          <RadialTree data={data} />
+        ) : path === '/alerts' ? (
+          <Alerts />
+        ) : (
+          <Cluster dataFrom={data} />
+        )}
       </div>
     </div>
   );
 };
 
-export default Visualizer;
+export default Main_Container;

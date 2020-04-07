@@ -56,23 +56,20 @@ const Alerts = () => {
   }, []);
 
   return (
-    <div className='appCont'>
-      <Dashboard />
-      <div className='alertsContainer'>
-        <h4 className='alertsTitle'>Alerts</h4>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Pod Name</th>
-              <th>Namespace</th>
-              <th>Status</th>
-              <th>Pod IP</th>
-              <th>Time</th>
-            </tr>
-          </thead>
-          {table}
-        </Table>
-      </div>
+    <div className='mainContainer'>
+      <h4 className='alertsTitle'>Alerts</h4>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Pod Name</th>
+            <th>Namespace</th>
+            <th>Status</th>
+            <th>Pod IP</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        {table}
+      </Table>
     </div>
   );
 };
