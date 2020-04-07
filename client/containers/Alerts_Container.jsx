@@ -56,7 +56,7 @@ const Alerts = () => {
   }, []);
 
   return (
-    <div className='mainContainer'>
+    <div className='alertsContainer'>
       {table[0] && (
         <div>
           <h4 className='alertsTitle'>Alerts</h4>
