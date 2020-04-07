@@ -3,6 +3,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 import icon from '../assets/icon.png';
 import white from '../assets/whiteLogo.png';
 
+import Nav_Container from '../containers/Nav_Container.jsx';
 import Dashboard from '../components/Dashboard.jsx';
 import Hero from './home/Hero.jsx';
 import Features from './home/Features.jsx';

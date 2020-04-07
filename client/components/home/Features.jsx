@@ -2,7 +2,7 @@ import React from 'react';
 
 const Features = () => {
   return (
-    <section className='featuresContainer'>
+    <section id='features' className='featuresContainer'>
       <h2>Visualize Your Kubernetes Clusters</h2>
       <h4>Why Use Us?</h4>
       <p>
