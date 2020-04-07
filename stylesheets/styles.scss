@@ -21,6 +21,7 @@ body {
 //Container for whole page
 #container {
   display: flex;
+  flex-direction: column;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -35,15 +36,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
-  width: 100%;
 }
 
 //for My Cluster page
 .appCont {
   display: flex;
   flex-direction: row;
-  height: 100%;
 }
 
 //Dashboard/left navbar
@@ -62,11 +60,6 @@ body {
   .nav-link {
     margin: 1em 0 0 0; //top right bottom left
   }
-}
-
-//Top navbar
-.topNavbar {
-  width: 100%;
 }
 
 //////////////
