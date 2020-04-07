@@ -96,6 +96,18 @@ body {
     width: 40px;
     height: 30px;
   }
+  .featuresScroll {
+    color: white;
+    padding: 0.5em 1.5em;
+  }
+  .contributeScroll {
+    color: white;
+    padding: 0.5em 1.5em;
+  }
+  .teamScroll {
+    color: white;
+    padding: 0.5em 1.5em;
+  }
 }
 
 // .heroContainer, .featuresContainer,
@@ -125,6 +137,10 @@ body {
     background-color: $navy;
     height: 30%;
     width: 100%;
+  }
+  .github-buttons {
+    display: flex;
+    justify-content: center;
   }
 }
 

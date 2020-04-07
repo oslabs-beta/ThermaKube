@@ -16,17 +16,17 @@ const Team = () => {
     {
       name: 'Clara Kim',
       github: 'https://github.com/clarakm',
-      linkedin: 'https://www.linkedin.com/in/'
+      linkedin: 'https://www.linkedin.com/in/clarayhkim/'
     },
     {
       name: 'Nick Primuth',
       github: 'https://github.com/NickPrimuth',
-      linkedin: 'https://www.linkedin.com/in/'
+      linkedin: 'https://www.linkedin.com/in/nick-primuth/'
     },
     {
       name: 'Kritika Sah',
       github: 'https://github.com/hellokritty',
-      linkedin: 'https://www.linkedin.com/in/'
+      linkedin: 'https://www.linkedin.com/in/kritikasah/'
     },
   ]
 
@@ -40,10 +40,10 @@ const Team = () => {
         </img>
         <h5>{mem.name}</h5>
         <span>
-          <a href={mem.github}>
+          <a href={mem.github} target='_blank'>
             <Github color="white" size={28}/>
           </a>
-          <a href={mem.linkedin}>
+          <a href={mem.linkedin} target='_blank'>
             <Linkedin color="white" size={28} />
           </a>
         </span>
@@ -52,7 +52,7 @@ const Team = () => {
   })
 
   return (
-    <section className='teamContainer'>
+    <section id='team' className='teamContainer'>
       <h2>ThermaKube Team</h2>
       <div className='profileGrp'>
         {teamArr}
