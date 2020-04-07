@@ -9,6 +9,8 @@ import Alerts_Container from './Alerts_Container.jsx';
 import Cluster_Container from './Cluster_Container.jsx';
 
 const Main_Container = ({ path }) => {
+  //data to pass to children | pod, node, and service will fetched and put into data
+  //stillLoading and donFetching at booleans to check check if loading is finalized and throw appropriate loader
   let [data, setData] = useState([]);
   let [pod, setPod] = useState([]);
   let [node, setNode] = useState([]);
@@ -16,8 +18,6 @@ const Main_Container = ({ path }) => {
   let [stillLoading, setStillLoading] = useState(true);
   let [doneFetching, setdoneFetching] = useState(false);
 
-  // let { id } = useParams();
-  // console.log(id);
   //function to parse info back from /getPods
   function getPods(parent) {
     const podArr = [];
@@ -61,22 +61,13 @@ const Main_Container = ({ path }) => {
       serviceObj.namespace = service[i].namespace;
       serviceObj.port = service[i].port;
       serviceObj.clusterIP = service[i].clusterIP;
-
-      //only placing children nodes onto kubernetes obj and not load balancer
-      // if (serviceObj.type !== 'LoadBalancer') {
-      //   serviceObj.children = getNodes();
-      // }
-
-      /**
-       * above code wouldn't work with AWS current-context
-       */
       serviceObj.children = getNodes();
 
       serviceArr.push(serviceObj);
     }
     return serviceArr;
   }
-
+  //
   let setInt;
   useEffect(() => {
     // fetch service, node, pod info
@@ -118,7 +109,7 @@ const Main_Container = ({ path }) => {
       }, 3000);
     })();
     //clear settimeout when component is removed from dom
-    return () => clearTimeout(setInt);
+    return () => clearInterval(setInt);
   }, [data, path]);
 
   return (
@@ -128,6 +119,7 @@ const Main_Container = ({ path }) => {
           <Loader
             setStillLoading={setStillLoading}
             doneFetching={doneFetching}
+            path={path}
           />
         ) : path === '/visualizer' ? (
           <Visualizer_Container data={data} />
