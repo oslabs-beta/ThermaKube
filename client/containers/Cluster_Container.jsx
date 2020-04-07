@@ -7,13 +7,22 @@ import Services from '../components/cluster/Services.jsx';
 import DashBoard from '../components/Dashboard.jsx';
 import Loader from '../components/Loader.jsx';
 
-const Cluster_Container = () => {
+const Cluster_Container = (props) => {
   let [data, setData] = useState([]);
   let [pod, setPod] = useState([]);
   let [node, setNode] = useState([]);
   let [service, setService] = useState([]);
   let [stillLoading, setStillLoading] = useState(true);
   let [doneFetching, setdoneFetching] = useState(false);
+
+  // if signed in with AWS, utilize AWS api
+  let [awsData, setAwsData] = useState({
+    pod: [],
+    node: [],
+    service: [],
+  });
+  const aws = props.history.location.state.data;
+  const credentials = props.history.location.state.credentials;
 
   //function to parse info back from /getPods
   function getPods(parent) {
@@ -80,6 +89,12 @@ const Cluster_Container = () => {
       node = [];
       pod = [];
 
+      // signed in with AWS
+      // if (credentials) {
+      //   const serviceReq = axios.get('/api/services');
+      //   const nodeReq = axios.get('/aws/nodes');
+      //   const podReq = axios.get('/api/pods');
+      // }
       const serviceReq = axios.get('/api/services');
       const nodeReq = axios.get('/api/nodes');
       const podReq = axios.get('/api/pods');
