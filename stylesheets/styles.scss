@@ -78,6 +78,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  scroll-behavior: smooth;
 
   h2 {
     //headers for each containers in home
@@ -162,6 +163,14 @@ body {
     &:hover {
       opacity: 0.5;
     }
+  }
+}
+
+.contributeContainer {
+  padding-bottom: 10em;
+  
+  h5, a { 
+    padding-top: 1em;
   }
 }
 
