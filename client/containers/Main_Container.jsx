@@ -3,9 +3,10 @@ import { BrowserRouter as useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import Loader from '../components/Loader.jsx';
-import RadialTree from './Visualizer_Container.jsx';
-import Alerts from './Alerts_Container.jsx';
-import Cluster from './Cluster_Container.jsx';
+import RadialTree from '../components/visualizer/RadialTree.jsx';
+import Visualizer_Container from './Visualizer_Container.jsx';
+import Alerts_Container from './Alerts_Container.jsx';
+import Cluster_Container from './Cluster_Container.jsx';
 
 const Main_Container = ({ path }) => {
   let [data, setData] = useState([]);
@@ -17,7 +18,6 @@ const Main_Container = ({ path }) => {
 
   // let { id } = useParams();
   // console.log(id);
-  console.log(path);
   //function to parse info back from /getPods
   function getPods(parent) {
     const podArr = [];
@@ -130,11 +130,11 @@ const Main_Container = ({ path }) => {
             doneFetching={doneFetching}
           />
         ) : path === '/visualizer' ? (
-          <RadialTree data={data} />
+          <Visualizer_Container data={data} />
         ) : path === '/alerts' ? (
-          <Alerts />
+          <Alerts_Container />
         ) : (
-          <Cluster dataFrom={data} />
+          <Cluster_Container data={data} />
         )}
       </div>
     </div>

@@ -57,19 +57,25 @@ const Alerts = () => {
 
   return (
     <div className='mainContainer'>
-      <h4 className='alertsTitle'>Alerts</h4>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Pod Name</th>
-            <th>Namespace</th>
-            <th>Status</th>
-            <th>Pod IP</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        {table}
-      </Table>
+      {!table[0] ? (
+        <div></div>
+      ) : (
+        <div>
+          <h4 className='alertsTitle'>Alerts</h4>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Pod Name</th>
+                <th>Namespace</th>
+                <th>Status</th>
+                <th>Pod IP</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            {table}
+          </Table>
+        </div>
+      )}
     </div>
   );
 };

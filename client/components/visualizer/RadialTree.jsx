@@ -9,11 +9,11 @@ function compareData(data) {
   const ref = useRef();
 
   useEffect(() => {
-    ref.current = data[0];
+    ref.current = data;
   });
 
   //render animation first time
-  if (data.length === 0) return true;
+  if (data.length === 1) return true;
   else {
     if (ref.current.length === 0) return true;
     //if data lengths are same, do not re-render animation
@@ -242,7 +242,7 @@ const RadialTree = ({ data }) => {
         label.attr('opacity', 1);
       }
     }
-  }, [data, dimensions, reanimate]);
+  }, [dimensions, reanimate]);
 
   return (
     <div ref={wrapperRef} className='svgWrapper'>

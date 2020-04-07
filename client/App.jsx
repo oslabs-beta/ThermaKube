@@ -18,7 +18,7 @@ const App = () => {
   return (
     <Router>
       <div className='appContainer' id='app'>
-        {path === '/login' || path === '/eks' ? <div></div> : <Dashboard />}
+        {path !== '/login' && path !== '/eks' && <Dashboard />}
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/login' component={Login} />
