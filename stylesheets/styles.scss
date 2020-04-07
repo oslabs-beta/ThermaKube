@@ -271,13 +271,12 @@ body {
 }
 
 .svgWrapper {
-  margin: 2rem;
-  padding: 4em;
+  padding: 4em 4em 8em 4em;
   align-self: center;
 
   .radialTreeSvg {
     overflow: visible;
-    padding: 12rem 0 0 15rem;
+    padding: 12rem 0 5rem 15rem;
   }
 
   .link {
@@ -293,7 +292,6 @@ body {
   }
 
   circle {
-    stroke: #bfbfbf;
     stroke-width: 2.5px;
   }
 }

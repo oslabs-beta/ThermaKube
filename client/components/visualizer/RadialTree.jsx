@@ -82,24 +82,8 @@ const RadialTree = ({ data }) => {
           const length = this.getTotalLength();
           return `${length} ${length}`;
         })
-        .attr('stroke', function(d) {
-          let color = '#bfbfbf'; //base color = gray
-          // console.log('d',d);
-          if (d.depth === 2) { //only for pods
-            //change usage data from string to number
-            let cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
-            let memUse = parseInt(d.data.usage.memory.slice(0, -2));
-    
-            //sample
-            if(d.data.name === 'megamarkets-58c64cc5b5-4vblk') cpuUse = 2;
-    
-            //if CPU usage increased, return red color
-            if (cpuUse > 0) color = '#ee2c2c';
-            //'#03e0a0' //mint
-          }
-          return color;
-        });
-        // .attr('opacity', 1);
+        .attr('stroke', '#bfbfbf')
+        .attr('opacity', 1);
 
       // nodes
       const node = svg
@@ -122,6 +106,23 @@ const RadialTree = ({ data }) => {
           if (node.depth == 0) return '#f8b58c'; //services - salmon
           if (node.depth == 1) return '#0788ff'; //nodes - blue
           if (node.depth == 2) return '#ccccff'; //pods - grey
+        })
+        .attr('stroke', function(d) {
+          let color = '#bfbfbf'; //base color = gray
+          // console.log('d',d);
+          if (d.depth === 2) { //only for pods
+            //change usage data from string to number
+            let cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
+            let memUse = parseInt(d.data.usage.memory.slice(0, -2));
+    
+            //sample
+            if(d.data.name === 'megamarkets-58c64cc5b5-4vblk') cpuUse = 2;
+    
+            //if CPU usage increased, return red color
+            if (cpuUse > 0) color = '#ee2c2c';
+            //'#03e0a0' //mint
+          }
+          return color;
         });
 
       //add mouseover event to nodes
