@@ -78,6 +78,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  scroll-behavior: smooth;
 
   h2 {
     //headers for each containers in home
@@ -162,6 +163,14 @@ body {
     &:hover {
       opacity: 0.5;
     }
+  }
+}
+
+.contributeContainer {
+  padding-bottom: 10em;
+  
+  h5, a { 
+    padding-top: 1em;
   }
 }
 
@@ -281,13 +290,18 @@ body {
 }
 
 //visualizer tree
+.visContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 .svgWrapper {
-  margin: 2rem;
-  padding: 4em;
+  padding: 4em 4em 8em 4em;
+  align-self: center;
 
   .radialTreeSvg {
     overflow: visible;
-    padding: 12rem 0 0 15rem;
+    padding: 12rem 0 5rem 15rem;
   }
 
   .link {
@@ -303,7 +317,6 @@ body {
   }
 
   circle {
-    stroke: #bfbfbf;
     stroke-width: 2.5px;
   }
 }

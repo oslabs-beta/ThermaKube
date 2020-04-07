@@ -2,10 +2,13 @@ import React from 'react';
 import { Nav, NavDropdown, NavItem } from 'react-bootstrap';
 import { BrowserRouter as Link, NavLink } from 'react-router-dom';
 
-import icon from '../assets/icon.png';
 import white from '../assets/whiteLogo.png';
 
 const Dashboard = () => {
+  const scrollHere = (here) => {
+    document.getElementById({here}).scrollIntoView();
+  }
+
   return (
     <div className='topNavbar'>
       <Nav
@@ -18,9 +21,9 @@ const Dashboard = () => {
             <img src={white} alt='Logo' className='logoHome' />
           </Nav.Link>
         </Nav.Item>
-        <Nav.Link href='/'>Features</Nav.Link>
-        <Nav.Link href='/'>Contribute</Nav.Link>
-        <Nav.Link href='/'>Team</Nav.Link>
+        <Nav.Link href='/#features'>Features</Nav.Link>
+        <Nav.Link href='/#contribute'>Contribute</Nav.Link>
+        <Nav.Link href='/#team'>Team</Nav.Link>
         <Nav.Link href='/login' className='ml-auto'>
           Login
         </Nav.Link>
