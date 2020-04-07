@@ -116,7 +116,7 @@ const RadialTree = ({ data }) => {
             let memUse = parseInt(d.data.usage.memory.slice(0, -2));
     
             //sample
-            if(d.data.name === 'megamarkets-58c64cc5b5-4vblk') cpuUse = 2;
+            // if(d.data.name === 'megamarkets-58c64cc5b5-4vblk') cpuUse = 2;
     
             //if CPU usage increased, return red color
             if (cpuUse > 0) color = '#ee2c2c';
