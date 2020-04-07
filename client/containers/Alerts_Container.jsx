@@ -57,9 +57,7 @@ const Alerts = () => {
 
   return (
     <div className='mainContainer'>
-      {!table[0] ? (
-        <div></div>
-      ) : (
+      {table[0] && (
         <div>
           <h4 className='alertsTitle'>Alerts</h4>
           <Table striped bordered hover>
