@@ -13,11 +13,21 @@ const Main_Container = ({ path }) => {
   //stillLoading and donFetching at booleans to check check if loading is finalized and throw appropriate loader
   let [data, setData] = useState([]);
   let [pod, setPod] = useState([]);
+  let [podUsage, setPodUsage] = useState([]);
   let [node, setNode] = useState([]);
   let [service, setService] = useState([]);
   let [stillLoading, setStillLoading] = useState(true);
   let [doneFetching, setdoneFetching] = useState(false);
 
+  //function to parse pod usage info
+  function getPodUsage(name) {
+    for (let i = 0; i < podUsage.length; i++) {
+      //if pod name matches, include usage information 
+      if (name == podUsage[i].name) {
+        return { cpu: podUsage[i].cpu, memory: podUsage[i].memory };
+      }
+    }
+  }
   //function to parse info back from /getPods
   function getPods(parent) {
     const podArr = [];
@@ -32,6 +42,7 @@ const Main_Container = ({ path }) => {
         podObj.createdAt = pod[i].createdAt;
         podObj.parent = pod[i].nodeName;
         podObj.labels = pod[i].labels;
+        podObj.usage = getPodUsage(pod[i].name); //object with cpu and memory properties
         podArr.push(podObj);
       }
     }
@@ -75,6 +86,7 @@ const Main_Container = ({ path }) => {
       service = [];
       node = [];
       pod = [];
+      podUsage = [];
 
       const serviceReq = axios.get('/api/services');
       const nodeReq = axios.get('/api/nodes');
@@ -82,13 +94,16 @@ const Main_Container = ({ path }) => {
 
       const res = await axios.all([serviceReq, nodeReq, podReq]);
 
+      //set returned data as constants - identify based on their index
       const serviceRes = res[0].data;
       const nodeRes = res[1].data;
-      const podRes = res[2].data;
+      const podRes = res[2].data.pod; //data on pods
+      const podUsageRes = res[2].data.usage; //data on pod usage
 
       setService(service.push(...serviceRes));
       setNode(node.push(...nodeRes));
       setPod(pod.push(...podRes));
+      setPodUsage(podUsage.push(...podUsageRes));
 
       setData(getServices()); //set data
       //data has been fetched and Loader component will through new animation

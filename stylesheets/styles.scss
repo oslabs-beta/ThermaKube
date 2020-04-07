@@ -265,9 +265,15 @@ body {
 }
 
 //visualizer tree
+.visContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 .svgWrapper {
   margin: 2rem;
   padding: 4em;
+  align-self: center;
 
   .radialTreeSvg {
     overflow: visible;

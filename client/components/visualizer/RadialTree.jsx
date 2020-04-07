@@ -3,8 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { select, hierarchy, tree, linkRadial, event } from 'd3';
 import useResizeObserver from './useResizeObserver.jsx';
 
-//rendering logic from:
-//https://github.com/muratkemaldar/using-react-hooks-with-d3/blob/10-hierarchy/src/TreeChart.js
+//function to compare data array length for rendering tree animation
 function compareData(data) {
   const ref = useRef();
 
@@ -83,13 +82,24 @@ const RadialTree = ({ data }) => {
           const length = this.getTotalLength();
           return `${length} ${length}`;
         })
-        .attr('stroke', '#bfbfbf')
-        .attr('fill', function(d) {
-          if (d.depth == 0) return '#f8b58c'; //services - salmon
-          if (d.depth == 1) return '#0788ff'; //nodes - blue
-          if (d.depth == 2) return '#ccccff';
-        })
-        .attr('opacity', 1);
+        .attr('stroke', function(d) {
+          let color = '#bfbfbf'; //base color = gray
+          // console.log('d',d);
+          if (d.depth === 2) { //only for pods
+            //change usage data from string to number
+            let cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
+            let memUse = parseInt(d.data.usage.memory.slice(0, -2));
+    
+            //sample
+            if(d.data.name === 'megamarkets-58c64cc5b5-4vblk') cpuUse = 2;
+    
+            //if CPU usage increased, return red color
+            if (cpuUse > 0) color = '#ee2c2c';
+            //'#03e0a0' //mint
+          }
+          return color;
+        });
+        // .attr('opacity', 1);
 
       // nodes
       const node = svg
@@ -131,38 +141,22 @@ const RadialTree = ({ data }) => {
           let toolInfo = ''; //info to appear on hover
           if (d.depth === 0) {
             toolInfo =
-              '<b>name: </b>' +
-              d.data.name +
-              '<br/>' +
-              '<b>type: </b>' +
-              d.data.type +
-              '<br/>' +
-              '<b>namespace: </b>' +
-              d.data.namespace +
-              '<br/>' +
-              '<b>port: </b>' +
-              d.data.port +
-              '<br/>' +
-              '<b>clusterIP: </b>' +
-              d.data.clusterIP;
+              '<b>name: </b>' + d.data.name + '<br/>' +
+              '<b>type: </b>' + d.data.type + '<br/>' +
+              '<b>namespace: </b>' + d.data.namespace + '<br/>' +
+              '<b>port: </b>' + d.data.port + '<br/>' +
+              '<b>clusterIP: </b>' + d.data.clusterIP;
           } else if (d.depth === 1) {
             toolInfo = '<b>name: </b>' + d.data.name;
           } else if (d.depth === 2) {
             toolInfo =
-              '<b>name: </b>' +
-              d.data.name +
-              '<br/>' +
-              '<b>namespace: </b>' +
-              d.data.namespace +
-              '<br/>' +
-              '<b>status: </b>' +
-              d.data.status +
-              '<br/>' +
-              '<b>podIP: </b>' +
-              d.data.podIP +
-              '<br/>' +
-              '<b>created: </b>' +
-              d.data.createdAt;
+              '<b>name: </b>' + d.data.name + '<br/>' +
+              '<b>namespace: </b>' + d.data.namespace + '<br/>' +
+              '<b>status: </b>' + d.data.status + '<br/>' +
+              '<b>CPU usage: </b>' + d.data.usage.cpu + '<br/>' +
+              '<b>memory usage: </b>' + d.data.usage.memory + '<br/>' +
+              '<b>podIP: </b>' + d.data.podIP + '<br/>' +
+              '<b>created: </b>' + d.data.createdAt;
           }
 
           div
