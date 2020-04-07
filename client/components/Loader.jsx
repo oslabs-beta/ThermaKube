@@ -3,10 +3,12 @@ import Lottie from 'react-lottie';
 import * as animationData from '../assets/cloud-loader.json';
 import * as animationDataDone from '../assets/doneLoading.json';
 
-const Loader = ({ doneFetching, setStillLoading }) => {
+const Loader = ({ doneFetching, setStillLoading, path }) => {
   //state for render animation logic based on if fetching in parent is done
   const [loadingNotFinished, setLoadingNotFinished] = useState(true);
   // settings for two Lottie animations
+  let pathName = path.substring(1, path.length);
+  console.log(pathName, 'pathname from loader');
   const defaultOptionsLoading = {
     loop: true,
     autoplay: true,
@@ -47,7 +49,7 @@ const Loader = ({ doneFetching, setStillLoading }) => {
   }, [doneFetching]);
   return (
     <div style={container}>
-      <h1>Loading cluster data...</h1>
+      <h1>Loading {pathName} data...</h1>
       {loadingNotFinished ? (
         <div>
           <Lottie options={defaultOptionsLoading} height={400} width={400} />

@@ -66,7 +66,7 @@ body {
 
 //Top navbar
 .topNavbar {
-  //width: 100%;
+  width: 100%;
 }
 
 //////////////
@@ -79,7 +79,8 @@ body {
   flex-direction: column;
   align-items: center;
 
-  h2 { //headers for each containers in home
+  h2 {
+    //headers for each containers in home
     font-family: $teko;
     font-size: 50px;
   }
@@ -124,7 +125,8 @@ body {
     justify-content: center;
     align-items: center;
 
-    .logoMain { //logo img
+    .logoMain {
+      //logo img
       height: 400px;
     }
   }
@@ -144,20 +146,21 @@ body {
   }
 }
 
-
-
-.featuresContainer, .contributeContainer, .teamContainer {
+.featuresContainer,
+.contributeContainer,
+.teamContainer {
   padding: 8em 0 8em 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  a { //github and linkedin icons
-    padding: .4em;
+  a {
+    //github and linkedin icons
+    padding: 0.4em;
 
     &:hover {
-      opacity: .5;
+      opacity: 0.5;
     }
   }
 }
@@ -184,7 +187,6 @@ body {
     }
   }
 }
-
 
 //////////////
 //Cluster page
@@ -277,7 +279,6 @@ body {
     }
   }
 }
-
 
 //visualizer tree
 .svgWrapper {
