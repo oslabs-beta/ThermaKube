@@ -1,6 +1,7 @@
 const axios = require('axios');
 const aws4 = require('aws4');
 const { Base64 } = require('js-base64');
+const request = require('request');
 
 const AwsController = {};
 
@@ -23,26 +24,85 @@ AwsController.authToken = async (req, res, next) => {
     },
     signQuery: true,
   };
-  console.log('opt', options);
   const query = aws4.sign(options, credentials);
-  console.log('query', query);
   const signedUrl = `https://${query.host}${query.path}`;
   const encoded = Base64.encodeURI(signedUrl);
   const token = encoded.replace(/=+$/, '');
   const authToken = `k8s-aws-v1.${token}`;
   res.locals.token = authToken;
-  console.log(authToken);
-  const authHeader = {
-    Authorization: `Bearer ${authToken}`,
-  };
+  const authHeader = { Authorization: `Bearer ${authToken}` };
+
   try {
     console.log('in auth');
-    const podInfo = await fetch(
-      `https://1B1FB10C58543E60F838BC50382EA90F.sk1.us-east-2.eks.amazonaws.com/api/v1/pods`,
-      authHeader
-    );
-    console.log('auth fetch success');
-    console.log('pod', podInfo);
+    // let request = new XMLHttpRequest();
+    // console.log('in req');
+    // request.open(
+    //   'GET',
+    //   `https://1B1FB10C58543E60F838BC50382EA90F.sk1.us-east-2.eks.amazonaws.com/api/v1/pods`,
+    //   true
+    // );
+    // request.setRequestHeader('Authorization', 'Bearer' + authToken);
+    // console.log('set header');
+    // request.send();
+    // request.onload = function () {
+    //   console.log('in on load');
+    //   let res = JSON.parse(request.response);
+    //   console.log('res', res);
+    // };
+    // request.onerror = function () {
+    //   console.log('error in xmlhttp');
+    // };
+
+    //AXIOS
+    // const podInfo = await axios(
+    //   `https://1B1FB10C58543E60F838BC50382EA90F.sk1.us-east-2.eks.amazonaws.com/api/v1/pods`,
+    //   {
+    //     headers: authHeader,
+    //     rejectUnauthorized: false,
+    //   }
+    // );
+
+    //HTTP
+    // const podQuery = {
+    //   hostname: `https://1B1FB10C58543E60F838BC50382EA90F.sk1.us-east-2.eks.amazonaws.com/api/v1/pods`,
+    //   rejectUnauthorized: false,
+    //   headers: {
+    //     Authorization: `Bearer ${authToken}`,
+    //   },
+    // };
+    // https
+    //   .get(podQuery, (response) => {
+    //     console.log('in res');
+    //     let result = '';
+    //     repsonse.on('data', function (chunk) {
+    //       result += chunk;
+    //     });
+    //     response.on('end', function () {
+    //       console.log(result);
+    //     });
+    //   })
+    //   .on('error', (err) => {
+    //     console.log('error in http');
+    //   });
+
+    //REQUEST
+    const req = {
+      uri: `https://1B1FB10C58543E60F838BC50382EA90F.sk1.us-east-2.eks.amazonaws.com/api/v1/pods`,
+      rejectUnauthorized: false,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    };
+    function callback(error, response, body) {
+      if (error) {
+        return 'error in aws pod request';
+      } else {
+        const podInfo = JSON.parse(body);
+        console.log('podInfo', podInfo.items);
+      }
+    }
+    await request(req, callback);
+    console.log('pod fetch success');
     return next();
   } catch (err) {
     return 'error in token middleware';
@@ -137,5 +197,7 @@ AwsController.nodes = async (req, res, next) => {
     return 'error in aws middleware';
   }
 };
+
+AwsController.pods = async (req, res, next) => {};
 
 module.exports = AwsController;
