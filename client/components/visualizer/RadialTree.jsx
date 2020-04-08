@@ -21,6 +21,25 @@ function compareData(data) {
   return true;
 }
 
+//function to compare resource usage
+// function compareUsage(usage) {
+//   const ref = useRef();
+
+//   useEffect(() => {
+//     ref.current = usage;
+//   });
+
+//   console.log('ref.current', ref.current)
+//   return;
+//   //compare cpu and memory usage
+//   if (ref.current) {
+  
+//   } 
+//   else {
+
+//   }
+// }
+
 //div to show values on node hover/mouseover
 const div = select('body')
   .append('div')
@@ -35,9 +54,14 @@ const RadialTree = ({ data }) => {
   // we save data to see if it changed
   const reanimate = compareData(data);
 
+  //compare usage info
+  let cpuUse, memUse;
+  const compareUsage = useRef(cpuUse);
+
   // will be called initially and on every data change
   useEffect(() => {
-    if (data.length !== 0) {
+    // console.log('data', data);
+    if (data[0] !== undefined) {
       // IF VALID DATA WAS PASSED
       // console.log('data in radialTree', data)
       const svg = select(svgRef.current);
@@ -51,7 +75,6 @@ const RadialTree = ({ data }) => {
       // transform hierarchical data
       //changing width dynamically distorts the graph
       const root = hierarchy(data[0]);
-      // console.log('root', root);
       const treeLayout = tree().size([2 * Math.PI, height / 1.5]);
 
       // radial tree link
@@ -71,7 +94,6 @@ const RadialTree = ({ data }) => {
       // console.log('rt links', root.links());
 
       // links
-      //color should change depending on traffic
       const enteringAndUpdatingLinks = svg
         .selectAll('.link')
         .data(root.links())
@@ -107,14 +129,14 @@ const RadialTree = ({ data }) => {
           if (node.depth == 1) return '#0788ff'; //nodes - blue
           if (node.depth == 2) return '#ccccff'; //pods - grey
         })
-        .attr('stroke', function(d) {
+        .attr('stroke', function(d) { //color change based on traffic
           let color = '#bfbfbf'; //base color = gray
-          // console.log('d',d);
           if (d.depth === 2) { //only for pods
             //change usage data from string to number
-            let cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
-            let memUse = parseInt(d.data.usage.memory.slice(0, -2));
-    
+            cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
+            memUse = parseInt(d.data.usage.memory.slice(0, -2));
+            // console.log(cpuUse);
+            
             //sample
             // if(d.data.name === 'megamarkets-58c64cc5b5-4vblk') cpuUse = 2;
     
@@ -237,7 +259,7 @@ const RadialTree = ({ data }) => {
         label.attr('opacity', 1);
       }
     }
-  }, [dimensions, reanimate]);
+  }, [data, dimensions, reanimate]);
 
   return (
     <div ref={wrapperRef} className='svgWrapper'>

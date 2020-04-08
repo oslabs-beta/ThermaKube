@@ -110,7 +110,6 @@ const Main_Container = ({ path }) => {
       setdoneFetching(true);
     };
     // fetching data call for initial load and every 3 seconds
-
     (function fetchOnLoad() {
       if (!data[0]) {
         console.log('First fetch called');
@@ -136,13 +135,16 @@ const Main_Container = ({ path }) => {
             doneFetching={doneFetching}
             path={path}
           />
-        ) : path === '/visualizer' ? (
+        ) 
+        : path === '/visualizer' ? (
           <Visualizer_Container data={data} />
-        ) : path === '/alerts' ? (
+        ) 
+        : path === '/alerts' ? (
           <Alerts_Container />
         ) : (
           <Cluster_Container data={data} />
         )}
+        {/* <Visualizer_Container data={data} /> */}
       </div>
     </div>
   );
