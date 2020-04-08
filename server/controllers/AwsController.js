@@ -125,4 +125,52 @@ AwsController.getPods = async (req, res, next) => {
   return next();
 };
 
+AwsController.getNodes = async (req, res, next) => {
+  console.log('in aws get nodes');
+  const options = {
+    uri: `${res.locals.url}/api/v1/nodes`,
+    rejectUnauthorized: false,
+    headers: {
+      Authorization: `Bearer ${res.locals.awsInfo.token}`,
+    },
+  };
+  let nodeInfo;
+  function callback(error, response, body) {
+    if (error) {
+      return 'error in aws node request';
+    } else {
+      nodeInfo = JSON.parse(body);
+      console.log('nodeInfo', nodeInfo.items);
+    }
+  }
+  await request(options, callback);
+  console.log('node fetch success');
+  res.locals.awsNodes = nodeInfo;
+  return next();
+};
+
+AwsController.getServices = async (req, res, next) => {
+  console.log('in aws get services');
+  const options = {
+    uri: `${res.locals.url}/api/v1/services`,
+    rejectUnauthorized: false,
+    headers: {
+      Authorization: `Bearer ${res.locals.awsInfo.token}`,
+    },
+  };
+  let serviceInfo;
+  function callback(error, response, body) {
+    if (error) {
+      return 'error in aws service request';
+    } else {
+      serviceInfo = JSON.parse(body);
+      console.log('serviceInfo', serviceInfo.items);
+    }
+  }
+  await request(options, callback);
+  console.log('service fetch success');
+  res.locals.awsServices = serviceInfo;
+  return next();
+};
+
 module.exports = AwsController;
