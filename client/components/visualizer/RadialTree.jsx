@@ -4,19 +4,19 @@ import { select, hierarchy, tree, linkRadial, event } from 'd3';
 import useResizeObserver from './useResizeObserver.jsx';
 
 //function to compare data array length for rendering tree animation
-function compareData(data) {
+function compareData(length) {
   const ref = useRef();
 
   useEffect(() => {
-    ref.current = data;
+    ref.current = length;
   });
   
-  console.log('data', data)
+  console.log('length', length)
   console.log('ref.current', ref.current);
   //render animation first time
   if (ref.current === undefined) return true;
   //compare data
-  if (ref.current == data) return false;
+  if (ref.current === length) return false;
   return true;
 }
 
@@ -51,7 +51,7 @@ const RadialTree = ({ data }) => {
   const dimensions = useResizeObserver(wrapperRef);
 
   // we save data to see if it changed
-  const reanimate = compareData(data);
+  const reanimate = compareData(data[0].length);
 
   //compare usage info
   let cpuUse, memUse;
@@ -132,16 +132,18 @@ const RadialTree = ({ data }) => {
           let color = '#bfbfbf'; //base color = gray
           if (d.depth === 2) { //only for pods
             //change usage data from string to number
-            cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
-            memUse = parseInt(d.data.usage.memory.slice(0, -2));
-            // console.log(cpuUse);
-            
-            //sample
-            // if(d.data.name === 'megamarkets-58c64cc5b5-4vblk') cpuUse = 2;
-    
-            //if CPU usage increased, return red color
-            if (cpuUse > 0) color = '#ee2c2c';
-            //'#03e0a0' //mint
+            if (d.data.usage !== undefined) {
+              cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
+              memUse = parseInt(d.data.usage.memory.slice(0, -2));
+              // console.log(cpuUse);
+              
+              //sample
+              // if(d.data.name === 'megamarkets-58c64cc5b5-4vblk') cpuUse = 2;
+      
+              //if CPU usage increased, return red color
+              if (cpuUse > 0) color = '#ee2c2c';
+              //'#03e0a0' //mint
+            }
           }
           return color;
         });

@@ -73,6 +73,8 @@ const Main_Container = ({ path }) => {
       serviceObj.port = service[i].port;
       serviceObj.clusterIP = service[i].clusterIP;
       serviceObj.children = getNodes();
+      /////////length to compare data
+      serviceObj.length = service.length + node.length + pod.length;
 
       serviceArr.push(serviceObj);
     }
