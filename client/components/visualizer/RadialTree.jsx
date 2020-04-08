@@ -10,14 +10,13 @@ function compareData(data) {
   useEffect(() => {
     ref.current = data;
   });
-
+  
+  console.log('data', data)
+  console.log('ref.current', ref.current);
   //render animation first time
-  if (data.length === 1) return true;
-  else {
-    if (ref.current.length === 0) return true;
-    //if data lengths are same, do not re-render animation
-    if (ref.current.length === data.length) return false;
-  }
+  if (ref.current === undefined) return true;
+  //compare data
+  if (ref.current == data) return false;
   return true;
 }
 
