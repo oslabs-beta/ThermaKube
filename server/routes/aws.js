@@ -12,13 +12,10 @@ awsRouter.post(
   '/select',
   AwsController.selectCluster,
   AwsController.authToken,
+  AwsController.getPods,
   (req, res) => {
     res.status(200).json(res.locals.select);
   }
 );
-
-awsRouter.post('/nodes', AwsController.nodes, (req, res) => {
-  res.status(200).json(res.locals.nodes);
-});
 
 module.exports = awsRouter;

@@ -12,9 +12,9 @@ AwsController.authToken = async (req, res, next) => {
     accessKeyId: req.body.credentials.accessKeyId,
     secretAccessKey: req.body.credentials.secretAccessKey,
   };
-  // const region = req.body.access.region;
+  const region = req.body.credentials.region;
   const name = req.body.cluster;
-  console.log(credentials, name);
+  console.log(credentials, name, region);
   const options = {
     host: 'sts.amazonaws.com',
     service: 'sts',
@@ -29,87 +29,17 @@ AwsController.authToken = async (req, res, next) => {
   const encoded = Base64.encodeURI(signedUrl);
   const token = encoded.replace(/=+$/, '');
   const authToken = `k8s-aws-v1.${token}`;
-  res.locals.token = authToken;
-  const authHeader = { Authorization: `Bearer ${authToken}` };
-
-  try {
-    console.log('in auth');
-    // let request = new XMLHttpRequest();
-    // console.log('in req');
-    // request.open(
-    //   'GET',
-    //   `https://1B1FB10C58543E60F838BC50382EA90F.sk1.us-east-2.eks.amazonaws.com/api/v1/pods`,
-    //   true
-    // );
-    // request.setRequestHeader('Authorization', 'Bearer' + authToken);
-    // console.log('set header');
-    // request.send();
-    // request.onload = function () {
-    //   console.log('in on load');
-    //   let res = JSON.parse(request.response);
-    //   console.log('res', res);
-    // };
-    // request.onerror = function () {
-    //   console.log('error in xmlhttp');
-    // };
-
-    //AXIOS
-    // const podInfo = await axios(
-    //   `https://1B1FB10C58543E60F838BC50382EA90F.sk1.us-east-2.eks.amazonaws.com/api/v1/pods`,
-    //   {
-    //     headers: authHeader,
-    //     rejectUnauthorized: false,
-    //   }
-    // );
-
-    //HTTP
-    // const podQuery = {
-    //   hostname: `https://1B1FB10C58543E60F838BC50382EA90F.sk1.us-east-2.eks.amazonaws.com/api/v1/pods`,
-    //   rejectUnauthorized: false,
-    //   headers: {
-    //     Authorization: `Bearer ${authToken}`,
-    //   },
-    // };
-    // https
-    //   .get(podQuery, (response) => {
-    //     console.log('in res');
-    //     let result = '';
-    //     repsonse.on('data', function (chunk) {
-    //       result += chunk;
-    //     });
-    //     response.on('end', function () {
-    //       console.log(result);
-    //     });
-    //   })
-    //   .on('error', (err) => {
-    //     console.log('error in http');
-    //   });
-
-    //REQUEST
-    const req = {
-      uri: `https://1B1FB10C58543E60F838BC50382EA90F.sk1.us-east-2.eks.amazonaws.com/api/v1/pods`,
-      rejectUnauthorized: false,
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    };
-    function callback(error, response, body) {
-      if (error) {
-        return 'error in aws pod request';
-      } else {
-        const podInfo = JSON.parse(body);
-        console.log('podInfo', podInfo.items);
-      }
-    }
-    await request(req, callback);
-    console.log('pod fetch success');
-    return next();
-  } catch (err) {
-    return 'error in token middleware';
-  }
-  // return next();
+  res.locals.awsInfo = {
+    credentials: credentials,
+    name: name,
+    region: region,
+    token: authToken,
+  };
+  console.log(res.locals.awsInfo);
+  return next();
 };
 
+// fetch all AWS clusters associated to user
 AwsController.cluster = async (req, res, next) => {
   console.log('in aws cluster middleware');
   // access credentials and region should be in the request
@@ -139,6 +69,7 @@ AwsController.cluster = async (req, res, next) => {
   }
 };
 
+// Select AWS cluster
 AwsController.selectCluster = async (req, res, next) => {
   console.log('in aws select middleware');
   const credentials = {
@@ -161,6 +92,7 @@ AwsController.selectCluster = async (req, res, next) => {
       { headers: query.headers }
     );
     res.locals.select = fetchCluster.data;
+    res.locals.url = fetchCluster.data.cluster.endpoint;
     console.log('clusterData', fetchCluster.data);
     return next();
   } catch (err) {
@@ -168,36 +100,29 @@ AwsController.selectCluster = async (req, res, next) => {
   }
 };
 
-AwsController.nodes = async (req, res, next) => {
-  console.log('in aws nodes middleware');
-  const credentials = {
-    accessKeyId: req.body.credentials.accessKeyId,
-    secretAccessKey: req.body.credentials.secretAccessKey,
-  };
-  const region = req.body.credentials.region;
-  const name = req.body.cluster;
-  // create an options query
+// fetch AWS pods
+AwsController.getPods = async (req, res, next) => {
+  console.log('in aws get pods');
   const options = {
-    host: `eks.${region}.amazonaws.com`,
-    path: `/clusters/${name}/node-groups`,
+    uri: `${res.locals.url}/api/v1/pods`,
+    rejectUnauthorized: false,
+    headers: {
+      Authorization: `Bearer ${res.locals.awsInfo.token}`,
+    },
   };
-  // create query with custom aws signature
-  const query = aws4.sign(options, credentials);
-  try {
-    console.log(query);
-    const fetchCluster = await axios(
-      `https://eks.${region}.amazonaws.com/clusters/${name}/node-groups`,
-      query
-    );
-    console.log(fetchCluster.data);
-    res.locals.nodes = fetchCluster.data;
-    console.log(res.locals.nodes);
-    return next();
-  } catch (err) {
-    return 'error in aws middleware';
+  let podInfo;
+  function callback(error, response, body) {
+    if (error) {
+      return 'error in aws pod request';
+    } else {
+      podInfo = JSON.parse(body);
+      console.log('podInfo', podInfo.items);
+    }
   }
+  await request(options, callback);
+  console.log('pod fetch success');
+  res.locals.awsPods = podInfo;
+  return next();
 };
-
-AwsController.pods = async (req, res, next) => {};
 
 module.exports = AwsController;
