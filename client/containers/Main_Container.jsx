@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import Pods from '../components/cluster/Pods.jsx';
-import Nodes from '../components/cluster/Nodes.jsx';
-import Services from '../components/cluster/Services.jsx';
-<<<<<<< HEAD
-import DashBoard from '../components/Dashboard.jsx';
 import Loader from '../components/Loader.jsx';
+import RadialTree from '../components/visualizer/RadialTree.jsx';
+import Visualizer_Container from './Visualizer_Container.jsx';
+import Alerts_Container from './Alerts_Container.jsx';
+import Cluster_Container from './Cluster_Container.jsx';
 
-const Cluster_Container = (props) => {
+const Main_Container = ({ path }) => {
+  //data to pass to children | pod, node, and service will fetched and put into data
+  //stillLoading and donFetching at booleans to check check if loading is finalized and throw appropriate loader
   let [data, setData] = useState([]);
   let [pod, setPod] = useState([]);
+  let [podUsage, setPodUsage] = useState([]);
   let [node, setNode] = useState([]);
   let [service, setService] = useState([]);
   let [stillLoading, setStillLoading] = useState(true);
   let [doneFetching, setdoneFetching] = useState(false);
 
-  // if signed in with AWS, utilize AWS api
-  let [awsData, setAwsData] = useState({
-    pod: [],
-    node: [],
-    service: [],
-  });
-  const aws = props.history.location.state.data;
-  const credentials = props.history.location.state.credentials;
-
+  //function to parse pod usage info
+  function getPodUsage(name) {
+    for (let i = 0; i < podUsage.length; i++) {
+      //if pod name matches, include usage information 
+      if (name == podUsage[i].name) {
+        return { cpu: podUsage[i].cpu, memory: podUsage[i].memory };
+      }
+    }
+  }
   //function to parse info back from /getPods
   function getPods(parent) {
     const podArr = [];
@@ -39,6 +42,7 @@ const Cluster_Container = (props) => {
         podObj.createdAt = pod[i].createdAt;
         podObj.parent = pod[i].nodeName;
         podObj.labels = pod[i].labels;
+        podObj.usage = getPodUsage(pod[i].name); //object with cpu and memory properties
         podArr.push(podObj);
       }
     }
@@ -68,20 +72,13 @@ const Cluster_Container = (props) => {
       serviceObj.namespace = service[i].namespace;
       serviceObj.port = service[i].port;
       serviceObj.clusterIP = service[i].clusterIP;
-
-      //only placing children nodes onto kubernetes obj and not load balancer
-      // if (serviceObj.type !== 'LoadBalancer') {
-      //   serviceObj.children = getNodes();
-      // }
-
-      /**
-       * above code wouldn't work with AWS current-context
-       */
       serviceObj.children = getNodes();
+
       serviceArr.push(serviceObj);
     }
     return serviceArr;
   }
+  //
   let setInt;
   useEffect(() => {
     // fetch service, node, pod info
@@ -89,26 +86,24 @@ const Cluster_Container = (props) => {
       service = [];
       node = [];
       pod = [];
+      podUsage = [];
 
-      // signed in with AWS
-      // if (credentials) {
-      //   const serviceReq = axios.get('/api/services');
-      //   const nodeReq = axios.get('/aws/nodes');
-      //   const podReq = axios.get('/api/pods');
-      // }
       const serviceReq = axios.get('/api/services');
       const nodeReq = axios.get('/api/nodes');
       const podReq = axios.get('/api/pods');
 
       const res = await axios.all([serviceReq, nodeReq, podReq]);
 
+      //set returned data as constants - identify based on their index
       const serviceRes = res[0].data;
       const nodeRes = res[1].data;
-      const podRes = res[2].data;
+      const podRes = res[2].data.pod; //data on pods
+      const podUsageRes = res[2].data.usage; //data on pod usage
 
       setService(service.push(...serviceRes));
       setNode(node.push(...nodeRes));
       setPod(pod.push(...podRes));
+      setPodUsage(podUsage.push(...podUsageRes));
 
       setData(getServices()); //set data
       //data has been fetched and Loader component will through new animation
@@ -129,21 +124,28 @@ const Cluster_Container = (props) => {
       }, 3000);
     })();
     //clear settimeout when component is removed from dom
-    return () => clearTimeout(setInt);
-  }, []);
-=======
->>>>>>> 33d95f1ca82e8701d89c0e20f3423387409a1878
+    return () => clearInterval(setInt);
+  }, [data, path]);
 
-const Cluster_Container = ({ data }) => {
   return (
-    <div className='mainContainer'>
-      <div>
-        <Pods data={data} />
-        <Nodes data={data} />
-        <Services data={data} />
+    <div className='appCont'>
+      <div className='mainContainer'>
+        {stillLoading ? (
+          <Loader
+            setStillLoading={setStillLoading}
+            doneFetching={doneFetching}
+            path={path}
+          />
+        ) : path === '/visualizer' ? (
+          <Visualizer_Container data={data} />
+        ) : path === '/alerts' ? (
+          <Alerts_Container />
+        ) : (
+          <Cluster_Container data={data} />
+        )}
       </div>
     </div>
   );
 };
 
-export default Cluster_Container;
+export default Main_Container;

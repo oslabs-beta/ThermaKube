@@ -12,7 +12,7 @@ const Pods = ({ data }) => {
   // using hooks to set state
   const [table, setTable] = useState([]); //pod data in table
   let children = [];
-  data[0].children.map((child) => children.push(...child.children));
+  data[0].children.map(child => children.push(...child.children));
   // console.log('children', children);
   // useEffect = Hook version of componentDidMount
   useEffect(() => {
@@ -58,7 +58,7 @@ const Pods = ({ data }) => {
   }, []);
 
   // function that adds a new Alert - gets called in ^useEffect when pod status is not "Running"
-  const addAlert = async (p) => {
+  const addAlert = async p => {
     const postAlert = await axios.post('/api/podAlerts', {
       name: p.name,
       namespace: p.namespace,

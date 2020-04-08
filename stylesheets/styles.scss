@@ -21,6 +21,7 @@ body {
 //Container for whole page
 #container {
   display: flex;
+  flex-direction: column;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -35,15 +36,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
-  width: 100%;
 }
 
 //for My Cluster page
 .appCont {
   display: flex;
   flex-direction: row;
-  height: 100%;
 }
 
 //Dashboard/left navbar
@@ -64,11 +62,6 @@ body {
   }
 }
 
-//Top navbar
-.topNavbar {
-  //width: 100%;
-}
-
 //////////////
 //Home page
 //////////////
@@ -78,8 +71,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  scroll-behavior: smooth;
 
-  h2 { //headers for each containers in home
+  h2 {
+    //headers for each containers in home
     font-family: $teko;
     font-size: 50px;
   }
@@ -95,6 +90,18 @@ body {
   .logoHome {
     width: 40px;
     height: 30px;
+  }
+  .featuresScroll {
+    color: white;
+    padding: 0.5em 1.5em;
+  }
+  .contributeScroll {
+    color: white;
+    padding: 0.5em 1.5em;
+  }
+  .teamScroll {
+    color: white;
+    padding: 0.5em 1.5em;
   }
 }
 
@@ -112,7 +119,8 @@ body {
     justify-content: center;
     align-items: center;
 
-    .logoMain { //logo img
+    .logoMain {
+      //logo img
       height: 400px;
     }
   }
@@ -126,23 +134,36 @@ body {
     height: 30%;
     width: 100%;
   }
+  .github-buttons {
+    display: flex;
+    justify-content: center;
+  }
 }
 
-
-
-.featuresContainer, .contributeContainer, .teamContainer {
+.featuresContainer,
+.contributeContainer,
+.teamContainer {
   padding: 8em 0 8em 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  a { //github and linkedin icons
-    padding: .4em;
+  a {
+    //github and linkedin icons
+    padding: 0.4em;
 
     &:hover {
-      opacity: .5;
+      opacity: 0.5;
     }
+  }
+}
+
+.contributeContainer {
+  padding-bottom: 10em;
+  
+  h5, a { 
+    padding-top: 1em;
   }
 }
 
@@ -168,7 +189,6 @@ body {
     }
   }
 }
-
 
 //////////////
 //Cluster page
@@ -262,15 +282,19 @@ body {
   }
 }
 
-
 //visualizer tree
+.visContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 .svgWrapper {
-  margin: 2rem;
-  padding: 4em;
+  padding: 4em 4em 8em 4em;
+  align-self: center;
 
   .radialTreeSvg {
     overflow: visible;
-    padding: 12rem 0 0 15rem;
+    padding: 12rem 0 5rem 15rem;
   }
 
   .link {
@@ -286,7 +310,6 @@ body {
   }
 
   circle {
-    stroke: #bfbfbf;
     stroke-width: 2.5px;
   }
 }

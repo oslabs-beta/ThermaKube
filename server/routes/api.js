@@ -8,9 +8,12 @@ const ServiceController = require('../controllers/ServiceController');
 const AlertController = require('../controllers/AlertController');
 
 // fetch pods from K8 Api
-apiRouter.get('/pods', PodController.getPods, (req, res) => {
-  res.status(200).json(res.locals.pod);
+apiRouter.get('/pods', PodController.getPods, PodController.getPodUsage, (req, res) => {
+  // console.log('res.local.usage', res.locals.usage);
+  // res.status(200).json(res.locals.pod);
+  res.status(200).json({pod:res.locals.pod, usage:res.locals.usage});
 });
+
 
 // fetch nodes from K8 Api
 apiRouter.get('/nodes', NodeController.getNodes, (req, res) => {
