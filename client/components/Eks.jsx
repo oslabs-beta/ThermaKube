@@ -35,7 +35,7 @@ const Eks = (props) => {
       {auth ? (
         <Redirect
           to={{
-            pathname: '/cluster',
+            pathname: '/',
             state: { data: myCluster, credentials: credentials },
           }}
         />

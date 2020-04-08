@@ -22,7 +22,7 @@ const Main_Container = ({ path }) => {
   //function to parse pod usage info
   function getPodUsage(name) {
     for (let i = 0; i < podUsage.length; i++) {
-      //if pod name matches, include usage information 
+      //if pod name matches, include usage information
       if (name == podUsage[i].name) {
         return { cpu: podUsage[i].cpu, memory: podUsage[i].memory };
       }

@@ -20,4 +20,16 @@ awsRouter.post(
   }
 );
 
+awsRouter.get('/pods', AwsController.getPods, (req, res) => {
+  res.status(200).json(res.locals.awsPods);
+});
+
+awsRouter.get('/nodes', AwsController.getNodes, (req, res) => {
+  res.status(200).json(res.locals.awsNodes);
+});
+
+awsRouter.get('/services', AwsController.getServices, (req, res) => {
+  res.status(200).json(res.locals.awsServices);
+});
+
 module.exports = awsRouter;
