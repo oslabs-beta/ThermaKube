@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import RadialTree from '../components/visualizer/RadialTree.jsx';
 
-const Visualizer = props => {
+const Visualizer = (props) => {
   // console.log(props, 'props from vis');
   let data = [props.data[1]];
 

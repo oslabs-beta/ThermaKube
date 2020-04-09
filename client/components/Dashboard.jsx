@@ -6,8 +6,8 @@ import white from '../assets/whiteLogo.png';
 
 const Dashboard = () => {
   const scrollHere = (here) => {
-    document.getElementById({here}).scrollIntoView();
-  }
+    document.getElementById({ here }).scrollIntoView();
+  };
 
   return (
     <div className='topNavbar'>

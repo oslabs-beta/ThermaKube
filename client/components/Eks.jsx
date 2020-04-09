@@ -4,19 +4,30 @@ import axios from 'axios';
 
 const Eks = (props) => {
   const [auth, setAuth] = useState(false);
-  const [myCluster, setMyCluster] = useState({});
-  const data = props.history.location.state.data;
-  const credentials = props.history.location.state.credentials;
+  const [myCluster, setMyCluster] = useState({
+    pods: [],
+    nodes: [],
+    services: [],
+    podUsage: [],
+  });
+  const data = props.location.state.data;
+  const credentials = props.location.state.credentials;
 
   // function for selecting cluster
   const selectCluster = async (cluster) => {
-    const select = await axios.post('/aws/select', {
+    const selected = await axios.post('/aws/select', {
       credentials,
       cluster,
     });
-    const myCluster = select.data.cluster;
-    if (myCluster) {
-      setMyCluster(myCluster);
+    const awsCluster = selected.data;
+    if (awsCluster) {
+      setMyCluster({
+        ...myCluster,
+        pods: awsCluster.pods,
+        nodes: awsCluster.nodes,
+        services: awsCluster.services,
+        podUsage: awsCluster.podUsage,
+      });
       setAuth(true);
     } else {
       console.log('none');
@@ -25,13 +36,19 @@ const Eks = (props) => {
 
   const namesList = data.map((cluster) => {
     return (
-      <button value={cluster} onClick={(e) => selectCluster(e.target.value)}>
+      <button
+        className='clusterButton'
+        value={cluster}
+        onClick={(e) => selectCluster(e.target.value)}
+      >
         {cluster}
       </button>
     );
   });
+  // once cluster is selected, pass down data from aws api
   return (
     <>
+      {console.log('myCluster', myCluster)}
       {auth ? (
         <Redirect
           to={{
@@ -40,8 +57,8 @@ const Eks = (props) => {
           }}
         />
       ) : null}
-      <div>
-        <h6>Choose Cluster</h6>
+      <div className='selectClusterContainer'>
+        <h6 className='chooseTitle'>Choose Cluster</h6>
         {namesList}
       </div>
     </>

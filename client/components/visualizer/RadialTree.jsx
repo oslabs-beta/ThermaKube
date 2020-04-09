@@ -51,10 +51,10 @@ const RadialTree = ({ data }) => {
 
       // radial tree link
       const radialLink = linkRadial()
-        .angle(function(d) {
+        .angle(function (d) {
           return d.x;
         })
-        .radius(function(d) {
+        .radius(function (d) {
           return d.y;
         });
 
@@ -72,7 +72,7 @@ const RadialTree = ({ data }) => {
         .join('path')
         .attr('class', 'link')
         .attr('d', radialLink)
-        .attr('stroke-dasharray', function() {
+        .attr('stroke-dasharray', function () {
           const length = this.getTotalLength();
           return `${length} ${length}`;
         })
@@ -89,13 +89,13 @@ const RadialTree = ({ data }) => {
         .attr(
           //angle to radian
           'transform',
-          d => `
+          (d) => `
           rotate(${(d.x * 180) / Math.PI - 90}) 
           translate(${d.y},0)
         `
         )
         .attr('r', 10)
-        .attr('fill', function(node) {
+        .attr('fill', function (node) {
           //color based on depth
           if (node.depth == 0) return '#f8b58c'; //services - salmon
           if (node.depth == 1) return '#0788ff'; //nodes - blue
@@ -124,43 +124,60 @@ const RadialTree = ({ data }) => {
               //if CPU usage increased, return red color
               if (cpuUse > 0) color = '#ee2c2c';
             }
+
           }
           return color;
         });
 
       //add mouseover event to nodes
       node
-        .on('mouseover', function(d) {
-          select(this)
-            .transition()
-            .duration('50')
-            .attr('opacity', '.65');
+        .on('mouseover', function (d) {
+          select(this).transition().duration('50').attr('opacity', '.65');
 
           //div appear on hover
-          div
-            .transition()
-            .duration(50)
-            .style('opacity', 1);
+          div.transition().duration(50).style('opacity', 1);
 
           let toolInfo = ''; //info to appear on hover
           if (d.depth === 0) {
             toolInfo =
-              '<b>name: </b>' + d.data.name + '<br/>' +
-              '<b>type: </b>' + d.data.type + '<br/>' +
-              '<b>namespace: </b>' + d.data.namespace + '<br/>' +
-              '<b>port: </b>' + d.data.port + '<br/>' +
-              '<b>clusterIP: </b>' + d.data.clusterIP;
+              '<b>name:  </b>' +
+              d.data.name +
+              '<br/>' +
+              '<b>type:  </b>' +
+              d.data.type +
+              '<br/>' +
+              '<b>namespace:  </b>' +
+              d.data.namespace +
+              '<br/>' +
+              '<b>port:  </b>' +
+              d.data.port +
+              '<br/>' +
+              '<b>clusterIP:  </b>' +
+              d.data.clusterIP;
           } else if (d.depth === 1) {
             toolInfo = '<b>name: </b>' + d.data.name;
           } else if (d.depth === 2) {
             toolInfo =
-              '<b>name: </b>' + d.data.name + '<br/>' +
-              '<b>namespace: </b>' + d.data.namespace + '<br/>' +
-              '<b>status: </b>' + d.data.status + '<br/>' +
-              '<b>CPU usage: </b>' + d.data.usage.cpu + '<br/>' +
-              '<b>memory usage: </b>' + d.data.usage.memory + '<br/>' +
-              '<b>podIP: </b>' + d.data.podIP + '<br/>' +
-              '<b>created: </b>' + d.data.createdAt;
+              '<b>name:  </b>' +
+              d.data.name +
+              '<br/>' +
+              '<b>namespace:  </b>' +
+              d.data.namespace +
+              '<br/>' +
+              '<b>status:  </b>' +
+              d.data.status +
+              '<br/>' +
+              '<b>CPU usage:  </b>' +
+              d.data.usage.cpu +
+              '<br/>' +
+              '<b>memory usage:  </b>' +
+              d.data.usage.memory +
+              '<br/>' +
+              '<b>podIP:  </b>' +
+              d.data.podIP +
+              '<br/>' +
+              '<b>created:  </b>' +
+              d.data.createdAt;
           }
 
           div
@@ -168,17 +185,11 @@ const RadialTree = ({ data }) => {
             .style('left', event.pageX + 15 + 'px') //mouse position
             .style('top', event.pageY - 20 + 'px');
         })
-        .on('mouseout', function(d) {
-          select(this)
-            .transition()
-            .duration('50')
-            .attr('opacity', '1');
+        .on('mouseout', function (d) {
+          select(this).transition().duration('50').attr('opacity', '1');
 
           //div disappears with mouseout
-          div
-            .transition()
-            .duration(50)
-            .style('opacity', 0);
+          div.transition().duration(50).style('opacity', 0);
         });
 
       //labels
@@ -193,14 +204,14 @@ const RadialTree = ({ data }) => {
         .attr(
           //angle to radian, find position THEN rotate texts to be horizontal
           'transform',
-          d =>
+          (d) =>
             `rotate(${(d.x * 180) / Math.PI - 90}) 
           translate(${d.y},0)` +
             `rotate(${(Math.PI / 2 - d.x) * (180 / Math.PI)})`
         )
         .attr('text-anchor', 'middle')
         .attr('font-size', 12)
-        .text(function(node) {
+        .text(function (node) {
           if (node.depth === 0) return 'service: ' + node.data.name;
           if (node.depth === 1) return 'node';
           if (node.depth === 2) return 'pod';
@@ -212,26 +223,26 @@ const RadialTree = ({ data }) => {
         //do not re-render animation if data is not updated
         // link animation
         enteringAndUpdatingLinks
-          .attr('stroke-dashoffset', function() {
+          .attr('stroke-dashoffset', function () {
             return this.getTotalLength();
           })
           .transition()
           .duration(500)
-          .delay(link => link.source.depth * 500)
+          .delay((link) => link.source.depth * 500)
           .attr('stroke-dashoffset', 0);
 
         //node animation
         node
           .transition()
           .duration(500)
-          .delay(node => node.depth * 300)
+          .delay((node) => node.depth * 300)
           .attr('opacity', 1);
 
         //label animation
         label
           .transition()
           .duration(500)
-          .delay(node => node.depth * 300)
+          .delay((node) => node.depth * 300)
           .attr('opacity', 1);
       } else {
         //else just change visibility to 1
