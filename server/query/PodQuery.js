@@ -21,4 +21,22 @@ function PodQuery(data) {
   }
 }
 
-module.exports = { PodQuery };
+function AwsPodQuery(data) {
+  this.name = [];
+  this.namespace = [];
+  this.status = [];
+  this.podIP = [];
+  this.createdAt = [];
+  this.nodeName = [];
+
+  for (let i = 0; i < data.items.length; i++) {
+    (this.name[i] = data.items[i].metadata.name),
+      (this.namespace[i] = data.items[i].metadata.namespace),
+      (this.status[i] = data.items[i].status.phase),
+      (this.podIP[i] = data.items[i].status.podIP),
+      (this.createdAt[i] = data.items[i].metadata.creationTimestamp),
+      (this.nodeName[i] = data.items[i].spec.nodeName);
+  }
+}
+
+module.exports = { PodQuery, AwsPodQuery };

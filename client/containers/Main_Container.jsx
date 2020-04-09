@@ -8,7 +8,15 @@ import Visualizer_Container from './Visualizer_Container.jsx';
 import Alerts_Container from './Alerts_Container.jsx';
 import Cluster_Container from './Cluster_Container.jsx';
 
-const Main_Container = ({ path }) => {
+const Main_Container = (props) => {
+  console.log('props test', props);
+  const { path } = props;
+  let awsApi;
+  if (props.history.location.state) {
+    awsApi = props.history.location.state.data;
+    console.log('awsAPI', awsApi);
+  }
+
   //data to pass to children | pod, node, and service will fetched and put into data
   //stillLoading and donFetching at booleans to check check if loading is finalized and throw appropriate loader
   let [data, setData] = useState([]);
@@ -22,7 +30,7 @@ const Main_Container = ({ path }) => {
   //function to parse pod usage info
   function getPodUsage(name) {
     for (let i = 0; i < podUsage.length; i++) {
-      //if pod name matches, include usage information 
+      //if pod name matches, include usage information
       if (name == podUsage[i].name) {
         return { cpu: podUsage[i].cpu, memory: podUsage[i].memory };
       }
@@ -41,7 +49,7 @@ const Main_Container = ({ path }) => {
         podObj.podIP = pod[i].podIP;
         podObj.createdAt = pod[i].createdAt;
         podObj.parent = pod[i].nodeName;
-        podObj.labels = pod[i].labels;
+        // podObj.labels = pod[i].labels;
         podObj.usage = getPodUsage(pod[i].name); //object with cpu and memory properties
         podArr.push(podObj);
       }
@@ -83,22 +91,30 @@ const Main_Container = ({ path }) => {
   useEffect(() => {
     // fetch service, node, pod info
     const fetchInfo = async () => {
-      service = [];
-      node = [];
-      pod = [];
-      podUsage = [];
+      let serviceRes;
+      let nodeRes;
+      let podRes;
+      let podUsageRes;
 
-      const serviceReq = axios.get('/api/services');
-      const nodeReq = axios.get('/api/nodes');
-      const podReq = axios.get('/api/pods');
+      if (awsApi) {
+        serviceRes = awsApi.services;
+        nodeRes = awsApi.nodes;
+        podRes = awsApi.pods; //data on pods
+        podUsageRes = awsApi.podUsage; //data on pod usage
+      } else {
+        console.log('not working');
+        const serviceReq = axios.get('/api/services');
+        const nodeReq = axios.get('/api/nodes');
+        const podReq = axios.get('/api/pods');
 
-      const res = await axios.all([serviceReq, nodeReq, podReq]);
+        const res = await axios.all([serviceReq, nodeReq, podReq]);
 
-      //set returned data as constants - identify based on their index
-      const serviceRes = res[0].data;
-      const nodeRes = res[1].data;
-      const podRes = res[2].data.pod; //data on pods
-      const podUsageRes = res[2].data.usage; //data on pod usage
+        //set returned data as constants - identify based on their index
+        serviceRes = res[0].data;
+        nodeRes = res[1].data;
+        podRes = res[2].data.pod; //data on pods
+        podUsageRes = res[2].data.usage; //data on pod usage
+      }
 
       setService(service.push(...serviceRes));
       setNode(node.push(...nodeRes));
@@ -143,6 +159,7 @@ const Main_Container = ({ path }) => {
         ) : (
           <Cluster_Container data={data} />
         )}
+        {console.log('awsData', data)}
       </div>
     </div>
   );
