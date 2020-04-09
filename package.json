@@ -63,5 +63,8 @@
     "react-router-dom": "^5.1.2",
     "reactstrap": "^8.4.1",
     "request": "^2.88.2"
+  },
+  "engines": {
+    "node": "12.14"
   }
 }
