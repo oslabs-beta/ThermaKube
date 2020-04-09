@@ -168,6 +168,23 @@ body {
   }
 }
 
+.featuresContainer {
+
+  .featureInfo {
+    display: flex;
+    align-items: center;
+
+    section {
+      width: 30em;
+      margin-top: 3em;
+    }
+    img {
+      width: 450px;
+      margin-top: 1em;
+    }
+  }
+}
+
 .contributeContainer {
   padding-bottom: 10em;
 
@@ -195,6 +212,8 @@ body {
 
       .teamImg {
         width: 150px;
+        border-radius: 50%;
+        margin-bottom: 1em;
       }
     }
   }

@@ -1,32 +1,43 @@
 import React from 'react';
 import { Github, Linkedin } from '@icons-pack/react-simple-icons';
+//profile pics
+import kritika from '../../assets/kritika.png';
+import nick from '../../assets/nick.png';
+import clara from '../../assets/clara_photo.jpg';
+import elie from '../../assets/elie_photo.jpg';
+
 
 const Team = () => {
   const members = [
     {
       name: 'Evan Amoranto',
       github: 'https://github.com/eamoranto',
-      linkedin: 'https://www.linkedin.com/in/'
+      linkedin: 'https://www.linkedin.com/in/', 
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Nota_disambigua.svg/200px-Nota_disambigua.svg.png' 
     },
     {
       name: 'Elie Baik',
       github: 'https://github.com/semtemp',
-      linkedin: 'https://www.linkedin.com/in/sae-min-baik/'
+      linkedin: 'https://www.linkedin.com/in/sae-min-baik/',
+      img: elie
     },
     {
       name: 'Clara Kim',
       github: 'https://github.com/clarakm',
-      linkedin: 'https://www.linkedin.com/in/clarayhkim/'
+      linkedin: 'https://www.linkedin.com/in/clarayhkim/',
+      img: clara
     },
     {
       name: 'Nick Primuth',
       github: 'https://github.com/NickPrimuth',
-      linkedin: 'https://www.linkedin.com/in/nick-primuth/'
+      linkedin: 'https://www.linkedin.com/in/nick-primuth/',
+      img: nick
     },
     {
       name: 'Kritika Sah',
       github: 'https://github.com/hellokritty',
-      linkedin: 'https://www.linkedin.com/in/kritikasah/'
+      linkedin: 'https://www.linkedin.com/in/kritikasah/',
+      img: kritika
     },
   ]
 
@@ -35,7 +46,7 @@ const Team = () => {
       <div className='member' key={`member${index}`}>
         <img 
           className='teamImg' 
-          src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Nota_disambigua.svg/200px-Nota_disambigua.svg.png' 
+          src={mem.img}
         >
         </img>
         <h5>{mem.name}</h5>
