@@ -4,7 +4,7 @@ import axios from 'axios';
 import RadialTree from '../components/visualizer/RadialTree.jsx';
 import DashBoard from '../components/Dashboard.jsx';
 
-const Visualizer = props => {
+const Visualizer = (props) => {
   // console.log(props, 'props from vis');
   let data = [props.data[1]];
 

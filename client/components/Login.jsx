@@ -3,7 +3,6 @@ import { Link, Redirect } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import awsLogo from '../assets/awsLogo.png';
 import axios from 'axios';
-import aws4 from 'aws4';
 
 // login page gives the option to authenticate AWS credentials or use current-context
 const Login = () => {

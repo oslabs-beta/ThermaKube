@@ -5,7 +5,8 @@ import Pods from '../components/cluster/Pods.jsx';
 import Nodes from '../components/cluster/Nodes.jsx';
 import Services from '../components/cluster/Services.jsx';
 
-const Cluster_Container = ({ data }) => {
+const Cluster_Container = (props) => {
+  const { data } = props;
   return (
     <div className='mainContainer'>
       <div>

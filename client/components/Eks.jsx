@@ -4,9 +4,14 @@ import axios from 'axios';
 
 const Eks = (props) => {
   const [auth, setAuth] = useState(false);
-  const [myCluster, setMyCluster] = useState({});
-  const data = props.history.location.state.data;
-  const credentials = props.history.location.state.credentials;
+  const [myCluster, setMyCluster] = useState({
+    pods: [],
+    nodes: [],
+    services: [],
+    podUsage: [],
+  });
+  const data = props.location.state.data;
+  const credentials = props.location.state.credentials;
 
   // function for selecting cluster
   const selectCluster = async (cluster) => {
@@ -14,9 +19,15 @@ const Eks = (props) => {
       credentials,
       cluster,
     });
-    const myCluster = selected.data.cluster;
-    if (myCluster) {
-      setMyCluster(myCluster);
+    const awsCluster = selected.data;
+    if (awsCluster) {
+      setMyCluster({
+        ...myCluster,
+        pods: awsCluster.pods,
+        nodes: awsCluster.nodes,
+        services: awsCluster.services,
+        podUsage: awsCluster.podUsage,
+      });
       setAuth(true);
     } else {
       console.log('none');
@@ -34,8 +45,10 @@ const Eks = (props) => {
       </button>
     );
   });
+  // once cluster is selected, pass down data from aws api
   return (
     <>
+      {console.log('myCluster', myCluster)}
       {auth ? (
         <Redirect
           to={{
