@@ -62,8 +62,10 @@
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0-beta.17",
     "react-dom": "^16.13.0",
+    "react-fade-in": "^0.1.8",
     "react-github-btn": "^1.1.1",
     "react-lottie": "^1.2.3",
+    "react-reveal": "^1.2.2",
     "react-router-dom": "^5.1.2",
     "reactstrap": "^8.4.1",
     "request": "^2.88.2"

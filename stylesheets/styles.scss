@@ -6,6 +6,9 @@ $morningsky: #cae4db;
 $skyblue: #f9ffff;
 $mist: #7a9d96;
 $navy: #001e3f;
+// $bg-img: url('../client/assets/polygon-background.jpg');
+$bg-img: url('../client/assets/landing.png');
+
 //fonts
 $quicksand: 'Quicksand', sans-serif;
 $teko: 'Teko', sans-serif;
@@ -83,9 +86,15 @@ body {
 #navbarHome {
   background-color: $navy;
   padding: 0.5em;
+  -webkit-box-shadow: 0 9px 6px -6px #999;
+  -moz-box-shadow: 0 9px 6px -6px #999;
+  box-shadow: 0 9px 6px -6px #999;
   .ml-auto,
   .dashStarted {
     color: $skyblue;
+  }
+  .ml-auto:hover {
+    color: #427eff;
   }
   .logoHome {
     width: 40px;
@@ -103,15 +112,38 @@ body {
     color: white;
     padding: 0.5em 1.5em;
   }
+  .navLink {
+    color: white;
+  }
+  .navLink:hover {
+    color: #427eff;
+  }
 }
 
 // .heroContainer, .featuresContainer,
 
 .heroContainer {
   padding: 5em 0 5em 0;
+  background-image: $bg-img;
+  background-repeat: no-repeat;
+  background-size: 1700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .heroComp {
+    display: flex;
+    flex-direction: column;
+    width: 1800px;
+    justify-content: center;
+    align-items: center;
+    .heroQuote {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+  }
 
   .col1 {
-    background-color: $skyblue;
+    // background-color: $skyblue;
     // opacity: 0.9;
     height: 70%;
     width: 100%;
@@ -128,6 +160,7 @@ body {
     font-size: 100px;
     font-family: $teko;
     letter-spacing: 2px;
+    text-align: center;
   }
   .col2 {
     background-color: $navy;
@@ -160,7 +193,6 @@ body {
 }
 
 .featuresContainer {
-
   .featureInfo {
     display: flex;
     align-items: center;
@@ -172,17 +204,23 @@ body {
     img {
       width: 450px;
       margin-top: 1em;
+      margin-bottom: 5em;
+    }
+    .featureText {
+      margin-bottom: 8em;
     }
   }
 }
 
 .contributeContainer {
   padding-bottom: 10em;
+  // background-color: #dff4ff;
 
   h5,
   a {
     padding-top: 1em;
   }
+  background-color: #dff4ff;
 }
 
 .teamContainer {
@@ -301,6 +339,7 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
+  background-color: $skyblue;
   border: 1px solid #a4bfce;
   border-radius: 4px;
   margin-top: 50px;
