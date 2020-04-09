@@ -37,3 +37,6 @@ We love feedback and are always looking to improve! For any major changes, pleas
 * Evan Amoranto - [@eamoranto](https://github.com/eamoranto)
 * Kritika Sah - [@hellokritty](https://github.com/hellokritty)
 * Nick Primuth - [@nickprimuth](https://github.com/nickprimuth)
+
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
