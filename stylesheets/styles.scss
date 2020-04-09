@@ -6,6 +6,9 @@ $morningsky: #cae4db;
 $skyblue: #f9ffff;
 $mist: #7a9d96;
 $navy: #001e3f;
+// $bg-img: url('../client/assets/polygon-background.jpg');
+$bg-img: url('../client/assets/landing.png');
+
 //fonts
 $quicksand: 'Quicksand', sans-serif;
 $teko: 'Teko', sans-serif;
@@ -83,6 +86,9 @@ body {
 #navbarHome {
   background-color: $navy;
   padding: 0.5em;
+  -webkit-box-shadow: 0 9px 6px -6px #999;
+  -moz-box-shadow: 0 9px 6px -6px #999;
+  box-shadow: 0 9px 6px -6px #999;
   .ml-auto,
   .dashStarted {
     color: $skyblue;
@@ -118,9 +124,22 @@ body {
 
 .heroContainer {
   padding: 5em 0 5em 0;
+  background-image: $bg-img;
+  background-repeat: no-repeat;
+  background-size: 1700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .heroComp {
+    display: flex;
+    flex-direction: column;
+    width: 1800px;
+    justify-content: center;
+    align-items: center;
+  }
 
   .col1 {
-    background-color: $skyblue;
+    // background-color: $skyblue;
     // opacity: 0.9;
     height: 70%;
     width: 100%;
@@ -169,7 +188,6 @@ body {
 }
 
 .featuresContainer {
-
   .featureInfo {
     display: flex;
     align-items: center;
@@ -181,12 +199,17 @@ body {
     img {
       width: 450px;
       margin-top: 1em;
+      margin-bottom: 5em;
+    }
+    .featureText {
+      margin-bottom: 8em;
     }
   }
 }
 
 .contributeContainer {
   padding-bottom: 10em;
+  background-color: #dff4ff;
 
   h5,
   a {

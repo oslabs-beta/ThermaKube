@@ -1,11 +1,11 @@
 import React from 'react';
-import icon from '../../assets/icon.png'
+import icon from '../../assets/icon.png';
 import GitHubButton from 'react-github-btn';
 
 const Hero = () => {
-
   return (
     <section className='heroContainer'>
+      <div className='heroComp'>
         <div className='col1'>
           <img src={icon} alt='Logo' className='logoMain' />
         </div>
@@ -19,8 +19,9 @@ const Hero = () => {
             Follow ThermaKube
           </GitHubButton>
         </div>
-      </section>
-  )
-}
+      </div>
+    </section>
+  );
+};
 
 export default Hero;
