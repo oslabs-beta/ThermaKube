@@ -12,8 +12,9 @@ const App = () => {
   const path = window.location.pathname;
   return (
     <Router>
-        {/* if path is not to login or eks, render dashboard*/}
-        {path !== '/login' && path !== '/eks' && <Dashboard />}
+      {/* if path is not to login or eks, render dashboard*/}
+      {/* {path !== '/login' && path !== '/eks' && <Dashboard />} */}
+      <Dashboard />
       <div className='appContainer' id='app'>
         <Switch>
           <Route exact path='/' component={Home} />
