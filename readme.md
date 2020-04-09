@@ -28,7 +28,7 @@ ThermaKube is a client-side application available via the browser at https://the
 * Displays the name, time, and current status of pods that have crashed.
 
 ## Contributing
-We love feedback and are always looking to improve! For any major chaanges, please open an issue and discuss what you would like to change. Pull requests are welcome.
+We love feedback and are always looking to improve! For any major changes, please open an issue and discuss what you would like to change. Pull requests are welcome.
 
 ## Authors
 
