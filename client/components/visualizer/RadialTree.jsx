@@ -10,34 +10,12 @@ function compareData(length) {
   useEffect(() => {
     ref.current = length;
   });
-  
-  console.log('length', length)
-  console.log('ref.current', ref.current);
   //render animation first time
   if (ref.current === undefined) return true;
   //compare data
   if (ref.current === length) return false;
   return true;
 }
-
-//function to compare resource usage
-// function compareUsage(usage) {
-//   const ref = useRef();
-
-//   useEffect(() => {
-//     ref.current = usage;
-//   });
-
-//   console.log('ref.current', ref.current)
-//   return;
-//   //compare cpu and memory usage
-//   if (ref.current) {
-  
-//   } 
-//   else {
-
-//   }
-// }
 
 //div to show values on node hover/mouseover
 const div = select('body')
@@ -53,16 +31,11 @@ const RadialTree = ({ data }) => {
   // we save data to see if it changed
   const reanimate = compareData(data[0].length);
 
-  //compare usage info
-  let cpuUse, memUse;
-  const compareUsage = useRef(cpuUse);
-
   // will be called initially and on every data change
   useEffect(() => {
-    // console.log('data', data);
+    // console.log('data in radTree', data);
     if (data[0] !== undefined) {
       // IF VALID DATA WAS PASSED
-      // console.log('data in radialTree', data)
       const svg = select(svgRef.current);
 
       // use dimensions from useResizeObserver,
@@ -130,19 +103,26 @@ const RadialTree = ({ data }) => {
         })
         .attr('stroke', function(d) { //color change based on traffic
           let color = '#bfbfbf'; //base color = gray
-          if (d.depth === 2) { //only for pods
-            //change usage data from string to number
+          if (d.depth === 2) { //for pods
             if (d.data.usage !== undefined) {
-              cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
-              memUse = parseInt(d.data.usage.memory.slice(0, -2));
-              // console.log(cpuUse);
-              
-              //sample
-              // if(d.data.name === 'megamarkets-58c64cc5b5-4vblk') cpuUse = 2;
-      
+              //change usage data from string to number
+              let cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
+              let memUse = parseInt(d.data.usage.memory.slice(0, -2));
+
+              //update prev usage info if nonexistant
+              // if (!prevCpu[d.data.name]) { prevCpu[d.data.name] = cpuUse; console.log('added to obj')}
+              // else {
+              //   console.log('name, cpu and prev', d.data.name, cpuUse, prevCpu[d.data.name])
+              //   //usage increased => return red color
+              //   if (prevCpu[d.data.name] < cpuUse) color = '#ee2c2c';
+              //   //usage decreased => return green color
+              //   else if (prevCpu[d.data.name] > cpuUse) color = '#03e0a0';
+              //   //update
+              //   prevCpu[d.data.name] = cpuUse;
+              // }
+
               //if CPU usage increased, return red color
               if (cpuUse > 0) color = '#ee2c2c';
-              //'#03e0a0' //mint
             }
           }
           return color;
@@ -226,7 +206,7 @@ const RadialTree = ({ data }) => {
           if (node.depth === 2) return 'pod';
         });
 
-      console.log('reanimate', reanimate);
+      // console.log('reanimate', reanimate);
       // animation
       if (reanimate) {
         //do not re-render animation if data is not updated
