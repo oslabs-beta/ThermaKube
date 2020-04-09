@@ -6,15 +6,15 @@ import kritika from '../../assets/kritika.png';
 import nick from '../../assets/nick.png';
 import clara from '../../assets/clara_photo.jpg';
 import elie from '../../assets/elie_photo.jpg';
+import evan from '../../assets/evan.jpg';
 
 const Team = () => {
   const members = [
     {
       name: 'Evan Amoranto',
       github: 'https://github.com/eamoranto',
-      linkedin: 'https://www.linkedin.com/in/',
-      img:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Nota_disambigua.svg/200px-Nota_disambigua.svg.png',
+      linkedin: 'https://www.linkedin.com/in/eamoranto',
+      img: evan,
     },
     {
       name: 'Elie Baik',
