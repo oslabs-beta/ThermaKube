@@ -87,6 +87,9 @@ body {
   .dashStarted {
     color: $skyblue;
   }
+  .ml-auto:hover {
+    color: #427eff;
+  }
   .logoHome {
     width: 40px;
     height: 30px;
@@ -102,6 +105,12 @@ body {
   .teamScroll {
     color: white;
     padding: 0.5em 1.5em;
+  }
+  .navLink {
+    color: white;
+  }
+  .navLink:hover {
+    color: #427eff;
   }
 }
 
@@ -282,6 +291,7 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
+  background-color: $skyblue;
   border: 1px solid #a4bfce;
   border-radius: 4px;
   margin-top: 50px;
