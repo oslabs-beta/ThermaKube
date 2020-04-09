@@ -136,6 +136,10 @@ body {
     width: 1800px;
     justify-content: center;
     align-items: center;
+    .heroQuote {
+      text-align: center;
+      margin-bottom: 50px;
+    }
   }
 
   .col1 {
@@ -156,6 +160,7 @@ body {
     font-size: 100px;
     font-family: $teko;
     letter-spacing: 2px;
+    text-align: center;
   }
   .col2 {
     background-color: $navy;
