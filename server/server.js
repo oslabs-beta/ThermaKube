@@ -4,6 +4,8 @@ const app = express();
 const PORT = 3000;
 const cors = require('cors');
 
+require('dotenv').config();
+
 // require routers
 const awsRouter = require('./routes/aws');
 const apiRouter = require('./routes/api');
