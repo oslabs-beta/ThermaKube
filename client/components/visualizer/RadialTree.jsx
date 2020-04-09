@@ -4,20 +4,16 @@ import { select, hierarchy, tree, linkRadial, event } from 'd3';
 import useResizeObserver from './useResizeObserver.jsx';
 
 //function to compare data array length for rendering tree animation
-function compareData(data) {
+function compareData(length) {
   const ref = useRef();
 
   useEffect(() => {
-    ref.current = data;
+    ref.current = length;
   });
-
   //render animation first time
-  if (data.length === 1) return true;
-  else {
-    if (ref.current.length === 0) return true;
-    //if data lengths are same, do not re-render animation
-    if (ref.current.length === data.length) return false;
-  }
+  if (ref.current === undefined) return true;
+  //compare data
+  if (ref.current === length) return false;
   return true;
 }
 
@@ -33,13 +29,13 @@ const RadialTree = ({ data }) => {
   const dimensions = useResizeObserver(wrapperRef);
 
   // we save data to see if it changed
-  const reanimate = compareData(data);
+  const reanimate = compareData(data[0].length);
 
   // will be called initially and on every data change
   useEffect(() => {
-    if (data.length !== 0) {
+    // console.log('data in radTree', data);
+    if (data[0] !== undefined) {
       // IF VALID DATA WAS PASSED
-      // console.log('data in radialTree', data)
       const svg = select(svgRef.current);
 
       // use dimensions from useResizeObserver,
@@ -51,7 +47,6 @@ const RadialTree = ({ data }) => {
       // transform hierarchical data
       //changing width dynamically distorts the graph
       const root = hierarchy(data[0]);
-      // console.log('root', root);
       const treeLayout = tree().size([2 * Math.PI, height / 1.5]);
 
       // radial tree link
@@ -71,7 +66,6 @@ const RadialTree = ({ data }) => {
       // console.log('rt links', root.links());
 
       // links
-      //color should change depending on traffic
       const enteringAndUpdatingLinks = svg
         .selectAll('.link')
         .data(root.links())
@@ -107,21 +101,30 @@ const RadialTree = ({ data }) => {
           if (node.depth == 1) return '#0788ff'; //nodes - blue
           if (node.depth == 2) return '#ccccff'; //pods - grey
         })
-        .attr('stroke', function (d) {
+        .attr('stroke', function(d) { //color change based on traffic
           let color = '#bfbfbf'; //base color = gray
-          // console.log('d',d);
-          if (d.depth === 2) {
-            //only for pods
-            //change usage data from string to number
-            let cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
-            let memUse = parseInt(d.data.usage.memory.slice(0, -2));
+          if (d.depth === 2) { //for pods
+            if (d.data.usage !== undefined) {
+              //change usage data from string to number
+              let cpuUse = parseInt(d.data.usage.cpu.slice(0, -1));
+              let memUse = parseInt(d.data.usage.memory.slice(0, -2));
 
-            //sample
-            // if(d.data.name === 'megamarkets-58c64cc5b5-4vblk') cpuUse = 2;
+              //update prev usage info if nonexistant
+              // if (!prevCpu[d.data.name]) { prevCpu[d.data.name] = cpuUse; console.log('added to obj')}
+              // else {
+              //   console.log('name, cpu and prev', d.data.name, cpuUse, prevCpu[d.data.name])
+              //   //usage increased => return red color
+              //   if (prevCpu[d.data.name] < cpuUse) color = '#ee2c2c';
+              //   //usage decreased => return green color
+              //   else if (prevCpu[d.data.name] > cpuUse) color = '#03e0a0';
+              //   //update
+              //   prevCpu[d.data.name] = cpuUse;
+              // }
 
-            //if CPU usage increased, return red color
-            if (cpuUse > 0) color = '#ee2c2c';
-            //'#03e0a0' //mint
+              //if CPU usage increased, return red color
+              if (cpuUse > 0) color = '#ee2c2c';
+            }
+
           }
           return color;
         });
@@ -214,7 +217,7 @@ const RadialTree = ({ data }) => {
           if (node.depth === 2) return 'pod';
         });
 
-      console.log('reanimate', reanimate);
+      // console.log('reanimate', reanimate);
       // animation
       if (reanimate) {
         //do not re-render animation if data is not updated
@@ -248,7 +251,7 @@ const RadialTree = ({ data }) => {
         label.attr('opacity', 1);
       }
     }
-  }, [dimensions, reanimate]);
+  }, [data, dimensions, reanimate]);
 
   return (
     <div ref={wrapperRef} className='svgWrapper'>

@@ -81,6 +81,8 @@ const Main_Container = (props) => {
       serviceObj.port = service[i].port;
       serviceObj.clusterIP = service[i].clusterIP;
       serviceObj.children = getNodes();
+      /////////length to compare data
+      serviceObj.length = service.length + node.length + pod.length;
 
       serviceArr.push(serviceObj);
     }
@@ -126,7 +128,6 @@ const Main_Container = (props) => {
       setdoneFetching(true);
     };
     // fetching data call for initial load and every 3 seconds
-
     (function fetchOnLoad() {
       if (!data[0]) {
         console.log('First fetch called');
@@ -152,9 +153,11 @@ const Main_Container = (props) => {
             doneFetching={doneFetching}
             path={path}
           />
-        ) : path === '/visualizer' ? (
+        ) 
+        : path === '/visualizer' ? (
           <Visualizer_Container data={data} />
-        ) : path === '/alerts' ? (
+        ) 
+        : path === '/alerts' ? (
           <Alerts_Container />
         ) : (
           <Cluster_Container data={data} />
