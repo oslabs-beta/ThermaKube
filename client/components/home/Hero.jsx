@@ -2,7 +2,6 @@ import React from 'react';
 import FadeIn from 'react-fade-in';
 import icon from '../../assets/icon.png';
 import GitHubButton from 'react-github-btn';
-import { Fade } from 'react-bootstrap';
 
 const Hero = () => {
   return (
