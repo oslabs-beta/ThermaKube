@@ -12,8 +12,8 @@ awsRouter.post(
   '/select',
   AwsController.selectCluster,
   AwsController.authToken,
-  AwsController.getPods,
-  AwsController.getNodes,
+  // AwsController.getPods,
+  // AwsController.getNodes,
   AwsController.getServices,
   (req, res) => {
     res.status(200).json(res.locals.select);

@@ -10,11 +10,11 @@ const Eks = (props) => {
 
   // function for selecting cluster
   const selectCluster = async (cluster) => {
-    const select = await axios.post('/aws/select', {
+    const selected = await axios.post('/aws/select', {
       credentials,
       cluster,
     });
-    const myCluster = select.data.cluster;
+    const myCluster = selected.data.cluster;
     if (myCluster) {
       setMyCluster(myCluster);
       setAuth(true);
@@ -25,7 +25,11 @@ const Eks = (props) => {
 
   const namesList = data.map((cluster) => {
     return (
-      <button value={cluster} onClick={(e) => selectCluster(e.target.value)}>
+      <button
+        className='clusterButton'
+        value={cluster}
+        onClick={(e) => selectCluster(e.target.value)}
+      >
         {cluster}
       </button>
     );
@@ -40,8 +44,8 @@ const Eks = (props) => {
           }}
         />
       ) : null}
-      <div>
-        <h6>Choose Cluster</h6>
+      <div className='selectClusterContainer'>
+        <h6 className='chooseTitle'>Choose Cluster</h6>
         {namesList}
       </div>
     </>

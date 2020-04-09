@@ -2,6 +2,9 @@ const axios = require('axios');
 const aws4 = require('aws4');
 const { Base64 } = require('js-base64');
 const request = require('request');
+const { AwsPodQuery } = require('../query/PodQuery');
+const { AwsNodeQuery } = require('../query/NodeQuery');
+const { AwsServiceQuery } = require('../query/ServiceQuery');
 
 const AwsController = {};
 
@@ -93,7 +96,7 @@ AwsController.selectCluster = async (req, res, next) => {
     );
     res.locals.select = fetchCluster.data;
     res.locals.url = fetchCluster.data.cluster.endpoint;
-    console.log('clusterData', fetchCluster.data);
+    // console.log('clusterData', fetchCluster.data);
     return next();
   } catch (err) {
     return 'error in aws middleware';
@@ -111,18 +114,33 @@ AwsController.getPods = async (req, res, next) => {
     },
   };
   let podInfo;
+  let awsPodArray = [];
+  let awsPods;
   function callback(error, response, body) {
     if (error) {
       return 'error in aws pod request';
     } else {
       podInfo = JSON.parse(body);
       console.log('podInfo', podInfo.items);
+      awsPods = new AwsPodQuery(podInfo);
+      console.log('awsPods', awsPods);
+      for (let i = 0; i < awsPods.name.length; i++) {
+        let obj = {
+          name: awsPods.name[i],
+          namespace: awsPods.namespace[i],
+          status: awsPods.status[i],
+          podIP: awsPods.podIP[i],
+          createdAt: awsPods.createdAt[i].toString(),
+          nodeName: awsPods.nodeName[i],
+        };
+        awsPodArray.push(obj);
+      }
+      res.locals.awsPods = awsPodArray;
+      // console.log('awspodArr', awsPodArray);
+      return next();
     }
   }
   await request(options, callback);
-  console.log('pod fetch success');
-  res.locals.awsPods = podInfo;
-  return next();
 };
 
 AwsController.getNodes = async (req, res, next) => {
@@ -135,18 +153,29 @@ AwsController.getNodes = async (req, res, next) => {
     },
   };
   let nodeInfo;
+  let awsNodes;
+  let awsNodeArray = [];
   function callback(error, response, body) {
     if (error) {
       return 'error in aws node request';
     } else {
       nodeInfo = JSON.parse(body);
       console.log('nodeInfo', nodeInfo.items);
+      awsNodes = new AwsNodeQuery(nodeInfo);
+      console.log('awsNodes', awsNodes);
+      for (let i = 0; i < awsNodes.name.length; i++) {
+        let obj = {
+          name: awsNodes.name[i],
+          cpu: awsNodes.cpu[i],
+        };
+        awsNodeArray.push(obj);
+      }
+      res.locals.awsNodes = awsNodeArray;
+      // console.log('awsnodeArr', awsNodeArray);
+      return next();
     }
   }
   await request(options, callback);
-  console.log('node fetch success');
-  res.locals.awsNodes = nodeInfo;
-  return next();
 };
 
 AwsController.getServices = async (req, res, next) => {
@@ -159,18 +188,30 @@ AwsController.getServices = async (req, res, next) => {
     },
   };
   let serviceInfo;
+  let awsServices;
+  let awsServiceArray = [];
   function callback(error, response, body) {
     if (error) {
       return 'error in aws service request';
     } else {
       serviceInfo = JSON.parse(body);
-      console.log('serviceInfo', serviceInfo.items);
+      awsServices = new AwsServiceQuery(serviceInfo);
+      for (let i = 0; i < awsServices.name.length; i++) {
+        let obj = {
+          name: awsServices.name[i],
+          type: awsServices.type[i],
+          namespace: awsServices.namespace[i],
+          port: awsServices.port[i],
+          clusterIP: awsServices.clusterIP[i],
+        };
+        awsServiceArray.push(obj);
+      }
+      res.locals.awsServices = awsServiceArray;
+      // console.log('awsserviceArr', awsServiceArray);
+      return next();
     }
   }
   await request(options, callback);
-  console.log('service fetch success');
-  res.locals.awsServices = serviceInfo;
-  return next();
 };
 
 module.exports = AwsController;
