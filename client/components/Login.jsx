@@ -15,6 +15,12 @@ const Login = () => {
   const [auth, setAuth] = useState(false);
   const [clusters, setClusters] = useState([]);
 
+  //hooks for user sign up
+  const [signup, setSignup] = useState({
+    email: '',
+    password: '',
+  });
+
   //function to authenticate credentials
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,7 +38,18 @@ const Login = () => {
     }
   };
 
+  const handleSignup = async (event) => {
+    event.preventDefault();
+    console.log('su', signup);
+    console.log('in handle signup');
+    const signupSuccess = await axios.post('/login/signup', {
+      signup,
+    });
+    console.log('signup success', signupSuccess);
+  };
+
   const { accessKeyId, secretAccessKey, region } = access;
+  const { email, password } = signup;
 
   return (
     <>
@@ -115,6 +132,45 @@ const Login = () => {
             <Link to='/cluster' className='contextLink'>
               Use Configured Current Context
             </Link>
+          </Form>
+        </div>
+
+        {/* user login w/o aws */}
+
+        <div className='loginContainer'>
+          <h4 className='signupTitle'>
+            Sign up to monitor your
+            <br /> Kubernetes cluster.
+          </h4>
+          <Form className='loginForm'>
+            <Form.Group controlId='formEmail' className='inputAccess'>
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type='text'
+                value={email}
+                onChange={(e) =>
+                  setSignup({ ...signup, email: e.target.value })
+                }
+              />
+              <Form.Text className='text-muted'>
+                We'll never share your email with anyone else.
+              </Form.Text>
+            </Form.Group>
+            <Form.Group controlId='formPassword' className='inputAccess'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type='password'
+                value={password}
+                onChange={(e) =>
+                  setSignup({ ...signup, password: e.target.value })
+                }
+              />
+            </Form.Group>
+            <br />
+            <Button variant='primary' type='submit' onClick={handleSignup}>
+              Sign Up
+            </Button>
+            <br />
           </Form>
         </div>
       </div>

@@ -9,6 +9,7 @@ require('dotenv').config();
 // require routers
 const awsRouter = require('./routes/aws');
 const apiRouter = require('./routes/api');
+const loginRouter = require('./routes/login');
 
 app.use(cors());
 app.use(express.json());
@@ -16,6 +17,7 @@ app.use(express.json());
 // route handlers
 app.use('/aws', awsRouter);
 app.use('/api', apiRouter);
+app.use('/login', loginRouter);
 
 // serve html
 app.use('/', (req, res) => {

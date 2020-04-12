@@ -18,7 +18,7 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'dist'),
     proxy: [
       {
-        context: ['/aws', '/api'],
+        context: ['/aws', '/api', '/login'],
         target: 'http://localhost:3000',
         secure: false,
       },
