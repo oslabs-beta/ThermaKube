@@ -208,7 +208,7 @@ const Login = () => {
             <Form.Group controlId='verifyEmail' className='inputAccess'>
               <Form.Control
                 type='text'
-                placeholder='email'
+                placeholder='Email'
                 value={email}
                 onChange={(e) => setLogin({ ...login, email: e.target.value })}
               />
@@ -216,7 +216,7 @@ const Login = () => {
             <Form.Group controlId='verifyPassword' className='inputAccess'>
               <Form.Control
                 type='password'
-                placeholder='password'
+                placeholder='Password'
                 value={password}
                 onChange={(e) =>
                   setLogin({ ...login, password: e.target.value })
