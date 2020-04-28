@@ -60,6 +60,14 @@ cookieController.setJwtToken = (req, res, next) => {
   }
 };
 
-cookieController.verifyToken = (req, res, next) => {};
+cookieController.verifyToken = (req, res, next) => {
+  console.log('in verify tok');
+  console.log(req.headers.authorization);
+  const token = req.headers.authorization.slice(6);
+  console.log('tok', token);
+  const payload = jwt.verify(token, process.env.JWTSECRET);
+  console.log('id', payload.userId);
+  return next();
+};
 
 module.exports = cookieController;

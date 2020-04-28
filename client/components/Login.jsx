@@ -90,7 +90,6 @@ const Login = () => {
         <Redirect
           to={{
             pathname: '/cluster',
-            state: { data: cookie },
           }}
         />
       ) : null}

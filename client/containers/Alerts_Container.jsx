@@ -20,9 +20,15 @@ const Alerts = () => {
   // useEffect = Hook version of componentDidMount
   useEffect(() => {
     console.log('cookies', Cookies.get('token'));
+    const token = Cookies.get('token');
+    const header = {
+      headers: {
+        Authorization: 'Bearer' + token,
+      },
+    };
     const fetchPods = async () => {
       // axios request to server side
-      const result = await axios.get('/api/podAlerts');
+      const result = await axios.get('/api/podAlerts', header);
       alerts = []; //empty the alerts before updating with fetched data
       setAlerts(alerts.push(result.data));
       console.log('alerts', alerts);
