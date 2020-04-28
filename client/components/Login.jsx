@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import awsLogo from '../assets/awsLogo.png';
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
 // login page gives the option to authenticate AWS credentials or use current-context
 const Login = () => {
   //hooks for AWS sign in
@@ -52,6 +52,7 @@ const Login = () => {
     });
     console.log('signup success', signupSuccess);
     if (signupSuccess) {
+      Cookies.set('token', signupSuccess.data);
       setVerify(true);
     }
   };
@@ -63,6 +64,7 @@ const Login = () => {
     });
     console.log('login success', loginSuccess);
     if (loginSuccess.data) {
+      Cookies.set('token', loginSuccess.data);
       setVerify(true);
     } else {
       console.log('user not verified');
@@ -88,6 +90,7 @@ const Login = () => {
         <Redirect
           to={{
             pathname: '/cluster',
+            state: { data: cookie },
           }}
         />
       ) : null}

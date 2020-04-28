@@ -3,6 +3,7 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
 
@@ -13,6 +14,7 @@ const loginRouter = require('./routes/login');
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 // route handlers
 app.use('/aws', awsRouter);

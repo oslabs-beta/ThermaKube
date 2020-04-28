@@ -12,10 +12,10 @@ const Main_Container = (props) => {
   console.log('props test', props);
   const { path } = props;
   let awsApi;
-  if (props.history.location.state) {
-    awsApi = props.history.location.state.data;
-    console.log('awsAPI', awsApi);
-  }
+  // if (props.history.location.state) {
+  //   awsApi = props.history.location.state.data;
+  //   console.log('awsAPI', awsApi);
+  // }
 
   //data to pass to children | pod, node, and service will fetched and put into data
   //stillLoading and donFetching at booleans to check check if loading is finalized and throw appropriate loader
@@ -153,11 +153,9 @@ const Main_Container = (props) => {
             doneFetching={doneFetching}
             path={path}
           />
-        ) 
-        : path === '/visualizer' ? (
+        ) : path === '/visualizer' ? (
           <Visualizer_Container data={data} />
-        ) 
-        : path === '/alerts' ? (
+        ) : path === '/alerts' ? (
           <Alerts_Container />
         ) : (
           <Cluster_Container data={data} />

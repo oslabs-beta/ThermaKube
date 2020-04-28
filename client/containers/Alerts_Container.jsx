@@ -9,12 +9,17 @@ import { Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
+import Cookies from 'js-cookie';
+
+// import { useCookies } from 'react-cookie';
+
 const Alerts = () => {
   let [alerts, setAlerts] = useState([]);
   const [table, setTable] = useState([]); //alert data in table
-
+  // console.log('cook', props.cookie);
   // useEffect = Hook version of componentDidMount
   useEffect(() => {
+    console.log('cookies', Cookies.get('token'));
     const fetchPods = async () => {
       // axios request to server side
       const result = await axios.get('/api/podAlerts');
