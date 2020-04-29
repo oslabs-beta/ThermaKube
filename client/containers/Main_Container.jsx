@@ -9,7 +9,6 @@ import Alerts_Container from './Alerts_Container.jsx';
 import Cluster_Container from './Cluster_Container.jsx';
 
 const Main_Container = (props) => {
-  console.log('props test', props);
   const { path } = props;
   let awsApi;
   // if (props.history.location.state) {
@@ -159,7 +158,6 @@ const Main_Container = (props) => {
         ) : (
           <Cluster_Container data={data} />
         )}
-        {console.log('awsData', data)}
       </div>
     </div>
   );

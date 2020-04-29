@@ -5,7 +5,6 @@ const apiRouter = express.Router();
 const PodController = require('../controllers/PodController');
 const NodeController = require('../controllers/NodeController');
 const ServiceController = require('../controllers/ServiceController');
-const AlertController = require('../controllers/AlertController');
 const CookieController = require('../controllers/CookieController');
 const AlertsController = require('../controllers/AlertsController');
 
@@ -32,10 +31,6 @@ apiRouter.get('/services', ServiceController.getServices, (req, res) => {
 });
 
 // fetch alerts from db
-apiRouter.get('/podAlerts', AlertController.getAlerts, (req, res) => {
-  res.status(200).json(res.locals.alerts);
-});
-
 apiRouter.get(
   '/alerts',
   CookieController.verifyToken,
@@ -45,6 +40,7 @@ apiRouter.get(
   }
 );
 
+// add a new alert to db
 apiRouter.post(
   '/alerts',
   CookieController.verifyToken,
@@ -53,10 +49,5 @@ apiRouter.post(
     res.status(200).json(res.locals.alert);
   }
 );
-
-// add a new alert to db
-apiRouter.post('/podAlerts', AlertController.addAlerts, (req, res) => {
-  res.status(200).json(res.locals.alerts);
-});
 
 module.exports = apiRouter;

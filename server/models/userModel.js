@@ -1,9 +1,7 @@
 const { Pool } = require('pg');
-// url string to access database
-const elephantSecret = require('../secret');
 
 const pool = new Pool({
-  connectionString: elephantSecret.url,
+  connectionString: process.env.ELEPHANT_URL,
 });
 
 module.exports = {
