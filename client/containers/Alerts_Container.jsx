@@ -9,17 +9,32 @@ import { Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
+import Cookies from 'js-cookie';
+
+// import { useCookies } from 'react-cookie';
+
 const Alerts = () => {
   let [alerts, setAlerts] = useState([]);
   const [table, setTable] = useState([]); //alert data in table
-
+  // console.log('cook', props.cookie);
   // useEffect = Hook version of componentDidMount
   useEffect(() => {
+    console.log('cookies', Cookies.get('token'));
+    const token = Cookies.get('token');
+    const header = {
+      headers: {
+        Authorization: 'Bearer' + token,
+      },
+    };
     const fetchPods = async () => {
       // axios request to server side
-      const result = await axios.get('/api/podAlerts');
-      alerts = []; //empty the alerts before updating with fetched data
-      setAlerts(alerts.push(result.data));
+      const result = await axios.get('/api/alerts', header);
+      if (result.data) {
+        alerts = []; //empty the alerts before updating with fetched data
+        setAlerts(alerts.push(result.data));
+      } else {
+        alerts = [[]];
+      }
       console.log('alerts', alerts);
       const alertList = alerts[0].map((p, i) => {
         return (

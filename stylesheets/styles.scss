@@ -37,7 +37,7 @@ body {
 //for Landing page
 .appContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
 }
 
@@ -294,7 +294,7 @@ body {
 //LOGIN PAGE
 .loginPage {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-self: center;
   align-items: center;
   justify-content: center;
@@ -308,10 +308,11 @@ body {
     height: 700px;
     border: 1px solid #a4bfce;
     border-radius: 4px;
+    margin: 20px;
     .loginForm {
       margin: 20px;
       margin-top: 0;
-      padding: 50px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       .inputName {
@@ -329,6 +330,13 @@ body {
     }
     .inputAccess {
       text-align: left;
+    }
+    .signupTitle {
+      padding-top: 20px;
+      padding-left: 50px;
+      padding-right: 50px;
+      font-weight: 600;
+      color: #5b5b5b;
     }
   }
 }

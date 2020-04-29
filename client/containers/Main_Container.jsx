@@ -9,13 +9,12 @@ import Alerts_Container from './Alerts_Container.jsx';
 import Cluster_Container from './Cluster_Container.jsx';
 
 const Main_Container = (props) => {
-  console.log('props test', props);
   const { path } = props;
   let awsApi;
-  if (props.history.location.state) {
-    awsApi = props.history.location.state.data;
-    console.log('awsAPI', awsApi);
-  }
+  // if (props.history.location.state) {
+  //   awsApi = props.history.location.state.data;
+  //   console.log('awsAPI', awsApi);
+  // }
 
   //data to pass to children | pod, node, and service will fetched and put into data
   //stillLoading and donFetching at booleans to check check if loading is finalized and throw appropriate loader
@@ -104,7 +103,6 @@ const Main_Container = (props) => {
         podRes = awsApi.pods; //data on pods
         podUsageRes = awsApi.podUsage; //data on pod usage
       } else {
-        console.log('not working');
         const serviceReq = axios.get('/api/services');
         const nodeReq = axios.get('/api/nodes');
         const podReq = axios.get('/api/pods');
@@ -153,16 +151,13 @@ const Main_Container = (props) => {
             doneFetching={doneFetching}
             path={path}
           />
-        ) 
-        : path === '/visualizer' ? (
+        ) : path === '/visualizer' ? (
           <Visualizer_Container data={data} />
-        ) 
-        : path === '/alerts' ? (
+        ) : path === '/alerts' ? (
           <Alerts_Container />
         ) : (
           <Cluster_Container data={data} />
         )}
-        {console.log('awsData', data)}
       </div>
     </div>
   );
