@@ -28,9 +28,13 @@ const Alerts = () => {
     };
     const fetchPods = async () => {
       // axios request to server side
-      const result = await axios.get('/api/podAlerts', header);
-      alerts = []; //empty the alerts before updating with fetched data
-      setAlerts(alerts.push(result.data));
+      const result = await axios.get('/api/alerts', header);
+      if (result.data) {
+        alerts = []; //empty the alerts before updating with fetched data
+        setAlerts(alerts.push(result.data));
+      } else {
+        alerts = [[]];
+      }
       console.log('alerts', alerts);
       const alertList = alerts[0].map((p, i) => {
         return (

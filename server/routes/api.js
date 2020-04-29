@@ -6,7 +6,8 @@ const PodController = require('../controllers/PodController');
 const NodeController = require('../controllers/NodeController');
 const ServiceController = require('../controllers/ServiceController');
 const AlertController = require('../controllers/AlertController');
-const CookieController = require('../controllers/cookieController');
+const CookieController = require('../controllers/CookieController');
+const AlertsController = require('../controllers/AlertsController');
 
 // fetch pods from K8 Api
 apiRouter.get(
@@ -31,12 +32,25 @@ apiRouter.get('/services', ServiceController.getServices, (req, res) => {
 });
 
 // fetch alerts from db
+apiRouter.get('/podAlerts', AlertController.getAlerts, (req, res) => {
+  res.status(200).json(res.locals.alerts);
+});
+
 apiRouter.get(
-  '/podAlerts',
-  AlertController.getAlerts,
+  '/alerts',
   CookieController.verifyToken,
+  AlertsController.getAlerts,
   (req, res) => {
     res.status(200).json(res.locals.alerts);
+  }
+);
+
+apiRouter.post(
+  '/alerts',
+  CookieController.verifyToken,
+  AlertsController.addAlerts,
+  (req, res) => {
+    res.status(200).json(res.locals.alert);
   }
 );
 

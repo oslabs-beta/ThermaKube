@@ -27,7 +27,7 @@ CREATE TABLE "alerts" (
 	"namespace" varchar(255) NOT NULL,
 	"status" varchar(255) NOT NULL,
 	"pod_ip" varchar(255),
-	"timestamp" TIMESTAMP(255) NOT NULL,
+	"timestamp" varchar(255) NOT NULL,
 	CONSTRAINT "alerts_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE

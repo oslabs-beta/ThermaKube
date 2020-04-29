@@ -1,9 +1,9 @@
 const db = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 
-const cookieController = {};
+const CookieController = {};
 
-cookieController.setNewSSID = (req, res, next) => {
+CookieController.setNewSSID = (req, res, next) => {
   const { newEmail } = req.body.signup;
   // store user id in a cookie
   const findUser = {
@@ -24,7 +24,7 @@ cookieController.setNewSSID = (req, res, next) => {
     });
 };
 
-cookieController.setSSID = (req, res, next) => {
+CookieController.setSSID = (req, res, next) => {
   const { email } = req.body.login;
   // store user id in a cookie
   const findUser = {
@@ -45,7 +45,7 @@ cookieController.setSSID = (req, res, next) => {
     });
 };
 
-cookieController.setJwtToken = (req, res, next) => {
+CookieController.setJwtToken = (req, res, next) => {
   try {
     // create jwt
     const payload = { userId: res.locals.userId };
@@ -60,14 +60,17 @@ cookieController.setJwtToken = (req, res, next) => {
   }
 };
 
-cookieController.verifyToken = (req, res, next) => {
-  console.log('in verify tok');
-  console.log(req.headers.authorization);
-  const token = req.headers.authorization.slice(6);
-  console.log('tok', token);
-  const payload = jwt.verify(token, process.env.JWTSECRET);
-  console.log('id', payload.userId);
-  return next();
+CookieController.verifyToken = (req, res, next) => {
+  try {
+    console.log('header', req.headers.authorization);
+    const token = req.headers.authorization.slice(6);
+    const payload = jwt.verify(token, process.env.JWTSECRET);
+    res.locals.userId = payload.userId;
+    console.log(res.locals.userId);
+    return next();
+  } catch (err) {
+    console.log('error in verify token middleware', err);
+  }
 };
 
-module.exports = cookieController;
+module.exports = CookieController;

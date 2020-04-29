@@ -104,7 +104,6 @@ const Main_Container = (props) => {
         podRes = awsApi.pods; //data on pods
         podUsageRes = awsApi.podUsage; //data on pod usage
       } else {
-        console.log('not working');
         const serviceReq = axios.get('/api/services');
         const nodeReq = axios.get('/api/nodes');
         const podReq = axios.get('/api/pods');
