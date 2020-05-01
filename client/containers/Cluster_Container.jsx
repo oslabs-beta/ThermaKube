@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 
 import Pods from '../components/cluster/Pods.jsx';
 import Nodes from '../components/cluster/Nodes.jsx';
