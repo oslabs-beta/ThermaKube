@@ -7,10 +7,12 @@ import RadialTree from '../components/visualizer/RadialTree.jsx';
 import Visualizer_Container from './Visualizer_Container.jsx';
 import Alerts_Container from './Alerts_Container.jsx';
 import Cluster_Container from './Cluster_Container.jsx';
+import Pods from '../components/cluster/Pods.jsx';
 
 const Main_Container = (props) => {
   const { path } = props;
-  // let awsApi;
+  // AWS auth under construction
+  // let awsApi; -
   // if (props.history.location.state) {
   //   awsApi = props.history.location.state.data;
   //   console.log('awsAPI', awsApi);
@@ -144,10 +146,12 @@ const Main_Container = (props) => {
       setInt = setInterval(() => {
         console.log('setInterval called');
         fetchInfo();
-      }, 1000);
+        console.log('data', data);
+        console.log('pod', pod);
+      }, 3000);
     })();
 
-    //clear settimeout when component is removed from dom
+    //clear setInterval when component is removed from dom
     return () => clearInterval(setInt);
   }, [data, path]);
 

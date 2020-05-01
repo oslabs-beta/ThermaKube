@@ -11,12 +11,9 @@ import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
 import Cookies from 'js-cookie';
 
-// import { useCookies } from 'react-cookie';
-
 const Alerts = () => {
   let [alerts, setAlerts] = useState([]);
   const [table, setTable] = useState([]); //alert data in table
-  // console.log('cook', props.cookie);
   // useEffect = Hook version of componentDidMount
   useEffect(() => {
     console.log('cookies', Cookies.get('token'));
@@ -43,7 +40,7 @@ const Alerts = () => {
               <td>{p.name}</td>
               <td>{p.namespace}</td>
               <td>
-                <FontAwesomeIcon icon={faMinusCircle} color='red' />
+                <FontAwesomeIcon icon={faMinusCircle} color='orange' />
                 &nbsp;&nbsp;{p.status}
               </td>
               <td>{p.podIP}</td>
