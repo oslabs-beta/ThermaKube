@@ -1,13 +1,25 @@
-import React from 'react';
-import { Nav, NavDropdown, NavItem } from 'react-bootstrap';
-import { BrowserRouter as Link, NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Nav, NavDropdown } from 'react-bootstrap';
 
 import white from '../assets/whiteLogo.png';
+import Cookies from 'js-cookie';
 
 const Dashboard = () => {
-  const scrollHere = (here) => {
-    document.getElementById({ here }).scrollIntoView();
-  };
+  let [clusterNav, setClusterNav] = useState([]);
+
+  useEffect(() => {
+    const token = Cookies.get('token'); //undefined if not logged in
+    // const showCluster;
+    if(token) {
+      setClusterNav(
+        <NavDropdown title='My Cluster' className='navLink'>
+          <Nav.Link href='/cluster'>Cluster</Nav.Link>
+          <Nav.Link href='/visualizer'>Visualizer</Nav.Link>
+          <Nav.Link href='/alerts'>Alerts</Nav.Link>
+        </NavDropdown>
+      );
+    }
+  }, [])
 
   return (
     <div className='topNavbar'>
@@ -33,11 +45,7 @@ const Dashboard = () => {
         <Nav.Link href='/login' className='ml-auto'>
           Login
         </Nav.Link>
-        <NavDropdown title='My Cluster' className='navLink'>
-          <Nav.Link href='/cluster'>Cluster</Nav.Link>
-          <Nav.Link href='/visualizer'>Visualizer</Nav.Link>
-          <Nav.Link href='/alerts'>Alerts</Nav.Link>
-        </NavDropdown>
+        {clusterNav}
       </Nav>
     </div>
   );
