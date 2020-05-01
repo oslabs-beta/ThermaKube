@@ -5,19 +5,25 @@ import white from '../assets/whiteLogo.png';
 import Cookies from 'js-cookie';
 
 const Dashboard = () => {
-  let [clusterNav, setClusterNav] = useState([]);
+  let [navOption, setNavOption] = useState([]);
 
   useEffect(() => {
     const token = Cookies.get('token'); //undefined if not logged in
-    // const showCluster;
-    if(token) {
-      setClusterNav(
-        <NavDropdown title='My Cluster' className='navLink'>
+    if(token) { //if logged in, show cluster option in dashboard
+      setNavOption(
+        <NavDropdown title='My Cluster' className='ml-auto navLink'>
           <Nav.Link href='/cluster'>Cluster</Nav.Link>
           <Nav.Link href='/visualizer'>Visualizer</Nav.Link>
           <Nav.Link href='/alerts'>Alerts</Nav.Link>
         </NavDropdown>
       );
+    }
+    else {
+      setNavOption ( //login option shows only if not logged in - for now, since no logout in backend
+        <Nav.Link href='/login' className='ml-auto'>
+          Login
+        </Nav.Link>
+      )
     }
   }, [])
 
@@ -42,10 +48,7 @@ const Dashboard = () => {
         <Nav.Link href='/#team' className='navLink'>
           Team
         </Nav.Link>
-        <Nav.Link href='/login' className='ml-auto'>
-          Login
-        </Nav.Link>
-        {clusterNav}
+        {navOption}
       </Nav>
     </div>
   );

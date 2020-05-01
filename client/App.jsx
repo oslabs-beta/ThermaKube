@@ -14,8 +14,7 @@ const App = () => {
 
   useEffect(() => {
     const token = Cookies.get('token'); //undefined if not logged in
-    // const showCluster;
-    if(token) {
+    if(token) { //if token exists, render cluster page paths
       setMainCont(
         <Route
           path='/'
@@ -24,10 +23,13 @@ const App = () => {
           )}
         /> 
       );
-      console.log('token verified, setMainCont')
     }
-    console.log('useEffect called')
-    console.log('token in app', token)
+    else { //else login path 
+      setMainCont(
+        <Route exact path='/login' component={Login} />
+      );
+    }
+
   }, [])
 
 
@@ -39,14 +41,8 @@ const App = () => {
       <div className='appContainer' id='app'>
         <Switch>
           <Route exact path='/' component={Home} />
-          <Route exact path='/login' component={Login} />
+          {/* <Route exact path='/login' component={Login} /> */}
           <Route exact path='/eks' component={Eks} />
-          {/* <Route
-            path='/'
-            children={(routeProps) => (
-              <Main_Container {...routeProps} path={path} />
-            )}
-          /> */}
           {mainCont}
         </Switch>
       </div>
