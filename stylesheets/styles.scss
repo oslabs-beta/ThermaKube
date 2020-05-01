@@ -39,30 +39,13 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding-top: 4em;
 }
 
 //for My Cluster page
 .appCont {
   display: flex;
   flex-direction: row;
-}
-
-//Dashboard/left navbar
-.dashboard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #001e3f;
-  width: 200px;
-  font-family: $quicksand;
-  .logo {
-    width: 100px;
-    height: 100px;
-    margin: 30px;
-  }
-  .nav-link {
-    margin: 1em 0 0 0; //top right bottom left
-  }
 }
 
 //////////////
@@ -86,6 +69,10 @@ body {
 #navbarHome {
   background-color: $navy;
   padding: 0.5em;
+  opacity: 0.95;
+  position: fixed;
+  width: 100%;
+  z-index: 10; //appear over all other components
   -webkit-box-shadow: 0 9px 6px -6px #999;
   -moz-box-shadow: 0 9px 6px -6px #999;
   box-shadow: 0 9px 6px -6px #999;
