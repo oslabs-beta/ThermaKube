@@ -16,7 +16,7 @@ AlertsController.getAlerts = (req, res, next) => {
       if (alerts.rows[0]) {
         console.log('alerts exist');
         const data = alerts.rows;
-        console.log('data', data);
+        // console.log('data', data);
         const alertArray = [];
         for (let i = 0; i < data.length; i++) {
           let obj = {
@@ -30,7 +30,7 @@ AlertsController.getAlerts = (req, res, next) => {
         }
 
         res.locals.alerts = alertArray;
-        console.log('locals', res.locals.alerts);
+        // console.log('locals', res.locals.alerts);
         return next();
       } else {
         console.log('no alerts');

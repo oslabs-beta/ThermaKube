@@ -10,7 +10,7 @@ import Cluster_Container from './Cluster_Container.jsx';
 
 const Main_Container = (props) => {
   const { path } = props;
-  let awsApi;
+  // let awsApi;
   // if (props.history.location.state) {
   //   awsApi = props.history.location.state.data;
   //   console.log('awsAPI', awsApi);
@@ -97,12 +97,13 @@ const Main_Container = (props) => {
       let podRes;
       let podUsageRes;
 
-      if (awsApi) {
-        serviceRes = awsApi.services;
-        nodeRes = awsApi.nodes;
-        podRes = awsApi.pods; //data on pods
-        podUsageRes = awsApi.podUsage; //data on pod usage
-      } else {
+      // if (awsApi) {
+      //   serviceRes = awsApi.services;
+      //   nodeRes = awsApi.nodes;
+      //   podRes = awsApi.pods; //data on pods
+      //   podUsageRes = awsApi.podUsage; //data on pod usage
+      // } else {
+      try {
         const serviceReq = axios.get('/api/services');
         const nodeReq = axios.get('/api/nodes');
         const podReq = axios.get('/api/pods');
@@ -114,16 +115,23 @@ const Main_Container = (props) => {
         nodeRes = res[1].data;
         podRes = res[2].data.pod; //data on pods
         podUsageRes = res[2].data.usage; //data on pod usage
+        // }
+        service = [];
+        node = [];
+        pod = [];
+        podUsage = [];
+
+        setService(service.push(...serviceRes));
+        setNode(node.push(...nodeRes));
+        setPod(pod.push(...podRes));
+        setPodUsage(podUsage.push(...podUsageRes));
+
+        setData(getServices()); //set data
+        //data has been fetched and Loader component will through new animation
+        setdoneFetching(true);
+      } catch (err) {
+        console.log('error', err);
       }
-
-      setService(service.push(...serviceRes));
-      setNode(node.push(...nodeRes));
-      setPod(pod.push(...podRes));
-      setPodUsage(podUsage.push(...podUsageRes));
-
-      setData(getServices()); //set data
-      //data has been fetched and Loader component will through new animation
-      setdoneFetching(true);
     };
     // fetching data call for initial load and every 3 seconds
     (function fetchOnLoad() {
@@ -136,8 +144,9 @@ const Main_Container = (props) => {
       setInt = setInterval(() => {
         console.log('setInterval called');
         fetchInfo();
-      }, 3000);
+      }, 1000);
     })();
+
     //clear settimeout when component is removed from dom
     return () => clearInterval(setInt);
   }, [data, path]);
