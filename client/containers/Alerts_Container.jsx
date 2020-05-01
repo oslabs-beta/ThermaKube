@@ -9,17 +9,29 @@ import { Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
+import Cookies from 'js-cookie';
+
 const Alerts = () => {
   let [alerts, setAlerts] = useState([]);
   const [table, setTable] = useState([]); //alert data in table
-
   // useEffect = Hook version of componentDidMount
   useEffect(() => {
+    console.log('cookies', Cookies.get('token'));
+    const token = Cookies.get('token');
+    const header = {
+      headers: {
+        Authorization: 'Bearer' + token,
+      },
+    };
     const fetchPods = async () => {
       // axios request to server side
-      const result = await axios.get('/api/podAlerts');
-      alerts = []; //empty the alerts before updating with fetched data
-      setAlerts(alerts.push(result.data));
+      const result = await axios.get('/api/alerts', header);
+      if (result.data) {
+        alerts = []; //empty the alerts before updating with fetched data
+        setAlerts(alerts.push(result.data));
+      } else {
+        alerts = [[]];
+      }
       console.log('alerts', alerts);
       const alertList = alerts[0].map((p, i) => {
         return (
@@ -28,7 +40,7 @@ const Alerts = () => {
               <td>{p.name}</td>
               <td>{p.namespace}</td>
               <td>
-                <FontAwesomeIcon icon={faMinusCircle} color='red' />
+                <FontAwesomeIcon icon={faMinusCircle} color='orange' />
                 &nbsp;&nbsp;{p.status}
               </td>
               <td>{p.podIP}</td>

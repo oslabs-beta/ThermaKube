@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import awsLogo from '../assets/awsLogo.png';
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
 // login page gives the option to authenticate AWS credentials or use current-context
 const Login = () => {
   //hooks for AWS sign in
@@ -13,10 +13,23 @@ const Login = () => {
     region: '',
   });
   const [auth, setAuth] = useState(false);
+  const [verify, setVerify] = useState(false);
   const [clusters, setClusters] = useState([]);
 
+  //hooks for user sign up
+  const [signup, setSignup] = useState({
+    newEmail: '',
+    newPassword: '',
+  });
+
+  //hooks for user login
+  const [login, setLogin] = useState({
+    email: '',
+    password: '',
+  });
+
   //function to authenticate credentials
-  const handleSubmit = async (event) => {
+  const handleAwsSignin = async (event) => {
     event.preventDefault();
     console.log('accessInfo', access);
     // make a request to the aws api with credentials. if data is returned then redirect.
@@ -31,8 +44,36 @@ const Login = () => {
       console.log('none');
     }
   };
+  //function to sign up new users
+  const handleSignup = async (event) => {
+    event.preventDefault();
+    const signupSuccess = await axios.post('/login/signup', {
+      signup,
+    });
+    console.log('signup success', signupSuccess);
+    if (signupSuccess) {
+      Cookies.set('token', signupSuccess.data);
+      setVerify(true);
+    }
+  };
+  //function to login/verify existing users
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const loginSuccess = await axios.post('/login/verify', {
+      login,
+    });
+    console.log('login success', loginSuccess);
+    if (loginSuccess.data) {
+      Cookies.set('token', loginSuccess.data);
+      setVerify(true);
+    } else {
+      console.log('user not verified');
+    }
+  };
 
   const { accessKeyId, secretAccessKey, region } = access;
+  const { newEmail, newPassword } = signup;
+  const { email, password } = login;
 
   return (
     <>
@@ -42,6 +83,13 @@ const Login = () => {
           to={{
             pathname: '/eks',
             state: { data: clusters, credentials: access },
+          }}
+        />
+      ) : null}
+      {verify ? (
+        <Redirect
+          to={{
+            pathname: '/cluster',
           }}
         />
       ) : null}
@@ -106,7 +154,7 @@ const Login = () => {
               </Form.Control>
             </Form.Group>
             <br />
-            <Button variant='primary' type='submit' onClick={handleSubmit}>
+            <Button variant='primary' type='submit' onClick={handleAwsSignin}>
               Sign In with AWS
             </Button>
             <br />
@@ -115,6 +163,72 @@ const Login = () => {
             <Link to='/cluster' className='contextLink'>
               Use Configured Current Context
             </Link>
+          </Form>
+        </div>
+
+        {/* user sign up w/o aws */}
+
+        <div className='loginContainer'>
+          <h5 className='signupTitle'>
+            Sign up to monitor your <br />
+            Kubernetes cluster.
+          </h5>
+          <Form className='loginForm'>
+            <Form.Group controlId='formEmail' className='inputAccess'>
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type='text'
+                value={newEmail}
+                onChange={(e) =>
+                  setSignup({ ...signup, newEmail: e.target.value })
+                }
+              />
+              <Form.Text className='text-muted'>
+                We'll never share your email with anyone else.
+              </Form.Text>
+            </Form.Group>
+            <Form.Group controlId='formPassword' className='inputAccess'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type='password'
+                value={newPassword}
+                onChange={(e) =>
+                  setSignup({ ...signup, newPassword: e.target.value })
+                }
+              />
+            </Form.Group>
+            <br />
+            <Button variant='primary' type='submit' onClick={handleSignup}>
+              Sign Up
+            </Button>
+          </Form>
+
+          {/* user sign up w/o aws */}
+          <h6 className='haveAccount'>Already have an account?</h6>
+
+          <Form className='loginForm'>
+            <Form.Group controlId='verifyEmail' className='inputAccess'>
+              <Form.Control
+                type='text'
+                placeholder='Email'
+                value={email}
+                onChange={(e) => setLogin({ ...login, email: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group controlId='verifyPassword' className='inputAccess'>
+              <Form.Control
+                type='password'
+                placeholder='Password'
+                value={password}
+                onChange={(e) =>
+                  setLogin({ ...login, password: e.target.value })
+                }
+              />
+            </Form.Group>
+            <br />
+            <Button variant='primary' type='submit' onClick={handleLogin}>
+              Sign In
+            </Button>
           </Form>
         </div>
       </div>

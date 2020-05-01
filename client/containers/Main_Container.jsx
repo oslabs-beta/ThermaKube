@@ -7,15 +7,16 @@ import RadialTree from '../components/visualizer/RadialTree.jsx';
 import Visualizer_Container from './Visualizer_Container.jsx';
 import Alerts_Container from './Alerts_Container.jsx';
 import Cluster_Container from './Cluster_Container.jsx';
+import Pods from '../components/cluster/Pods.jsx';
 
 const Main_Container = (props) => {
-  console.log('props test', props);
   const { path } = props;
-  let awsApi;
-  if (props.history.location.state) {
-    awsApi = props.history.location.state.data;
-    console.log('awsAPI', awsApi);
-  }
+  // AWS auth under construction
+  // let awsApi; -
+  // if (props.history.location.state) {
+  //   awsApi = props.history.location.state.data;
+  //   console.log('awsAPI', awsApi);
+  // }
 
   //data to pass to children | pod, node, and service will fetched and put into data
   //stillLoading and donFetching at booleans to check check if loading is finalized and throw appropriate loader
@@ -98,13 +99,13 @@ const Main_Container = (props) => {
       let podRes;
       let podUsageRes;
 
-      if (awsApi) {
-        serviceRes = awsApi.services;
-        nodeRes = awsApi.nodes;
-        podRes = awsApi.pods; //data on pods
-        podUsageRes = awsApi.podUsage; //data on pod usage
-      } else {
-        console.log('not working');
+      // if (awsApi) {
+      //   serviceRes = awsApi.services;
+      //   nodeRes = awsApi.nodes;
+      //   podRes = awsApi.pods; //data on pods
+      //   podUsageRes = awsApi.podUsage; //data on pod usage
+      // } else {
+      try {
         const serviceReq = axios.get('/api/services');
         const nodeReq = axios.get('/api/nodes');
         const podReq = axios.get('/api/pods');
@@ -116,16 +117,23 @@ const Main_Container = (props) => {
         nodeRes = res[1].data;
         podRes = res[2].data.pod; //data on pods
         podUsageRes = res[2].data.usage; //data on pod usage
+        // }
+        service = [];
+        node = [];
+        pod = [];
+        podUsage = [];
+
+        setService(service.push(...serviceRes));
+        setNode(node.push(...nodeRes));
+        setPod(pod.push(...podRes));
+        setPodUsage(podUsage.push(...podUsageRes));
+
+        setData(getServices()); //set data
+        //data has been fetched and Loader component will through new animation
+        setdoneFetching(true);
+      } catch (err) {
+        console.log('error', err);
       }
-
-      setService(service.push(...serviceRes));
-      setNode(node.push(...nodeRes));
-      setPod(pod.push(...podRes));
-      setPodUsage(podUsage.push(...podUsageRes));
-
-      setData(getServices()); //set data
-      //data has been fetched and Loader component will through new animation
-      setdoneFetching(true);
     };
     // fetching data call for initial load and every 3 seconds
     (function fetchOnLoad() {
@@ -138,9 +146,12 @@ const Main_Container = (props) => {
       setInt = setInterval(() => {
         console.log('setInterval called');
         fetchInfo();
+        console.log('data', data);
+        console.log('pod', pod);
       }, 3000);
     })();
-    //clear settimeout when component is removed from dom
+
+    //clear setInterval when component is removed from dom
     return () => clearInterval(setInt);
   }, [data, path]);
 
@@ -153,16 +164,13 @@ const Main_Container = (props) => {
             doneFetching={doneFetching}
             path={path}
           />
-        ) 
-        : path === '/visualizer' ? (
+        ) : path === '/visualizer' ? (
           <Visualizer_Container data={data} />
-        ) 
-        : path === '/alerts' ? (
+        ) : path === '/alerts' ? (
           <Alerts_Container />
         ) : (
           <Cluster_Container data={data} />
         )}
-        {console.log('awsData', data)}
       </div>
     </div>
   );

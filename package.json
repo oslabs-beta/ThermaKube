@@ -45,14 +45,18 @@
     "aws4": "^1.9.1",
     "bootstrap": "^4.4.1",
     "concurrently": "^5.1.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "d3": "^5.15.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "js-base64": "^2.5.2",
+    "js-cookie": "^2.2.1",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.6",
+    "pg": "^8.0.2",
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0-beta.17",
     "react-dom": "^16.13.0",
@@ -63,5 +67,8 @@
     "react-router-dom": "^5.1.2",
     "reactstrap": "^8.4.1",
     "request": "^2.88.2"
+  },
+  "engines": {
+    "node": "12.14"
   }
 }

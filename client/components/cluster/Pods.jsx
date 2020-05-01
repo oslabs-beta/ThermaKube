@@ -8,13 +8,16 @@ import {
   faMinusCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
+import Cookies from 'js-cookie';
+
 const Pods = ({ data }) => {
+  console.log('pods data', data);
+  // console.log('props', props);
   // using hooks to set state
   const [table, setTable] = useState([]); //pod data in table
   let children = [];
-  data[0].children.map(child => children.push(...child.children));
+  data[0].children.map((child) => children.push(...child.children));
   // console.log('children', children);
-  // useEffect = Hook version of componentDidMount
   useEffect(() => {
     const podList = children.map((p, i) => {
       // check status - if "Running" then render green check circle
@@ -43,7 +46,7 @@ const Pods = ({ data }) => {
               <td>{p.name}</td>
               <td>{p.namespace}</td>
               <td>
-                <FontAwesomeIcon icon={faMinusCircle} color='red' />
+                <FontAwesomeIcon icon={faMinusCircle} color='orange' />
                 &nbsp;&nbsp;
                 {p.status}
               </td>
@@ -55,17 +58,29 @@ const Pods = ({ data }) => {
       }
     });
     setTable(podList);
-  }, []);
+    // use Effect will trigger every time data is changed
+  }, data);
 
   // function that adds a new Alert - gets called in ^useEffect when pod status is not "Running"
-  const addAlert = async p => {
-    const postAlert = await axios.post('/api/podAlerts', {
-      name: p.name,
-      namespace: p.namespace,
-      status: p.status,
-      podIP: p.podIP,
-      time: Date(Date.now()).toString(),
-    });
+  const addAlert = async (p) => {
+    const token = Cookies.get('token');
+    const header = {
+      headers: {
+        Authorization: 'Bearer' + token,
+      },
+    };
+    console.log('header', header);
+    const postAlert = await axios.post(
+      '/api/alerts',
+      {
+        name: p.name,
+        namespace: p.namespace,
+        status: p.status,
+        podIP: p.podIP,
+        time: Date(Date.now()).toString(),
+      },
+      header
+    );
   };
 
   return (
