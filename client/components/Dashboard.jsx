@@ -7,25 +7,36 @@ import Cookies from 'js-cookie';
 const Dashboard = () => {
   let [navOption, setNavOption] = useState([]);
 
+  // remove cookie w/ token when users sign out
+  const signOut = () => {
+    return Cookies.remove('token');
+  };
+
   useEffect(() => {
     const token = Cookies.get('token'); //undefined if not logged in
-    if(token) { //if logged in, show cluster option in dashboard
+    if (token) {
+      //if logged in, show cluster option in dashboard
       setNavOption(
-        <NavDropdown title='My Cluster' className='ml-auto navLink'>
-          <Nav.Link href='/cluster'>Cluster</Nav.Link>
-          <Nav.Link href='/visualizer'>Visualizer</Nav.Link>
-          <Nav.Link href='/alerts'>Alerts</Nav.Link>
-        </NavDropdown>
+        <>
+          <NavDropdown title='My Cluster' className='ml-auto navLink'>
+            <Nav.Link href='/cluster'>Cluster</Nav.Link>
+            <Nav.Link href='/visualizer'>Visualizer</Nav.Link>
+            <Nav.Link href='/alerts'>Alerts</Nav.Link>
+          </NavDropdown>
+          <Nav.Link href='/login' className='navLink' onClick={signOut}>
+            Sign Out
+          </Nav.Link>
+        </>
       );
-    }
-    else {
-      setNavOption ( //login option shows only if not logged in - for now, since no logout in backend
+    } else {
+      setNavOption(
+        //login option shows only if not logged in - for now, since no logout in backend
         <Nav.Link href='/login' className='ml-auto'>
           Login
         </Nav.Link>
-      )
+      );
     }
-  }, [])
+  }, []);
 
   return (
     <div className='topNavbar'>
