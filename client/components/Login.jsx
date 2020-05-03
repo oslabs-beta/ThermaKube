@@ -4,7 +4,11 @@ import { Form, Button } from 'react-bootstrap';
 import awsLogo from '../assets/awsLogo.png';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-// login page gives the option to authenticate AWS credentials or use current-context
+/**
+ *
+ *  LOGIN WITH AWS AUTH UNDER CONSTRUCTION
+ *
+ */
 const Login = () => {
   //hooks for AWS sign in
   const [access, setAccess] = useState({
@@ -96,7 +100,8 @@ const Login = () => {
       <div className='loginPage'>
         <div className='loginContainer'>
           <img src={awsLogo} className='awsLogo' />
-          <Form className='loginForm'>
+          <h4 className='comingSoon'>Sign in with AWS coming soon!</h4>
+          {/* <Form className='loginForm'>
             <Form.Group controlId='formAccessId' className='inputAccess'>
               <Form.Label>Access Key ID</Form.Label>
               <Form.Control
@@ -107,9 +112,6 @@ const Login = () => {
                   setAccess({ ...access, accessKeyId: e.target.value })
                 }
               />
-              <Form.Text className='text-muted'>
-                {/* We'll never share your email with anyone else. */}
-              </Form.Text>
             </Form.Group>
             <Form.Group controlId='formAccessKey' className='inputAccess'>
               <Form.Label>Secret Access Key</Form.Label>
@@ -158,12 +160,7 @@ const Login = () => {
               Sign In with AWS
             </Button>
             <br />
-            <h6>OR</h6>
-            <br />
-            <Link to='/cluster' className='contextLink'>
-              Use Configured Current Context
-            </Link>
-          </Form>
+          </Form> */}
         </div>
 
         {/* user sign up w/o aws */}
