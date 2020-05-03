@@ -46,8 +46,7 @@ UserController.verifyUser = (req, res, next) => {
         return next();
       } else {
         console.log('unverified or user does not exist');
-        res.locals.user = false;
-        return next();
+        return res.status(401).json({ message: 'unverified' });
       }
     })
     .catch((err) => {

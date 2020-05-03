@@ -5,7 +5,6 @@ import Loader from '../components/Loader.jsx';
 import Visualizer_Container from './Visualizer_Container.jsx';
 import Alerts_Container from './Alerts_Container.jsx';
 import Cluster_Container from './Cluster_Container.jsx';
-import Pods from '../components/cluster/Pods.jsx';
 
 const Main_Container = (props) => {
   const { path } = props;
