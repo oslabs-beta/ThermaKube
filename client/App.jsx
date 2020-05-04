@@ -8,30 +8,28 @@ import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
 import Eks from './components/Eks.jsx';
 
-
 const App = () => {
-  let [mainCont, setMainCont] = useState();
+  const [mainCont, setMainCont] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get('token'); //undefined if not logged in
-    if(token) { //if token exists, render cluster page paths
+    if (token) {
+      //if token exists, render cluster page paths
+      setIsLoggedIn(true);
       setMainCont(
         <Route
           path='/'
           children={(routeProps) => (
             <Main_Container {...routeProps} path={path} />
           )}
-        /> 
+        />
       );
+    } else {
+      //else login path
+      setMainCont(<Route exact path='/login' component={Login} />);
     }
-    else { //else login path 
-      setMainCont(
-        <Route exact path='/login' component={Login} />
-      );
-    }
-
-  }, [])
-
+  }, [isLoggedIn]);
 
   //get current pathname for each
   const path = window.location.pathname;
