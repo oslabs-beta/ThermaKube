@@ -1,5 +1,4 @@
 const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -7,7 +6,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
-    publicPath: '/',
   },
   devServer: {
     // Required for Docker to work with dev server
@@ -15,10 +13,10 @@ module.exports = {
     //host: localhost,
     port: 8080,
     // match the output path
-    contentBase: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/',
     proxy: [
       {
-        context: ['/aws', '/api', '/login'],
+        context: ['/aws/', '/api/', '/login/'],
         target: 'http://localhost:3000',
         secure: false,
       },
@@ -55,12 +53,7 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: './index.html',
-      filename: './index.html',
-    }),
-  ],
+
   resolve: {
     extensions: ['.js', '.jsx'],
   },

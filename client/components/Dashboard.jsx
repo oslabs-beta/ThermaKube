@@ -4,28 +4,37 @@ import { Nav, NavDropdown } from 'react-bootstrap';
 import white from '../assets/whiteLogo.png';
 import Cookies from 'js-cookie';
 
-const Dashboard = () => {
-  let [navOption, setNavOption] = useState([]);
-
+const Dashboard = ({ isLoggedIn, removeAuth }) => {
+  const [navOption, setNavOption] = useState([]);
+  // remove cookie w/ token when users sign out and update auth value in local storage
+  const signOut = () => {
+    Cookies.remove('token');
+    removeAuth();
+  };
   useEffect(() => {
-    const token = Cookies.get('token'); //undefined if not logged in
-    if(token) { //if logged in, show cluster option in dashboard
+    if (isLoggedIn == 'true') {
+      //if logged in, show cluster option in dashboard
       setNavOption(
-        <NavDropdown title='My Cluster' className='ml-auto navLink'>
-          <Nav.Link href='/cluster'>Cluster</Nav.Link>
-          <Nav.Link href='/visualizer'>Visualizer</Nav.Link>
-          <Nav.Link href='/alerts'>Alerts</Nav.Link>
-        </NavDropdown>
+        <>
+          <NavDropdown title='My Cluster' className='ml-auto navLink'>
+            <Nav.Link href='/cluster'>Cluster</Nav.Link>
+            <Nav.Link href='/visualizer'>Visualizer</Nav.Link>
+            <Nav.Link href='/alerts'>Alerts</Nav.Link>
+          </NavDropdown>
+          <Nav.Link href='/login' className='navLink' onClick={signOut}>
+            Sign Out
+          </Nav.Link>
+        </>
       );
-    }
-    else {
-      setNavOption ( //login option shows only if not logged in - for now, since no logout in backend
+    } else {
+      setNavOption(
+        //login option shows only if not logged in - for now, since no logout in backend
         <Nav.Link href='/login' className='ml-auto'>
           Login
         </Nav.Link>
-      )
+      );
     }
-  }, [])
+  }, [isLoggedIn]);
 
   return (
     <div className='topNavbar'>
