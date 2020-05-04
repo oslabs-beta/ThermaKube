@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import awsLogo from '../assets/awsLogo.png';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+
 /**
  *
  *  LOGIN WITH AWS AUTH UNDER CONSTRUCTION
  *
  */
-const Login = () => {
+const Login = ({ isAuthed }) => {
   //hooks for AWS sign in
   const [access, setAccess] = useState({
     accessKeyId: '',
@@ -31,7 +32,6 @@ const Login = () => {
     email: '',
     password: '',
   });
-
   //function to authenticate credentials
   const handleAwsSignin = async (event) => {
     event.preventDefault();
@@ -58,6 +58,7 @@ const Login = () => {
     if (signupSuccess) {
       Cookies.set('token', signupSuccess.data);
       setVerify(true);
+      isAuthed();
     }
   };
   //function to login/verify existing users
@@ -70,6 +71,7 @@ const Login = () => {
     if (loginSuccess.data) {
       Cookies.set('token', loginSuccess.data);
       setVerify(true);
+      isAuthed();
     } else {
       console.log('user not verified');
     }

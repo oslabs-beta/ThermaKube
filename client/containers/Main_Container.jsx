@@ -7,6 +7,7 @@ import Alerts_Container from './Alerts_Container.jsx';
 import Cluster_Container from './Cluster_Container.jsx';
 
 const Main_Container = (props) => {
+  console.log('props', props.path);
   const { path } = props;
   // AWS auth under construction
   // let awsApi; -

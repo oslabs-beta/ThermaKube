@@ -4,17 +4,15 @@ import { Nav, NavDropdown } from 'react-bootstrap';
 import white from '../assets/whiteLogo.png';
 import Cookies from 'js-cookie';
 
-const Dashboard = () => {
-  let [navOption, setNavOption] = useState([]);
-
-  // remove cookie w/ token when users sign out
+const Dashboard = ({ isLoggedIn, removeAuth }) => {
+  const [navOption, setNavOption] = useState([]);
+  // remove cookie w/ token when users sign out and update auth value in local storage
   const signOut = () => {
-    return Cookies.remove('token');
+    Cookies.remove('token');
+    removeAuth();
   };
-
   useEffect(() => {
-    const token = Cookies.get('token'); //undefined if not logged in
-    if (token) {
+    if (isLoggedIn == 'true') {
       //if logged in, show cluster option in dashboard
       setNavOption(
         <>
@@ -36,7 +34,7 @@ const Dashboard = () => {
         </Nav.Link>
       );
     }
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <div className='topNavbar'>
