@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import Loader from '../components/Loader.jsx';
-import RadialTree from '../components/visualizer/RadialTree.jsx';
 import Visualizer_Container from './Visualizer_Container.jsx';
 import Alerts_Container from './Alerts_Container.jsx';
 import Cluster_Container from './Cluster_Container.jsx';
