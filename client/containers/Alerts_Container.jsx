@@ -33,22 +33,42 @@ const Alerts = () => {
         alerts = [[]];
       }
       console.log('alerts', alerts);
-      const alertList = alerts[0].map((p, i) => {
-        return (
-          <tbody key={`tbody${i}`}>
+      let alertList;
+      if (!alerts[0][0]) {
+        console.log('no alerts');
+        alertList = [];
+        alertList.push(
+          <tbody key={'alertRow'}>
             <tr>
-              <td>{p.name}</td>
-              <td>{p.namespace}</td>
-              <td>
-                <FontAwesomeIcon icon={faMinusCircle} color='orange' />
-                &nbsp;&nbsp;{p.status}
-              </td>
-              <td>{p.podIP}</td>
-              <td>{p.time}</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
             </tr>
           </tbody>
         );
-      });
+
+        console.log(alertList);
+      } else {
+        console.log('alerts found!');
+        alertList = alerts[0].map((p, i) => {
+          return (
+            <tbody key={`tbody${i}`}>
+              <tr>
+                <td>{p.name}</td>
+                <td>{p.namespace}</td>
+                <td>
+                  <FontAwesomeIcon icon={faMinusCircle} color='orange' />
+                  &nbsp;&nbsp;{p.status}
+                </td>
+                <td>{p.podIP}</td>
+                <td>{p.time}</td>
+              </tr>
+            </tbody>
+          );
+        });
+      }
       setTable(alertList);
     };
 
