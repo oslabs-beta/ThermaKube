@@ -14,9 +14,10 @@ import Cookies from 'js-cookie';
 const Alerts = () => {
   let [alerts, setAlerts] = useState([]);
   const [table, setTable] = useState([]); //alert data in table
+  let [subHeader, setSubHeader] = useState('');
   // useEffect = Hook version of componentDidMount
   useEffect(() => {
-    console.log('cookies', Cookies.get('token'));
+    // console.log('cookies', Cookies.get('token'));
     const token = Cookies.get('token');
     const header = {
       headers: {
@@ -32,10 +33,10 @@ const Alerts = () => {
       } else {
         alerts = [[]];
       }
-      console.log('alerts', alerts);
+      // console.log('alerts', alerts);
       let alertList;
       if (!alerts[0][0]) {
-        console.log('no alerts');
+        setSubHeader('(No alerts currently detected)');
         alertList = [];
         alertList.push(
           <tbody key={'alertRow'}>
@@ -49,9 +50,9 @@ const Alerts = () => {
           </tbody>
         );
 
-        console.log(alertList);
+        // console.log(alertList);
       } else {
-        console.log('alerts found!');
+        // console.log('alerts found!');
         alertList = alerts[0].map((p, i) => {
           return (
             <tbody key={`tbody${i}`}>
@@ -75,11 +76,11 @@ const Alerts = () => {
     //update every 5 seconds
     const fetchOnLoad = () => {
       if (!alerts[0]) {
-        console.log('First fetch called');
+        // console.log('First fetch called');
         fetchPods();
       }
       setInterval(() => {
-        console.log('setInterval called');
+        // console.log('setInterval called');
         fetchPods();
       }, 5000);
     };
@@ -90,7 +91,7 @@ const Alerts = () => {
     <div className='alertsContainer'>
       {table[0] && (
         <div>
-          <h4 className='alertsTitle'>Alerts</h4>
+          <h4 className='alertsTitle'>Alerts {subHeader}</h4>
           <Table striped bordered hover>
             <thead>
               <tr>
