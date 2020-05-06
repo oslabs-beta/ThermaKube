@@ -14,9 +14,10 @@ import Cookies from 'js-cookie';
 const Alerts = () => {
   let [alerts, setAlerts] = useState([]);
   const [table, setTable] = useState([]); //alert data in table
+  let [subHeader, setSubHeader] = useState('');
   // useEffect = Hook version of componentDidMount
   useEffect(() => {
-    console.log('cookies', Cookies.get('token'));
+    // console.log('cookies', Cookies.get('token'));
     const token = Cookies.get('token');
     const header = {
       headers: {
@@ -32,34 +33,54 @@ const Alerts = () => {
       } else {
         alerts = [[]];
       }
-      console.log('alerts', alerts);
-      const alertList = alerts[0].map((p, i) => {
-        return (
-          <tbody key={`tbody${i}`}>
+      // console.log('alerts', alerts);
+      let alertList;
+      if (!alerts[0][0]) {
+        setSubHeader('(No alerts currently detected)');
+        alertList = [];
+        alertList.push(
+          <tbody key={'alertRow'}>
             <tr>
-              <td>{p.name}</td>
-              <td>{p.namespace}</td>
-              <td>
-                <FontAwesomeIcon icon={faMinusCircle} color='orange' />
-                &nbsp;&nbsp;{p.status}
-              </td>
-              <td>{p.podIP}</td>
-              <td>{p.time}</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
             </tr>
           </tbody>
         );
-      });
+
+        // console.log(alertList);
+      } else {
+        // console.log('alerts found!');
+        alertList = alerts[0].map((p, i) => {
+          return (
+            <tbody key={`tbody${i}`}>
+              <tr>
+                <td>{p.name}</td>
+                <td>{p.namespace}</td>
+                <td>
+                  <FontAwesomeIcon icon={faMinusCircle} color='orange' />
+                  &nbsp;&nbsp;{p.status}
+                </td>
+                <td>{p.podIP}</td>
+                <td>{p.time}</td>
+              </tr>
+            </tbody>
+          );
+        });
+      }
       setTable(alertList);
     };
 
     //update every 5 seconds
     const fetchOnLoad = () => {
       if (!alerts[0]) {
-        console.log('First fetch called');
+        // console.log('First fetch called');
         fetchPods();
       }
       setInterval(() => {
-        console.log('setInterval called');
+        // console.log('setInterval called');
         fetchPods();
       }, 5000);
     };
@@ -70,7 +91,7 @@ const Alerts = () => {
     <div className='alertsContainer'>
       {table[0] && (
         <div>
-          <h4 className='alertsTitle'>Alerts</h4>
+          <h4 className='alertsTitle'>Alerts {subHeader}</h4>
           <Table striped bordered hover>
             <thead>
               <tr>

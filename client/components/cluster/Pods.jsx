@@ -11,12 +11,12 @@ import {
 import Cookies from 'js-cookie';
 
 const Pods = ({ data }) => {
-  console.log('pods data', data);
+  // console.log('pods data', data);
   // console.log('props', props);
   // using hooks to set state
   const [table, setTable] = useState([]); //pod data in table
   let children = [];
-  data[0].children.map((child) => children.push(...child.children));
+  data[0].children.map(child => children.push(...child.children));
   // console.log('children', children);
   useEffect(() => {
     const podList = children.map((p, i) => {
@@ -62,14 +62,14 @@ const Pods = ({ data }) => {
   }, data);
 
   // function that adds a new Alert - gets called in ^useEffect when pod status is not "Running"
-  const addAlert = async (p) => {
+  const addAlert = async p => {
     const token = Cookies.get('token');
     const header = {
       headers: {
         Authorization: 'Bearer' + token,
       },
     };
-    console.log('header', header);
+    // console.log('header', header);
     const postAlert = await axios.post(
       '/api/alerts',
       {

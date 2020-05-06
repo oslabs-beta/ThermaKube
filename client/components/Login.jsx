@@ -33,28 +33,28 @@ const Login = ({ isAuthed }) => {
     password: '',
   });
   //function to authenticate credentials
-  const handleAwsSignin = async (event) => {
+  const handleAwsSignin = async event => {
     event.preventDefault();
-    console.log('accessInfo', access);
+    // console.log('accessInfo', access);
     // make a request to the aws api with credentials. if data is returned then redirect.
     const accessData = await axios.post('/aws/clusters', {
       access,
     });
-    console.log('aD', accessData);
+    // console.log('aD', accessData);
     if (accessData) {
       setClusters(accessData.data);
       setAuth(true);
     } else {
-      console.log('none');
+      // console.log('none');
     }
   };
   //function to sign up new users
-  const handleSignup = async (event) => {
+  const handleSignup = async event => {
     event.preventDefault();
     const signupSuccess = await axios.post('/login/signup', {
       signup,
     });
-    console.log('signup success', signupSuccess);
+    // console.log('signup success', signupSuccess);
     if (signupSuccess) {
       Cookies.set('token', signupSuccess.data);
       setVerify(true);
@@ -62,18 +62,18 @@ const Login = ({ isAuthed }) => {
     }
   };
   //function to login/verify existing users
-  const handleLogin = async (event) => {
+  const handleLogin = async event => {
     event.preventDefault();
     const loginSuccess = await axios.post('/login/verify', {
       login,
     });
-    console.log('login success', loginSuccess);
+    // console.log('login success', loginSuccess);
     if (loginSuccess.data) {
       Cookies.set('token', loginSuccess.data);
       setVerify(true);
       isAuthed();
     } else {
-      console.log('user not verified');
+      // console.log('user not verified');
     }
   };
 
@@ -178,7 +178,7 @@ const Login = ({ isAuthed }) => {
               <Form.Control
                 type='text'
                 value={newEmail}
-                onChange={(e) =>
+                onChange={e =>
                   setSignup({ ...signup, newEmail: e.target.value })
                 }
               />
@@ -191,7 +191,7 @@ const Login = ({ isAuthed }) => {
               <Form.Control
                 type='password'
                 value={newPassword}
-                onChange={(e) =>
+                onChange={e =>
                   setSignup({ ...signup, newPassword: e.target.value })
                 }
               />
@@ -211,7 +211,7 @@ const Login = ({ isAuthed }) => {
                 type='text'
                 placeholder='Email'
                 value={email}
-                onChange={(e) => setLogin({ ...login, email: e.target.value })}
+                onChange={e => setLogin({ ...login, email: e.target.value })}
               />
             </Form.Group>
             <Form.Group controlId='verifyPassword' className='inputAccess'>
@@ -219,9 +219,7 @@ const Login = ({ isAuthed }) => {
                 type='password'
                 placeholder='Password'
                 value={password}
-                onChange={(e) =>
-                  setLogin({ ...login, password: e.target.value })
-                }
+                onChange={e => setLogin({ ...login, password: e.target.value })}
               />
             </Form.Group>
             <br />
