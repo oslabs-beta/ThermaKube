@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-const Eks = (props) => {
+const Eks = props => {
   const [auth, setAuth] = useState(false);
   const [myCluster, setMyCluster] = useState({
     pods: [],
@@ -14,7 +14,7 @@ const Eks = (props) => {
   const credentials = props.location.state.credentials;
 
   // function for selecting cluster
-  const selectCluster = async (cluster) => {
+  const selectCluster = async cluster => {
     const selected = await axios.post('/aws/select', {
       credentials,
       cluster,
@@ -30,16 +30,16 @@ const Eks = (props) => {
       });
       setAuth(true);
     } else {
-      console.log('none');
+      // console.log('none');
     }
   };
 
-  const namesList = data.map((cluster) => {
+  const namesList = data.map(cluster => {
     return (
       <button
         className='clusterButton'
         value={cluster}
-        onClick={(e) => selectCluster(e.target.value)}
+        onClick={e => selectCluster(e.target.value)}
       >
         {cluster}
       </button>
@@ -48,7 +48,7 @@ const Eks = (props) => {
   // once cluster is selected, pass down data from aws api
   return (
     <>
-      {console.log('myCluster', myCluster)}
+      {/* {console.log('myCluster', myCluster)} */}
       {auth ? (
         <Redirect
           to={{

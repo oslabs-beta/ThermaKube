@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import Loader from '../components/Loader.jsx';
-import RadialTree from '../components/visualizer/RadialTree.jsx';
 import Visualizer_Container from './Visualizer_Container.jsx';
 import Alerts_Container from './Alerts_Container.jsx';
 import Cluster_Container from './Cluster_Container.jsx';
-import Pods from '../components/cluster/Pods.jsx';
 
-const Main_Container = (props) => {
+const Main_Container = props => {
+  // console.log('props', props.path);
   const { path } = props;
   // AWS auth under construction
   // let awsApi; -
@@ -132,22 +130,22 @@ const Main_Container = (props) => {
         //data has been fetched and Loader component will through new animation
         setdoneFetching(true);
       } catch (err) {
-        console.log('error', err);
+        // console.log('error', err);
       }
     };
     // fetching data call for initial load and every 3 seconds
     (function fetchOnLoad() {
       if (!data[0]) {
-        console.log('First fetch called');
+        // console.log('First fetch called');
         fetchInfo();
-        console.log('made it through');
+        // console.log('made it through');
       }
 
       setInt = setInterval(() => {
-        console.log('setInterval called');
+        // console.log('setInterval called');
         fetchInfo();
-        console.log('data', data);
-        console.log('pod', pod);
+        // console.log('data', data);
+        // console.log('pod', pod);
       }, 3000);
     })();
 

@@ -6,7 +6,7 @@ import Features from './home/Features.jsx';
 import Contribute from './home/Contribute.jsx';
 import Team from './home/Team.jsx';
 
-const Home = (props) => {
+const Home = props => {
   const [awsData, setAwsData] = useState({
     pods: [],
     nodes: [],
@@ -15,7 +15,7 @@ const Home = (props) => {
   useEffect(() => {
     if (props.location.state) {
       const awsInfo = props.location.state.data;
-      console.log('awsInfo', awsInfo);
+      // console.log('awsInfo', awsInfo);
       if (awsInfo) {
         setAwsData({
           ...awsData,
@@ -24,13 +24,13 @@ const Home = (props) => {
           services: awsInfo.services,
         });
       } else {
-        console.log('none');
+        // console.log('none');
       }
     }
   }, []);
   return (
     <>
-      {console.log('awsData', awsData)}
+      {/* {console.log('awsData', awsData)} */}
       {awsData !== 0 ? (
         <Redirect
           to={{

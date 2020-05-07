@@ -44,7 +44,7 @@ const Team = () => {
 
   const teamArr = members.map((mem, index) => {
     return (
-      <>
+      <React.Fragment key={index}>
         <Flip left>
           <div className='member' key={`member${index}`}>
             <img className='teamImg' src={mem.img}></img>
@@ -59,7 +59,7 @@ const Team = () => {
             </span>
           </div>
         </Flip>
-      </>
+      </React.Fragment>
     );
   });
 
