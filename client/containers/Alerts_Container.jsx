@@ -79,10 +79,10 @@ const Alerts = () => {
         // console.log('First fetch called');
         fetchPods();
       }
-      setInterval(() => {
-        // console.log('setInterval called');
-        fetchPods();
-      }, 5000);
+      // setInterval(() => {
+      //   console.log('setInterval called');
+      //   fetchPods();
+      // }, 5000);
     };
     fetchOnLoad();
   }, []);
