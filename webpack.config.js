@@ -1,10 +1,12 @@
 const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: './client/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/'),
+    publicPath: '/',
     filename: 'main.js',
   },
   devServer: {
@@ -13,7 +15,11 @@ module.exports = {
     //host: localhost,
     port: 8080,
     // match the output path
-    publicPath: '/dist/',
+    contentBase: path.resolve(__dirname, 'dist'),
+    //enable HMR on the devServer
+    hot: true,
+    //match the output 'publicPath'
+    publicPath: '/',
     proxy: [
       {
         context: ['/aws/', '/api/', '/login/'],
@@ -21,7 +27,7 @@ module.exports = {
         secure: false,
       },
     ],
-    hot: true,
+    // hot: true,
     historyApiFallback: true,
   },
   module: {
@@ -53,7 +59,11 @@ module.exports = {
       },
     ],
   },
-
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: './index.html',
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
