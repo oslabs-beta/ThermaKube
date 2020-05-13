@@ -23,7 +23,7 @@ module.exports = {
     proxy: [
       {
         context: ['/aws/', '/api/', '/login/'],
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3000/',
         secure: false,
       },
     ],
